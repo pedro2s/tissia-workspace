@@ -14,7 +14,7 @@ origem: tissia-ai/docs/rfc/RFC-013-refinamento-vigencia-ans-e-tiss-403.md
 
 # RFC-013 — Refinamento de Vigência ANS (Set/2026), TISS 04.03.00 e Governança de Bases
 
-**Fase:** Refinamento Pré-Produção · **Status:** Concluída, exceto a recuradoria da numeração das DUTs pelo CMO (P0, pendente de revisão humana) · **Referências:** [[RFC-IA-001-bases-de-conhecimento|RFC-001]], [[RFC-IA-008-preditivo-historico-e-contratos|RFC-008]], [[RFC-IA-011-catalogo-terminologia-e-rag|RFC-011]], [[RFC-IA-012-treinamento-sft-vertex-e-rag-spsadt|RFC-012]], `ADR-PEP-0024` (`tissia`)
+**Fase:** Refinamento Pré-Produção · **Status:** Concluída para TUSS (`202609`, tabelas 18/22/23/36/38/50) e TISS `04.03.00`; pendentes para o portão de produção: carga completa de `cid10` (`57` registros, `piloto_parcial_vigente_v2008`), atualização de `correlacao_rol` (`34` registros, `defasada`) e recuradoria CMO das 4 DUTs (`038`, `054`, `065`, `110`) · **Referências:** [[RFC-IA-001-bases-de-conhecimento|RFC-001]], [[RFC-IA-008-preditivo-historico-e-contratos|RFC-008]], [[RFC-IA-011-catalogo-terminologia-e-rag|RFC-011]], [[RFC-IA-012-treinamento-sft-vertex-e-rag-spsadt|RFC-012]], `ADR-PEP-0024` (`tissia`)
 
 ---
 
@@ -87,8 +87,9 @@ Verificação no schema oficial [`tissGuiasV4_03_00.xsd`](file:///home/pedro/dev
 | **P0** | Garantir sigilo de CID na geração de Indicação Clínica (remover instrução/concatenação de CID) | **Executado** | — | [`app/ia/gemini_real.py`](file:///home/pedro/dev/pedro/tissia-ai/app/ia/gemini_real.py), [`app/ia/gemini.py`](file:///home/pedro/dev/pedro/tissia-ai/app/ia/gemini.py), [`tests/test_gemini_real.py`](file:///home/pedro/dev/pedro/tissia-ai/tests/test_gemini_real.py) |
 | **P0** | Corrigir `data/MANIFEST.yaml` com competência real, SHA-256 reais e licenças (`CC BY`, `CC BY-ND`, Tabela 38) + preservar campos em `_ingest_utils.py` | **Executado** | — | [`data/MANIFEST.yaml`](file:///home/pedro/dev/pedro/tissia-ai/data/MANIFEST.yaml), [`scripts/_ingest_utils.py`](file:///home/pedro/dev/pedro/tissia-ai/scripts/_ingest_utils.py) |
 | **P0** | Corrigir rota `POST /v1/tiss/lotes/ingerir` e registrar desvios de TUSS na `RFC-012` | **Executado** | — | [[RFC-IA-012-treinamento-sft-vertex-e-rag-spsadt\|RFC-012]] |
-| **P0** | Unificar fonte única das bases (`202609`): extrair Tab. 18, 22, 23, 36, 38, 50 diretamente do `.zip`/`.xlsx` oficial ANS + Tab. Rol vigente (até RNs 2026) + DATASUS CID-10 completo para `data/` e `Postgres`, e ativar teste automático de divergência (`data/` == `Postgres`) | **Executado** (`9f395a7`) | **2–3 dias** | `scripts/ingest_ans_xlsx.py`, `scripts/ingest_catalogo_pg.py`, `data/tuss/`, `data/rol/`, `data/cid10/`, `tests/test_consistencia_fonte_unica.py` |
-| **P0** | Recuradoria clínica do CMO nas DUTs (`038`, `054`, `065`, `110`, `010`) e alinhamento dos códigos TUSS em `data/regras/boas_praticas.yaml`, `data/regras/operadora_005711.yaml` e `tests/test_rfc001/003/004/006` | **Parcial** (`9f395a7`: TUSS alinhada à 202609 nas DUTs/regras/testes; numeração das DUTs `038`, `054`, `065`, `110` ainda marcada "pendente de recuradoria CMO" no campo `fonte`) | **1–2 dias** (+ revisão CMO) | `data/dut/*.yaml`, `data/regras/*.yaml`, `tests/` |
+| **P0** | Unificar fonte única das tabelas TUSS (`202609`): extrair `tuss_18` (`3.595`), `tuss_22` (`5.969`), `tuss_23` (`2`), `tuss_36` (`4`), `tuss_38`/`tuss_mensagens` (`470`) e `tuss_50` (`9`) diretamente do `.zip`/`.xlsx` oficial ANS para `data/tuss/` e `Postgres` (`status: vigente`), e ativar teste automático de divergência (`data/` == `Postgres`) | **Executado** (`9f395a7`) | — | `scripts/ingest_ans_xlsx.py`, `scripts/ingest_catalogo_pg.py`, `data/tuss/`, `data/MANIFEST.yaml`, `tests/test_consistencia_fonte_unica.py` |
+| **P0** | Completar carga oficial do **DATASUS CID-10 V2008** (`cid10` em `piloto_parcial_vigente_v2008`, `57` registros) e atualizar **Correlação TUSS × Rol** (`correlacao_rol` em `defasada`, `34` registros, para `RN 465/2021` + RNs contínuas 2025–2026) | **Pendente (portão de produção)** | **1–2 dias** | `data/cid10/subcategorias.csv`, `data/rol/correlacao.csv`, `data/MANIFEST.yaml`, `scripts/ingest_catalogo_pg.py` |
+| **P0** | Recuradoria clínica do CMO nas 4 DUTs divergentes (`038`, `054`, `065`, `110`, além da revisão da `010`) e alinhamento dos códigos TUSS em `data/regras/boas_praticas.yaml`, `data/regras/operadora_005711.yaml` e `tests/test_rfc001/003/004/006` | **Parcial / Pendente de revisão humana CMO (portão de produção)** (`9f395a7`: TUSS alinhada à `202609` nas DUTs/regras/testes; numeração das DUTs `038`, `054`, `065`, `110` segue marcada "pendente de recuradoria CMO" no campo `fonte`) | **1–2 dias** (+ revisão CMO) | `data/dut/*.yaml`, `data/regras/*.yaml`, `tests/` |
 | **P1** | Implementar contrato aditivo `GET /v1/bases/versoes` e enriquecimento opcional de proveniência para o portão do PEP (`ADR-PEP-0024`) | **Executado** (`9f395a7`) | **0,5–1 dia** | `app/api/bases.py`, `app/schemas.py`, `app/bases.py`, `tests/snapshots/openapi_v1.json` |
 | **P1** | Regenerar dataset SFT (`scripts/tunning/`) e `evals/casos/sinteticos.jsonl` no leiaute `04.03.00` e códigos `202609` (corrigindo `40301630`→`40304361` e `40901760`) e reexecutar evals | **Executado** (`9f395a7`) | **1 dia** | `scripts/tunning/`, `data/tunning/`, `evals/casos/sinteticos.jsonl` |
 | **P2** | Criar job agendado de alerta de defasagem ANS (sem auto-atualização) no Cloud Scheduler/CI | **Executado** (`f13ebe6`, `.github/workflows/vigencia-ans.yml`) | **0,5–1 dia** | `scripts/verificar_vigencia_ans.py`, workflow/Cloud Scheduler |
@@ -102,7 +103,7 @@ Para não quebrar integradores que já consomem `versao_bases: str` (hash de 12 
 ### `GET /v1/bases/versoes`
 
 - **Autenticação:** mesmo padrão público/interno de leitura de saúde/catálogo ou `X-API-Key` (a definir no PEP; `GET` idempotente com `Cache-Control: public, max-age=300`).
-- **Payload de resposta (`200 OK`):**
+- **Payload de resposta (`200 OK`, estado real em `data/MANIFEST.yaml`):**
 
 ```json
 {
@@ -110,62 +111,121 @@ Para não quebrar integradores que já consomem `versao_bases: str` (hash de 12 
   "versao_tiss_suportada_max": "04.03.00",
   "alinhado_fonte_unica": true,
   "bases": {
-    "tuss_22": {
-      "competencia_ans": "202609",
-      "publicado_em": "2026-09-28",
-      "carregado_em": "2026-11-13T18:00:00Z",
-      "sha256": "d64d044efa4367a1e932ec28bd2dfea92d2288c914622c9b5b9bf76724892dbb",
-      "sha256_arquivo_local": "6e51f9b1...",
-      "licenca": "CC BY-ND 4.0 (ANS / TUSS)",
-      "total_registros_memoria": 5969,
-      "total_registros_pg": 5969,
-      "status": "vigente"
-    },
-    "tuss_mensagens": {
-      "competencia_ans": "202609",
-      "publicado_em": "2026-09-28",
-      "carregado_em": "2026-11-13T18:00:00Z",
-      "sha256": "ad62541b18a4a7652bb883c9aa89940f712d54630c3610c067626acc3fba13c7",
-      "sha256_arquivo_local": "27629ca1...",
-      "licenca": "Sem licença explícita na publicação ANS",
-      "total_registros_memoria": 470,
-      "total_registros_pg": 470,
-      "status": "vigente"
-    },
-    "correlacao_rol": {
-      "competencia_ans": "RN 465/2021 + RN 681/2026",
-      "publicado_em": "2026-09-01",
-      "carregado_em": "2026-11-13T18:00:00Z",
-      "sha256": "...",
-      "licenca": "CC BY 4.0 (Dados Abertos ANS)",
-      "total_registros_memoria": 3400,
-      "total_registros_pg": null,
-      "status": "vigente"
-    },
     "cid10": {
       "competencia_ans": "V2008",
+      "versao_tiss": null,
       "publicado_em": "2008-01-01",
-      "carregado_em": "2026-11-13T18:00:00Z",
-      "sha256": "...",
-      "licenca": "Domínio Público / DATASUS",
-      "total_registros_memoria": 12451,
-      "total_registros_pg": 12451,
-      "status": "vigente"
+      "carregado_em": "2026-11-16T00:00:00Z",
+      "sha256": "9dd5326fa5394803eff9ab86e4db41c8339a74adc76fa5358e631ebade3d65cd",
+      "sha256_arquivo_local": "f09452b81bb5f2261607c234b6a33267c69eacf8ff334c15d7c9629da0345142",
+      "licenca": "Domínio Público / DATASUS (sem arquivo de licença explícito nos artefatos V2008)",
+      "total_registros_memoria": 57,
+      "total_registros_pg": 57,
+      "status": "piloto_parcial_vigente_v2008"
+    },
+    "correlacao_rol": {
+      "competencia_ans": "RN 465/2021 (piloto parcial sem RNs contínuas 2025-2026)",
+      "versao_tiss": null,
+      "publicado_em": "2021-04-01",
+      "carregado_em": "2026-11-16T00:00:00Z",
+      "sha256": "3dca7b89eaf7643cc50be289c241e5f020eb00c78ad3cc1c3bbc57063903ed2e",
+      "sha256_arquivo_local": "6d6eea44924701f6510d79e384bf8c81979f6128f7df57cc8006b653f2caaeb3",
+      "licenca": "CC BY 4.0 (Dados Abertos ANS)",
+      "total_registros_memoria": 34,
+      "total_registros_pg": null,
+      "status": "defasada"
     },
     "tiss_comunicacao": {
       "competencia_ans": "202511",
       "versao_tiss": "04.03.00",
       "publicado_em": "2025-12-03",
-      "carregado_em": "2026-11-13T18:00:00Z",
+      "carregado_em": "2026-11-16T00:00:00Z",
       "sha256": "db8640e1c3b87085892f54f838bfcea9934439ff365798c8428559f88c13d62d",
+      "sha256_arquivo_local": "d4c421c7e3cf936551b70d6bd794a419867b6daea554d557b4d928363c54044c",
       "licenca": "Sem licença explícita na publicação ANS",
+      "total_registros_memoria": null,
+      "total_registros_pg": null,
+      "status": "vigente"
+    },
+    "tuss_18": {
+      "competencia_ans": "202609",
+      "versao_tiss": null,
+      "publicado_em": "2026-09-28",
+      "carregado_em": "2026-11-16T00:00:00Z",
+      "sha256": "e8222ac4d8eee6b39013e835b1a979abf84183880e5fe8359502af1159626f9c",
+      "sha256_arquivo_local": "f00dceeffa3771864d6802206ecddf65db3f1768376d911b5b851ac2cdeaac4e",
+      "licenca": "CC BY-ND 4.0 (ANS / TUSS)",
+      "total_registros_memoria": null,
+      "total_registros_pg": 3595,
+      "status": "vigente"
+    },
+    "tuss_22": {
+      "competencia_ans": "202609",
+      "versao_tiss": null,
+      "publicado_em": "2026-09-28",
+      "carregado_em": "2026-11-16T00:00:00Z",
+      "sha256": "d64d044efa4367a1e932ec28bd2dfea92d2288c914622c9b5b9bf76724892dbb",
+      "sha256_arquivo_local": "2462919455e5a2fbb1e458ab448b32f4e0ff608ea3d3c083e5597c05d47a9ad7",
+      "licenca": "CC BY-ND 4.0 (ANS / TUSS)",
+      "total_registros_memoria": 5969,
+      "total_registros_pg": 5969,
+      "status": "vigente"
+    },
+    "tuss_23": {
+      "competencia_ans": "202609",
+      "versao_tiss": null,
+      "publicado_em": "2026-09-28",
+      "carregado_em": "2026-11-16T00:00:00Z",
+      "sha256": "ad62541b18a4a7652bb883c9aa89940f712d54630c3610c067626acc3fba13c7",
+      "sha256_arquivo_local": "cf79ac2d4eb07b8754942d9f2f810e516853e4f53a2613bb4dc69062908663e3",
+      "licenca": "CC BY-ND 4.0 (ANS / TUSS)",
+      "total_registros_memoria": null,
+      "total_registros_pg": 2,
+      "status": "vigente"
+    },
+    "tuss_36": {
+      "competencia_ans": "202609",
+      "versao_tiss": null,
+      "publicado_em": "2026-09-28",
+      "carregado_em": "2026-11-16T00:00:00Z",
+      "sha256": "ad62541b18a4a7652bb883c9aa89940f712d54630c3610c067626acc3fba13c7",
+      "sha256_arquivo_local": "5ebb232759b2502ffb3c5dbcb2435ee6bcf33207fee15278e3efbf9fccfdda44",
+      "licenca": "CC BY-ND 4.0 (ANS / TUSS)",
+      "total_registros_memoria": null,
+      "total_registros_pg": 4,
+      "status": "vigente"
+    },
+    "tuss_50": {
+      "competencia_ans": "202609",
+      "versao_tiss": null,
+      "publicado_em": "2026-09-28",
+      "carregado_em": "2026-11-16T00:00:00Z",
+      "sha256": "ad62541b18a4a7652bb883c9aa89940f712d54630c3610c067626acc3fba13c7",
+      "sha256_arquivo_local": "5b0984459774ee5c4ea985b8edee4fffb36c8f27ede597dcdf3ef8c182d3fa60",
+      "licenca": "CC BY-ND 4.0 (ANS / TUSS)",
+      "total_registros_memoria": null,
+      "total_registros_pg": 9,
+      "status": "vigente"
+    },
+    "tuss_mensagens": {
+      "competencia_ans": "202609",
+      "versao_tiss": null,
+      "publicado_em": "2026-09-28",
+      "carregado_em": "2026-11-16T00:00:00Z",
+      "sha256": "ad62541b18a4a7652bb883c9aa89940f712d54630c3610c067626acc3fba13c7",
+      "sha256_arquivo_local": "43454fceca89bbfdf5c63471caa8d84e9d6a213a6e87807a8df1eaa577fca6d9",
+      "licenca": "Sem licença explícita na publicação ANS",
+      "total_registros_memoria": 470,
+      "total_registros_pg": 470,
       "status": "vigente"
     }
   }
 }
 ```
 
-**Regras do portão (`ADR-PEP-0024`):** o pipeline de release do PEP valida que `(1)` `alinhado_fonte_unica == true`, `(2)` cada base crítica tem `status == "vigente"`, e `(3)` `bases.tuss_22.competencia_ans`, `bases.tuss_mensagens.competencia_ans`, `bases.tiss_comunicacao.versao_tiss` e `bases.correlacao_rol.competencia_ans` coincidem com a competência-alvo esperada pelo release do PEP.
+> **Nota sobre o estado atual:** `tuss_mensagens` representa a **TUSS Tabela 38** no manifesto. Enquanto `tuss_18`, `tuss_22`, `tuss_23`, `tuss_36`, `tuss_38` (`tuss_mensagens`), `tuss_50` (`202609`) e `tiss_comunicacao` (`04.03.00`) já estão `vigente`, **`cid10`** (`57` registros, `piloto_parcial_vigente_v2008`), **`correlacao_rol`** (`34` registros, `defasada`) e a recuradoria CMO das 4 DUTs (`038`, `054`, `065`, `110`) permanecem como pendências operacionais bloqueantes para o portão de produção da `ADR-PEP-0024`.
+
+**Regras do portão (`ADR-PEP-0024`):** o pipeline de release do PEP valida que `(1)` `alinhado_fonte_unica == true`, `(2)` cada base crítica tem `status == "vigente"` (exigindo a carga completa de `cid10` e a atualização de `correlacao_rol` antes de liberar produção), e `(3)` `bases.tuss_22.competencia_ans`, `bases.tuss_mensagens.competencia_ans`, `bases.tiss_comunicacao.versao_tiss` e `bases.correlacao_rol.competencia_ans` coincidem com a competência-alvo esperada pelo release do PEP.
 
 ---
 
