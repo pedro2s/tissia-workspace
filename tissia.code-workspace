@@ -1,0 +1,39 @@
+{
+  "folders": [
+    {
+      "name": "tissia-workspace (Raiz)",
+      "path": "."
+    },
+    {
+      "name": "docs-obsidian (Vault)",
+      "path": "docs-obsidian"
+    },
+    {
+      "name": "PEP (Monorepo TS)",
+      "path": "projetos/PEP"
+    },
+    {
+      "name": "tissia-ia (FastAPI)",
+      "path": "projetos/tissia-ia"
+    },
+    {
+      "name": "referencias (Read-Only)",
+      "path": "referencias"
+    }
+  ],
+  "settings": {
+    "files.readonlyInclude": {
+      "referencias/**": true,
+      "**/referencias/**": true,
+      "**/.docs/**": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/.venv": true,
+      "**/dist": true,
+      "**/__pycache__": true,
+      "**/.ruff_cache": true
+    }
+  }
+}
+
