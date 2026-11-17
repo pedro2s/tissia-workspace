@@ -214,3 +214,4 @@ Permissões finas (`recurso:ação`), perfis como conjuntos fixos por padrão e 
     - Adicionado `"dist_keycloak/**"` aos `outputs` da tarefa `build` em `turbo.json`.
     - Configurado `actions/setup-java@v4` (Temurin JDK 21) nos workflows `.github/workflows/ci.yml` e `.github/workflows/e2e-demo.yml`.
     - Etapa de build do tema Keycloak adicionada no workflow `e2e-demo.yml` antes da inicialização dos contêineres.
+- **Tema da marca no Keycloak (escopo mínimo):** o tema da marca foi feito como tema CSS sobre `keycloak.v2` em vez de Keycloakify, montando diretamente `/opt/keycloak/themes/tissia` no Compose e configurado em `pep-dev-realm.json`.
