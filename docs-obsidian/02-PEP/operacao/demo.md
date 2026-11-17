@@ -43,6 +43,12 @@ cd infra/demo
 
 Abra http://localhost:8080. `./demo.sh reset` recria os dados fictícios (migrações + seed; ~10 s; a agenda volta para "hoje"). `./demo.sh down` derruba e apaga volumes; `./demo.sh logs [serviço]`.
 
+### Tema de login Keycloak (`tissia`)
+
+Os realms `pep-demo` e `pep-dev` utilizam o tema customizado `tissia` (`loginTheme: "tissia"`). O artefato JAR gerado pelo Keycloakify é montado em `/opt/keycloak/providers/`:
+- Para compilar o tema antes de subir a stack: `pnpm --filter @pep/keycloak-tema build` (gera `apps/keycloak-tema/dist_keycloak/keycloak-theme-tissia.jar`).
+- Se o JAR ainda não tiver sido construído no ambiente local, o Keycloak subirá normalmente com o tema padrão como fallback automático.
+
 ## Subir em uma VM (GCP e2-standard-4, `southamerica-east1`)
 
 Instruções; nada é executado por este repositório.
