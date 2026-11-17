@@ -1,0 +1,7 @@
+# Cache de ferramentas locais
+.ruff_cache/
+
+# Estado local de interface do Obsidian
+docs-obsidian/.obsidian/workspace.json
+docs-obsidian/.obsidian/workspace-mobile.json
+docs-obsidian/.obsidian/graph.json

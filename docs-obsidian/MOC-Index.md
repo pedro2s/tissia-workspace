@@ -42,6 +42,9 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[integracoes-externas|Catálogo de Integrações Externas do PEP]]
 - [[glossario-pep|Glossário do PEP]]
 - [[glossario-tissia-ia|Glossário do tissia-ia]]
+- [[auditoria-mvp-plano-orquestracao|Auditoria MVP e Plano de Orquestração Multi-Agente]]
+- [[infraestrutura-oci-provisionamento-deploy|Infraestrutura OCI (sa-saopaulo-1) — Provisionamento e Deploy Always Free]]
+- [[refatoracao-oci-always-free-plano|Plano Técnico de Refatoração — Adaptação para OCI Always Free]]
 
 ---
 
