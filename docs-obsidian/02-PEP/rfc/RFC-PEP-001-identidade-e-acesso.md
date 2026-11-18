@@ -200,18 +200,4 @@ Permissões finas (`recurso:ação`), perfis como conjuntos fixos por padrão e 
 - A barra lateral passou a ter a altura da janela (`sticky`, `h-screen` a partir de 800 px): só os itens rolam; usuário e "Sair" ficam sempre visíveis, mesmo em páginas longas.
 - Novo item **Início** no menu (e o logo leva a `/home`): antes a Home só aparecia logo após o login. É um acréscimo ao design.
 
-17/11/2026 — Integração e suporte ao tema de login customizado 'tissia' (Frente B):
-
-- **Keycloak Theme 'tissia':**
-  - Configurado `loginTheme: "tissia"` nos realms `pep-dev` e `pep-demo` (incluindo `infra/demo/gerar-realm.mjs`). O realm interno `tissia-equipe-dev` permanece com o tema padrão `keycloak.v2` até a fase de customização do backoffice.
-  - Artefato JAR: `apps/keycloak-tema/dist_keycloak/keycloak-theme-tissia.jar`, gerado via `pnpm --filter @pep/keycloak-tema build` (Keycloakify apontando para Keycloak 26.0).
-  - Montagem de provedores em Docker Compose:
-    - Em `apps/api/docker-compose.yml`: montado `../keycloak-tema/dist_keycloak:/opt/keycloak/providers:ro`.
-    - Em `infra/demo/docker-compose.yml`: montado `../../apps/keycloak-tema/dist_keycloak:/opt/keycloak/providers:ro`.
-    - Em `infra/oci/docker-compose.prod.yml`: montado `${DATA_DIR:-/srv/tissia-data}/keycloak/providers:/opt/keycloak/providers:ro`.
-    - Resiliência em desenvolvimento: a montagem do diretório `dist_keycloak` (em vez de arquivo individual) garante que o contêiner do Keycloak inicialize sem falhas caso o JAR ainda não tenha sido compilado, caindo de forma graciosa no tema padrão (`keycloak.v2`).
-  - Pipeline de CI e Turborepo:
-    - Adicionado `"dist_keycloak/**"` aos `outputs` da tarefa `build` em `turbo.json`.
-    - Configurado `actions/setup-java@v4` (Temurin JDK 21) nos workflows `.github/workflows/ci.yml` e `.github/workflows/e2e-demo.yml`.
-    - Etapa de build do tema Keycloak adicionada no workflow `e2e-demo.yml` antes da inicialização dos contêineres.
 - **Tema da marca no Keycloak (escopo mínimo):** o tema da marca foi feito como tema CSS sobre `keycloak.v2` em vez de Keycloakify, montando diretamente `/opt/keycloak/themes/tissia` no Compose e configurado em `pep-dev-realm.json`.
