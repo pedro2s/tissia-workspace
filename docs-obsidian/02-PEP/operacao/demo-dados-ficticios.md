@@ -108,3 +108,18 @@ Cada módulo passava isolado; a integração revelou que:
 - guias do seed base e o catálogo TUSS da demo tinham códigos que não correspondiam ao termo oficial da Tabela 22 (11 termos do `CATALOGO_TUSS_DEMO` errados; por exemplo `20102020` descrito como MAPA, que é `20102038`). Correção: catálogo conferido contra a Tabela 22 e guias, pedidos, lote sintético e roteiro remapeados.
 
 Registrado como [[ADR-PEP-0026-seed-de-demonstracao-modular|ADR-PEP-0026]]. As notas de implementação das RFCs afetadas: [[RFC-PEP-004-prontuario]], [[RFC-PEP-006-guias-e-lotes-tiss]], [[RFC-PEP-007-retorno-e-glosas]], [[RFC-PEP-008-contratos]], [[RFC-PEP-012-painel-do-gestor]], [[RFC-PEP-013-voz-ambiental]] e [[RFC-PEP-001-identidade-e-acesso]]; referências da ANS em [[RFC-PEP-021-dados-de-referencia-ans]].
+
+## Roteiro sugerido para a apresentação
+
+Qual guia ou tela usar em cada momento (confirmado na verificação visual de 19/11/2026, no cenário recomendado: referências da ANS carregadas e sem o CADOP):
+
+| Para mostrar | Use | Observação |
+| :--- | :--- | :--- |
+| Guia completa: editor, liberar para lote e imprimir | `G-004946` (Pronta); em lote e imprimindo, `G-004927` | A guia de consulta `G-004944` mostra "impressão ainda não disponível" (a guia de consulta não é impressa) |
+| Preencher uma guia TISS ao vivo | `G-004818` (consulta) e `G-004801` (infiltração da Ana) | Abrem **vazias de propósito**: os specs de e2e (`consulta.spec`, `canvas-tiss.spec`) dependem desse estado; não as preencha no seed |
+| Validação com erro demonstrável | `G-004919` | Mantém um erro de validação (campo 17) de propósito |
+| Revalidar em lote | `G-004790` | Sem revisão no seed base |
+| IA no atendimento | Atendimento de hoje da Ana (infiltração no joelho E, DUT 65 bloqueante, risco 0,84) e a análise persistida do Diego e da Carla | A análise persistida aparece mesmo sem o serviço de IA no ar |
+| Narrativa de resultado | `/gestao`: 18,5% → 9,2%, R$ 14.792 evitados; a seção do lote sintético (R$ 39.956) | Todos os números são fictícios e o painel diz isso ("Histórico fictício de demonstração") |
+
+Rodar `pnpm demo:reset` na **manhã** da apresentação: os horários fixos da agenda (08:00–16:30) ficam no passado à noite.
