@@ -42,6 +42,6 @@ A demonstração a um CMO exige dados fictícios coerentes em todos os fluxos (p
 - O seed completo roda 2 vezes seguidas com contagens idênticas e a narrativa do Painel do Gestor estável (glosa 18,5% → 9,2%, R$ 14.792 evitados), nos três cenários de referências.
 - Um módulo novo entra implementando `semear(ctx)` e declarando seu lugar na ordem; a regra de não apagar o que é de outro módulo é de revisão, não de tipo.
 - O seed deixou de depender do CADOP, então o CI da demo roda sem pacotes da ANS (os specs que dependem da validação local ou do histórico de receita ficam em `E2E_SEM_REFERENCIAS`).
-- **Custo:** os 4 registros ANS reais permanecem em guias, editor e XML da demo; decidir se ficam é pendência do PR #30. O código TUSS corrigido muda o termo exibido para o mesmo código; registros já gravados com o termo antigo (por exemplo `pedidosExame.termo`) não são reescritos.
+- **Custo:** os 4 registros ANS reais permanecem em guias, editor e XML da demo; **decisão do dono do produto em 19/11/2026: ficam** (são identificadores públicos do cadastro da ANS, sem restrição de LGPD; sustentam a regra de autorização da IA para o 005711), e só os nomes são fictícios. O código TUSS corrigido muda o termo exibido para o mesmo código; registros já gravados com o termo antigo (por exemplo `pedidosExame.termo`) não são reescritos.
 - A agenda tem horários fixos (08:00–16:30) e alguns estados dependem da hora em que o seed roda; ele deve rodar na manhã da apresentação.
 - O `e2e:demo` não foi executado contra esta versão do seed.
