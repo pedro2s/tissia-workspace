@@ -115,6 +115,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[test-plan-pep|Test Plan do PEP]]
 - [[demo|Ambiente de Demonstração (Docker Compose + Caddy)]]
 - [[demo-numeros-do-deck|Números do Deck da Demonstração]]
+- [[demo-dados-ficticios|Demo de dados fictícios (seed demo:reset)]]
 - [[marca|Marca Tissia: nome, logotipo, tipografia e cores]]
 
 ---
@@ -156,7 +157,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 
 ## 04 — ADRs
 
-### ADRs do PEP (`ADR-PEP-0001` .. `ADR-PEP-0025`)
+### ADRs do PEP (`ADR-PEP-0001` .. `ADR-PEP-0026`)
 
 - [[ADR-PEP-0001-repositorios|ADR-PEP-0001 — Repositórios separados]]
 - [[ADR-PEP-0002-backend-nestjs-monolito-modular|ADR-PEP-0002 — Backend NestJS monólito modular]]
@@ -183,6 +184,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[ADR-PEP-0023-spike-no-backoffice|ADR-PEP-0023 — Spike no backoffice]]
 - [[ADR-PEP-0024-dados-de-referencia-ans|ADR-PEP-0024 — Dados de referência da ANS]]
 - [[ADR-PEP-0025-decisoes-scribe-e-ops-tissia-ai|ADR-PEP-0025 — Decisões de integração para Scribe e /ops/v1]]
+- [[ADR-PEP-0026-seed-de-demonstracao-modular|ADR-PEP-0026 — Seed de demonstração modular e referências opcionais]]
 
 ### ADRs do Motor de IA (`ADR-IA-0001` .. `ADR-IA-0012`)
 
