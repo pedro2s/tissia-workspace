@@ -45,6 +45,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[auditoria-mvp-plano-orquestracao|Auditoria MVP e Plano de Orquestração Multi-Agente]]
 - [[infraestrutura-oci-provisionamento-deploy|Infraestrutura OCI (sa-saopaulo-1) — Provisionamento e Deploy Always Free]]
 - [[refatoracao-oci-always-free-plano|Plano Técnico de Refatoração — Adaptação para OCI Always Free]]
+- [[plano-guia-indicacao-unica-e-autopreenchimento|Plano — Indicação clínica única (Campo 23) e autopreenchimento da guia SP/SADT]]
 
 ---
 
@@ -157,7 +158,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 
 ## 04 — ADRs
 
-### ADRs do PEP (`ADR-PEP-0001` .. `ADR-PEP-0026`)
+### ADRs do PEP (`ADR-PEP-0001` .. `ADR-PEP-0028`)
 
 - [[ADR-PEP-0001-repositorios|ADR-PEP-0001 — Repositórios separados]]
 - [[ADR-PEP-0002-backend-nestjs-monolito-modular|ADR-PEP-0002 — Backend NestJS monólito modular]]
@@ -185,6 +186,8 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[ADR-PEP-0024-dados-de-referencia-ans|ADR-PEP-0024 — Dados de referência da ANS]]
 - [[ADR-PEP-0025-decisoes-scribe-e-ops-tissia-ai|ADR-PEP-0025 — Decisões de integração para Scribe e /ops/v1]]
 - [[ADR-PEP-0026-seed-de-demonstracao-modular|ADR-PEP-0026 — Seed de demonstração modular e referências opcionais]]
+- [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027 — Indicação clínica única por atendimento (Campo 23)]]
+- [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028 — Resolvedor de dados da guia no servidor e cadastros de origem]]
 
 ### ADRs do Motor de IA (`ADR-IA-0001` .. `ADR-IA-0012`)
 
