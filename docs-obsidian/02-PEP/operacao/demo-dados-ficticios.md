@@ -123,3 +123,15 @@ Qual guia ou tela usar em cada momento (confirmado na verificação visual de 19
 | Narrativa de resultado | `/gestao`: 18,5% → 9,2%, R$ 14.792 evitados; a seção do lote sintético (R$ 39.956) | Todos os números são fictícios e o painel diz isso ("Histórico fictício de demonstração") |
 
 Rodar `pnpm demo:reset` na **manhã** da apresentação: os horários fixos da agenda (08:00–16:30) ficam no passado à noite.
+
+## Cadastros de origem para autopreenchimento da guia
+
+Para que `GET /api/v1/guias/:id/sugestao-dados` e o fechamento do atendimento preencham as guias sem pendências de cadastro:
+
+- **Clínica (`clinicas.registro_cnes`):** `4820001` (CNES sintético de 7 dígitos da `Clínica Exemplo Ortopedia`).
+- **Profissionais (`usuarios`):**
+- `Dra. Exemplo A` (`00000000-0000-4000-8000-000000d0a001`, Ortopedia): `CRM` / `123456` / `SP` / CBO `225270` (*Médico ortopedista e traumatologista*, Tabela 24 ANS).
+- `Dr. Exemplo B` (`00000000-0000-4000-8000-000000d0b002`, Cardiologia): `CRM` / `234567` / `SP` / CBO `225120` (*Médico cardiologista*, Tabela 24 ANS).
+- `dra.exemplo` de desenvolvimento (`00000000-0000-4000-8000-0000000000a1`): `CRM` / `345678` / `SP` / CBO `225125` (*Médico clínico*, Tabela 24 ANS).
+- **Contratos vigentes (`contratos.codigo_contratado`):** Operadora A `48201` (`CT-EXEMPLO-A-001`), Operadora B `71530` (`CT-EXEMPLO-B-001`), Operadora C `90417` (`CT-EXEMPLO-C-001`) e Operadora D `33820` (`CT-EXEMPLO-D-001`).
+- **Guias abertas na Mesa (`G-004801` e `G-004818`):** continuam sem revisão gravada (`revisao_atual = 0`) para preenchimento ao vivo; ao abrir o Editor, os campos cadastrais (carteirinha, validade, solicitante, conselho, UF, CBO, contratado e CNES) chegam autopreenchidos via `sugestao-dados`, restando apenas os dados próprios do evento (ex.: atendimento a RN, indicação de acidente, tipo de consulta ou senha de autorização).
