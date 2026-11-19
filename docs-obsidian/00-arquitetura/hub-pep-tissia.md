@@ -139,7 +139,7 @@ Backoffice ([canvas](https://claude.ai/code/artifact/8a0b5083-bb44-4f07-966a-645
 | [[ADR-PEP-0023-spike-no-backoffice\|0023]] | Spike no backoffice só pela API de operação; conteúdo editorial continua em git | Proposta |
 | [[ADR-PEP-0024-dados-de-referencia-ans\|0024]] | Dados de referência da ANS: fonte oficial, versão com proveniência e alerta de defasagem | Aceita |
 | [[ADR-PEP-0025-decisoes-scribe-e-ops-tissia-ai\|0025]] | Decisões de integração para Scribe (streaming) e `/ops/v1` na `tissia-ai` | Aceita |
-| [[ADR-PEP-0026-seed-de-demonstracao-modular\|0026]] | Seed de demonstração modular com contrato de contexto, histórico de receita em pacientes próprios, operadoras fictícias e referências da ANS opcionais | Aceita |
+| [[ADR-PEP-0026-seed-de-demonstracao-modular\|0026]] | Seed de demonstração modular com contrato de contexto, histórico de receita em pacientes próprios, operadoras fictícias e referências da ANS opcionais | Proposta |
 
 **Aceita** = vem do documento de design de produto e arquitetura, ou foi aceita pelo responsável depois de revisada (0006, 0010 e 0013 em 09/11/2026; 0012, 0014 e 0024 em 13/11/2026). **Proposta** = recomendação deste hub para uma decisão em aberto (§12 do design de produto) ou uma lacuna; precisa de aceite antes da RFC que depende dela.
 
