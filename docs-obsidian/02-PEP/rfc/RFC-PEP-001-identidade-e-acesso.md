@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-001-identidade-e-acesso.md
 
 # RFC-PEP-001 — Identidade, acesso, MFA, unidades e perfis
 
-**Fase:** P0 · **Status:** Em implementação (API, fluxo na UI e login com segundo fator validados em E2E; recuperação, tema, auditoria de login e quebra-vidro pendentes) · **ADRs:** ADR-PEP-0003, 0010
+**Fase:** P0 · **Status:** Em implementação (API, fluxo na UI e login com segundo fator validados em E2E; tema da marca no Keycloak e realms de produção entregues (PR #25, #26 e #29); recuperação, auditoria de login e quebra-vidro pendentes) · **ADRs:** ADR-PEP-0003, 0010
 **Telas:** 01a (credenciais), 01b (MFA e unidade), 25 (perfis e permissões, parcial)
 **Requisitos:** RF-ACE-01…RF-ACE-12
 
@@ -201,3 +201,14 @@ Permissões finas (`recurso:ação`), perfis como conjuntos fixos por padrão e 
 - Novo item **Início** no menu (e o logo leva a `/home`): antes a Home só aparecia logo após o login. É um acréscimo ao design.
 
 - **Tema da marca no Keycloak (escopo mínimo):** o tema da marca foi feito como tema CSS sobre `keycloak.v2` em vez de Keycloakify, montando diretamente `/opt/keycloak/themes/tissia` no Compose e configurado em `pep-dev-realm.json`.
+
+**Realms de produção `pep-prod` e `tissia-equipe-prod` (18/11/2026, PR #29 do `tissia`).** Importados no primeiro boot do Keycloak 26 da stack OCI (`infra/oci/keycloak/*.json`, runbook em `infra/oci/keycloak/README.md`, verificador `infra/oci/verificar-realms.mjs`). Sem usuário, senha ou secret nos JSONs; um realm não vê a equipe do outro. Divergências em relação ao realm de desenvolvimento e ao desenho desta RFC:
+
+- **Segundo fator obrigatório no fluxo, `amr` fixo por mapper.** `pep-prod` exige senha **e** `auth-otp-form` (ambos `REQUIRED`); `tissia-equipe-prod` exige senha e `webauthn-authenticator`. O mapper emite `amr=["pwd","mfa"]` (`pep-web`) e `["pwd","hwk"]` (`bo-web`), e a API aceita por `MFA_AMR_ACEITOS`. O caminho por `acr`/LoA continua não funcionando no Keycloak 26.0 (armadilha registrada acima); `MFA_ACR_ACEITOS=2` não é o que libera o login neste desenho. O mapper fixo só é honesto enquanto cada fluxo exigir o fator: não acrescentar IdP externo, fluxo alternativo ou cliente novo com esse mapper sem o mesmo fluxo. No dev, quem não tinha fator cadastrado pulava o segundo fator (reproduzido); em produção isso foi fechado.
+- **Desvio de RF-ACE-02:** nos clínicos, FIDO2 deixa de ser alternativa ao TOTP (a RF prevê TOTP **ou** FIDO2). Reabrir com um fluxo equivalente testado.
+- **FIDO2 `cross-platform` na equipe:** a política WebAuthn só aceita chave física (USB, NFC, BLE); Touch ID, Windows Hello e passkey do aparelho não registram, para que `amr=hwk` signifique chave física. O Backoffice só aceita `amr` com `hwk` ou `webauthn`. Recomenda-se uma segunda chave de reserva.
+- **Lockout (RF-ACE-05):** 5 falhas bloqueiam por 15 min (`waitIncrementSeconds=900`, medido); `minimumQuickLoginWaitSeconds=60` para que 2 falhas rápidas não travem a conta por 15 min (evita negação de serviço contra quem só tem o e-mail da vítima). O aviso ao admin da clínica continua pendente.
+- **`offline_access` removido** dos escopos dos clientes (daria refresh token que sobrevive ao logout; `invalid_scope` testado) e `fullScopeAllowed=false`; `admin-cli` sem direct grant.
+- **`resetPasswordAllowed=false`** nos dois realms: o Keycloak do Compose não tem SMTP e o fluxo de redefinição por e-mail não passa pelo segundo fator (o `amr` fixo marcaria o token como `mfa`). A redefinição é feita pelo administrador do Keycloak, com senha temporária.
+- Outros: `sslRequired=external`, redirects com os caminhos exatos da UI (sem curinga), e-mail editável só pelo administrador (a API vincula convites pelo claim `email`), eventos de login e administrativos ligados por 90 dias.
+- **Lacunas registradas no runbook (não resolvidas):** a API vincula o convite sem checar `email_verified` (mitigado pelos realms; virar proposta SPK), sem códigos de recuperação, sem alerta de bloqueio ao administrador, e o `master` não vem do JSON (proteção contra força bruta desligada por padrão, recomendada à mão). Os realms só são importados se ainda não existirem: mudar o JSON depois do primeiro boot não altera o realm em produção.

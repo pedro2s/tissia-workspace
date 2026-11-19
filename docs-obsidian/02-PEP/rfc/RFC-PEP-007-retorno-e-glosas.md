@@ -503,3 +503,9 @@ Implementação das fatias 0–5 (mais infraestrutura dos consumidores da fatia 
 - **Upload multipart sem dependência extra:** O endpoint `POST /api/v1/retornos` lê o stream da requisição via `Request` / `FormData` nativo do Node/Undici com limite de 50 MB, evitando adicionar `@fastify/multipart` ou `multer`.
 - **Compactação ZIP do lote de recurso:** A dependência `fflate` foi movida de `devDependencies` para `dependencies` em `apps/api/package.json` para gerar o pacote `.zip` (XML de recurso + PDF resumo + anexos) em `POST /api/v1/lotes-recurso/:id/pacote`.
 - **Central de Notificações (`Home.tsx`):** Mantida como prévia (`<Sample />`); o contador real de glosas com prazo ≤ 5 dias foi conectado ao badge do menu lateral em `apps/ui/src/Layout.tsx`.
+
+**Demo de dados fictícios (19/11/2026, PR #30 do `tissia`, em rascunho).** Ver [[demo-dados-ficticios]].
+
+- **Seed `receita`:** 5 meses de história com 38 demonstrativos (XML válido no XSD), 58 glosas (motivos da Tabela 38), 34 recursos e a faturado = pago + glosado fechando em todos os retornos. Roda só com a Tabela 38 carregada; sem ela o módulo é pulado com aviso.
+- **UI:** `Retorno.tsx` segue `proximoCursor` com o botão "Carregar mais demonstrativos" (antes a lista parava em 30 de 38). Em `Glosas.tsx`, o cartão virou "Em recurso e enviados" (soma `em_recurso` e `recurso_enviado`), com os chips "Recurso em preparo" e "Recurso enviado" (cada um filtra um status); o prazo só aparece para glosas `aberta` e `em_recurso`.
+- **Não alterado (dado de referência):** a orientação de recurso vem de `ref_orientacao_recurso` por grupo da Tabela 38; o código `1819` cai no grupo 18, cujo texto fala de "evidências da realização do procedimento". Se a orientação soar fora de lugar, é a base, não a tela.

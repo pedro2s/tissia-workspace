@@ -355,3 +355,9 @@ A RFC-PEP-011 (ICP-Brasil) consome a trilha da F2; nada aqui depende dela.
 - **Sem IA, nada quebra, e a tela diz:** sem credencial do Vertex a transcrição fica indisponível (aviso na tela) e a estruturação cai no classificador local por palavras-chave da Spike, marcado "Sem IA (modo local)". Com credencial, o Gemini faz as duas etapas.
 
 - **Ajustes após teste com o Gemini (09/11/2026):** a IA devolve uma frase por item do SOAP; o encerramento agora junta os itens de cada seção num único trecho (um bloco por seção, como no design C07), com a união das origens. O pedido sugerido abre com a indicação clínica proposta (avaliação, queixa e exame físico não descartados, até 500 caracteres), que o médico revisa antes de adicionar; a revisão também lista os pedidos do atendimento e deixa adicionar outros do catálogo ou remover. Atendimento particular não mostra a opção de guia/anti-glosa. Depois de "Assinar e finalizar" a tela segue para os documentos (C08).
+
+**Demo de dados fictícios (19/11/2026, PR #30 do `tissia`, em rascunho).** Ver [[demo-dados-ficticios]].
+
+- O seed `clinico` cria 4 sessões de escuta sintéticas (pendente de revisão, revisada, pausada), com texto pronto, sem áudio (o PEP não grava áudio). O "Usar consulta de exemplo" segue como reserva da demo.
+- `Voz.tsx`: em sessão retomada o cronômetro parte do tempo já transcrito (antes reiniciava).
+- Os textos visíveis de `/revisao` foram reescritos em linguagem de produto (sem RFC ou fase).
