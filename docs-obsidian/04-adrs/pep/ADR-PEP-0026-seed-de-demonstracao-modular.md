@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: adr
-status: proposta
+status: aceita
 tags:
   - tissia
   - pep
@@ -17,7 +17,7 @@ origem: tissia/docs/adr/ADR-PEP-0026-seed-de-demonstracao-modular.md
 
 # ADR-PEP-0026 — Seed de demonstração modular, com contrato de contexto, pacientes de história próprios e referências opcionais
 
-**Status:** Proposta — 19/11/2026 (implementada no PR #30 do `tissia`, ainda em rascunho; passa a **Aceita** quando o PR for mesclado, e só então se torna imutável; ver [[demo-dados-ficticios]])
+**Status:** Aceita — 19/11/2026 (implementada e mesclada no PR #30 do `tissia`, commit `40f8f20`; a partir daqui é imutável: mudanças só por nova ADR; ver [[demo-dados-ficticios]])
 **Relacionadas:** [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]] (seed), [[ADR-PEP-0024-dados-de-referencia-ans|ADR-PEP-0024]] (referências da ANS e códigos só de bases oficiais), [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0003-postgres-rls-multitenant|ADR-PEP-0003]], [[RFC-PEP-012-painel-do-gestor|RFC-PEP-012]], [[RFC-PEP-021-dados-de-referencia-ans|RFC-PEP-021]]
 
 ## Contexto
