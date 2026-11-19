@@ -1,7 +1,7 @@
 ---
 projeto: ecossistema
 tipo: auditoria-mvp
-status: aberto
+status: em-andamento
 data: 2026-11-16
 tags:
   - tissia
@@ -21,6 +21,8 @@ aliases:
 ---
 
 ## 1. Veredito de Prontidão
+
+> **Veredito original de 16/11/2026, preservado como histórico.** Estado atual na [[#6. Atualização de 19/11/2026|seção 6]].
 
 - **Status:** `NÃO PRONTO`
 - **Resumo Executivo:** A base de código central (`projetos/PEP` e `projetos/tissia-ia`) está madura em domínio, contratos e segurança lógica — `pnpm typecheck` (5/5 pacotes), `pnpm deps` (0 violações em 172 módulos) e `ruff check` passam limpos, com guardas rígidas de `NODE_ENV=production` em `apps/api/src/comum/config.ts` e proteção anti-PII/SSRF. Entretanto, faltam peças críticas de produção no `PEP` (Dockerfiles e CI de deploy, CORS na API principal, consumidor de `TenantProvisionado` e âncora de auditoria persistente fora do disco local) e ajuste no deploy do `tissia-ia` (que atualmente sobe sem `IA_PROVEDOR=vertex`).
@@ -177,3 +179,33 @@ flowchart LR
 - [ ] Conferência de ambiente em `staging` (`NODE_ENV=production`, `AUTH_MODE=oidc`, `IA_PROVEDOR=vertex`, `OPS_HABILITADO=true/false`, secrets no Secret Manager)
 - [ ] Smoke test ponta a ponta: Login Keycloak + MFA → Atendimento → Análise `tissia-ia` com Gemini real → Fechamento de guia → Auditoria selada com âncora persistente.
 
+---
+
+## 6. Atualização de 19/11/2026
+
+**Veredito atual: continua `NÃO PRONTO` para clínicas reais, mas por outros motivos.** O código das frentes A a F foi entregue por PRs e a infraestrutura de produção foi empacotada para a **OCI Always Free** em vez de Cloud Run (GCP). Falta a validação do conjunto montado: nada foi registrado como executado em staging ou em produção, e o smoke ponta a ponta do §5 não foi feito.
+
+### O que foi entregue (PRs mesclados)
+
+| Frente | Entrega | Onde |
+| :--- | :--- | :--- |
+| A — `tissia-ia` | Vertex AI habilitado no deploy, `/readyz` (com `SELECT 1`) e CORS opcional | `tissia-ai` #5 (`app/main.py`) |
+| B — PEP HTTP | CORS por `PEP_ORIGEM_UI`, headers e rate limit; `trust proxy` no rate limit | `tissia` #23, #28 (`apps/api/src/app.ts`) |
+| C — âncora de auditoria | Âncora fora do disco local: GCS (#23) e, para a OCI, bucket compatível com S3 (`AUDITORIA_ANCORA_S3_*`) | `tissia` #23, #24 (`comum/config.ts`) |
+| D — onboarding | Consumidor de `TenantProvisionado` (convite por e-mail); SMTP obrigatório em produção. O usuário no Keycloak continua criado à mão | `tissia` #23, #28 (`organizacao/onboarding-consumidor.service.ts`) |
+| E — infra e CI | Dockerfiles de produção (`apps/*/Dockerfile`), stack Compose com Caddy/TLS, Postgres, Redis, backup cifrado, build ARM64 para o GHCR (`oci-images.yml` nos dois repositórios); imagem da `tissia-ai` com `scripts/` e provisionamento idempotente do integrador | `tissia` #23, #24, #29; `tissia-ai` #6, #7 (`infra/oci/`) |
+| F — UI | Limpeza de selos `<Sample />` nos fluxos ativos (#23) e textos sem jargão interno nas telas (#30, em rascunho) | `tissia` #23, #30 |
+| Identidade | Realms de produção `pep-prod` e `tissia-equipe-prod` com segundo fator obrigatório (ver [[RFC-PEP-001-identidade-e-acesso]]) e tema da marca | `tissia` #25, #26, #29 (`infra/oci/keycloak/`) |
+
+Verificado nesta atualização: a presença desses itens no código (`enableCors`, `/readyz`, variáveis `AUDITORIA_ANCORA_S3_*`, consumidor de onboarding, Dockerfiles, workflows). Os critérios de aceite do §2 **não foram reverificados um a um**, por isso as caixas originais continuam como estavam. Os runbooks que registram o que foi testado: `projetos/PEP/infra/oci/README.md` e `infra/oci/keycloak/README.md` (import dos realms, lockout, `amr` e restrições do WebAuthn medidos num Keycloak real). Guias complementares: [[infraestrutura-oci-provisionamento-deploy]] e [[refatoracao-oci-always-free-plano]].
+
+### Pendências restantes
+
+1. **Staging e e2e na OCI.** Smoke ponta a ponta (login Keycloak com MFA, atendimento, análise com Gemini real, fechamento de guia, auditoria selada com âncora persistente) não registrado como feito. O `pnpm e2e:demo` não foi executado para o PR #30 e o job `e2e-demo` precisa ser confirmado no CI.
+2. **Bucket de âncoras com retenção WORM** e a chave de acesso (Customer Secret Key) no Object Storage: pré-requisito do primeiro deploy; sem as quatro variáveis `AUDITORIA_ANCORA_S3_*` o Compose recusa qualquer comando.
+3. **Variáveis do repositório no GitHub** para o build das UIs (`VITE_AUTH_MODE=oidc`, `VITE_KEYCLOAK_AUTHORITY`, `VITE_KEYCLOAK_CLIENT_ID`, `VITE_BO_OIDC_AUTHORITY`, `VITE_BO_OIDC_CLIENT_ID`); sem elas as UIs abrem em modo dev, sem login.
+4. **Pré-requisitos da VM e dos segredos** (runbook da OCI): login no GHCR, DNS só com registro A, firewall local 80/443, diretório das âncoras, credencial ADC do GCP para o Vertex, preenchimento do `.env.prod` sem placeholders.
+5. **Operação do Keycloak:** usuários criados à mão pelo runbook; troca da senha do administrador master e brute force no `master` (desligado por padrão, não testado); lacunas registradas: vínculo de convite sem checar `email_verified` (virar proposta SPK), sem códigos de recuperação, sem alerta de bloqueio ao administrador e FIDO2 deixou de ser alternativa ao TOTP nos clínicos.
+6. **Backup:** `awscli` v2 contra o Object Storage da OCI com `AWS_REQUEST_CHECKSUM_CALCULATION=when_required` marcado como não testado; o restore testável é periódico, não automatizado.
+7. **Decisão de hospedagem sem ADR.** [[ADR-PEP-0009-hospedagem-gcp-sao-paulo|ADR-PEP-0009]] (aceita, imutável) fixa GCP; a OCI é o alvo operacional desde 17/11/2026 e nenhuma ADR nova a registra.
+8. O Painel do Gestor e os dados da demo ([[demo-dados-ficticios]]) pertencem ao PR #30, ainda em rascunho; ele não é pré-requisito do go-live.

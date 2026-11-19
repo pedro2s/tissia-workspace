@@ -311,3 +311,10 @@ Demo: enquanto existir o ambiente de demonstração (`VITE_AMBIENTE_DEMO=true`),
   - `bi_guias.origem` assume `'atendimento'` na fatia 1 até a entrada de `receita_esquecida` (RFC-PEP-009).
   - `decisoes_analise` ainda não persiste `papel`; `TissiaAiService.analisesParaBi` assume `'medico'` para as decisões existentes na fatia 1.
   - `GET /api/v1/gestao/glosas-evitaveis`, relatório na tela 15 e benchmark p95 de 100 mil guias ficam para a fatia 2 junto com desfechos (RFC-PEP-007) e mapa Tabela 38 (Q2).
+
+**Demo de dados fictícios (19/11/2026, PR #30 do `tissia`, em rascunho).** Ver [[demo-dados-ficticios]] e [[ADR-PEP-0026-seed-de-demonstracao-modular|ADR-PEP-0026]].
+
+- **Desvio:** na demo, `/gestao` passou a ler o **Painel real** (`GET /api/v1/gestao/painel`) sobre o histórico semeado, e o lote sintético do Marco D virou a seção "Simulação sobre o lote sintético" abaixo do painel (`SimulacaoLoteSintetico`, só com `VITE_AMBIENTE_DEMO=true`; usa o endpoint de glosa evitada já existente). Sem a flag, `PainelGestor.tsx` renderiza só o painel real, como antes. Na demo há o selo "Histórico fictício de demonstração" e o sufixo "resultado não real" nos KPIs de glosa evitada e taxa.
+- **Narrativa estável por data** (módulo `receita` do seed, `bi` reprocessado ao final): taxa de glosa 18,5% (linha de base) para 9,2% (assistido), glosa evitada R$ 14.792 (`1479200` centavos) e as quatro operadoras A–D com redução; `alertasSemMapeamento = 0`. Simulação do lote sintético: 200 guias, 46 glosadas, 39 com alerta, R$ 39.956.
+- **UI:** "Taxa de glosa (por valor)" (o cálculo é por valor, `calcularTaxaPct`); o KPI "Receita esquecida recuperada" mostra "—" e "disponível em breve" (fatia 3, RFC-PEP-009 não implementada).
+- **Armadilha corrigida:** o módulo `ia` do seed apagava as análises do tenant inteiro e destruía a linha de base (Painel com `linhaBasePct: null`); agora só toca o elenco e as guias sem atendimento. Os códigos TUSS do lote sintético (`gerarLoteSinteticoDemo`) foram trocados pelos oficiais (30733073, 30713153, 30713137, 41101316, 40701140, 20102038), valores idênticos.
