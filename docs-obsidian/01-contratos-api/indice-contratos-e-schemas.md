@@ -51,10 +51,20 @@ Este documento conecta a documentação de contratos em `01-contratos-api/` aos 
 
 ### 2.2 Lado Cliente / PEP (`projetos/PEP`)
 - **Contratos Isomórficos Zod (`@pep/contracts`):** `projetos/PEP/packages/contracts/src/`
-  - Destaques relacionados à IA e faturamento: `analise.ts`, `escuta.ts`, `faturamento.ts`, `validacao-guia.ts`, `lotes.ts`, `catalogo.ts`, `operadoras.ts`, `comum.ts`, `rotas.ts`
+  - Destaques relacionados à IA e faturamento: `analise.ts`, `escuta.ts`, `atendimento.ts`, `contratos.ts`, `faturamento.ts`, `validacao-guia.ts`, `identidade.ts`, `lotes.ts`, `catalogo.ts`, `operadoras.ts`, `comum.ts`, `rotas.ts`
+  - **Schemas da indicação única e autopreenchimento da guia** ([[plano-guia-indicacao-unica-e-autopreenchimento|plano]], [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027]], [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028]]):
+    - `atendimento.ts` (na fundação `feat/guia-fundacao`): `DefinirIndicacaoPedidosSchema` (`DefinirIndicacaoPedidosInput`), `AtendimentoSchema.indicacaoPedidos` e `CriarPedidoExameSchema.indicacaoClinica` opcional.
+    - `validacao-guia.ts` (na fundação `feat/guia-fundacao`): `OrigemDadoGuiaSchema` (`OrigemDadoGuia`) e `SugestaoDadosGuiaSchema` (`SugestaoDadosGuia`).
+    - `contratos.ts` (na fundação `feat/guia-fundacao`): `codigoContratado` em `CriarContratoSchema`, `AtualizarContratoSchema`, `ContratoResumoSchema` e `ContratoDetalheSchema`.
+    - `identidade.ts` (*em implementação na fatia G5 — a confirmar na integração*): schema de dados profissionais (`conselho`, `numeroConselho`, `ufConselho`, `cbo`).
+- **Novas rotas da API interna do PEP (`@pep/api`, *em implementação — a confirmar na integração*):**
+  - `PUT /api/v1/atendimentos/{id}/indicacao-pedidos` (`DefinirIndicacaoPedidosSchema`, fatia G1)
+  - `GET /api/v1/guias/{id}/sugestao-dados` (`SugestaoDadosGuiaSchema`, fatia G3)
+  - `GET` / `PUT` `/api/v1/me/dados-profissionais` (dados profissionais e `cbo`, fatia G5)
 - **Módulo Anticorrupção (`SpikeAdapter` em `@pep/api`):** `projetos/PEP/apps/api/src/modulos/tissia-ai/`
   - `tissia-ai.client.ts`, `tissia-ai.service.ts`, `tissia-ai.controller.ts`, `catalogo.service.ts`, `schema.ts`
-- **Snapshot OpenAPI do PEP:** `projetos/PEP/apps/api/openapi/openapi.json` (regenerar com `pnpm --filter @pep/api openapi`)
+  - **Nota:** O contrato HTTP/JSON com a `tissia-ia` (`POST /v1/guias/analisar`) **não muda** com a indicação única e o autopreenchimento: o campo `indicacao_clinica` continua sendo enviado no mesmo formato (`string | null`), alterando apenas a origem interna no `PEP`.
+- **Snapshot OpenAPI do PEP:** `projetos/PEP/apps/api/openapi/openapi.json` (regenerar com `pnpm --filter @pep/api openapi` na integração)
 
 ## 3. Protocolo Obrigatório Antes de Alterar Contratos
 

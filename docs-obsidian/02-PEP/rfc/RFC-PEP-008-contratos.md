@@ -78,6 +78,7 @@ CREATE TABLE contratos (
   clinica_id             uuid NOT NULL,
   registro_ans           text NOT NULL,        -- operadoras.registro_ans (validado no serviço)
   numero                 text,                 -- "2025/0412"
+  codigo_contratado      text,                 -- código do contratado na operadora (campos 13/29 da SP/SADT; migração 0047)
   vigencia_inicio        date NOT NULL,
   vigencia_fim           date,                 -- NULL = indeterminado
   versao_tiss            text NOT NULL,        -- '4.03.00' (ADR-PEP-0012: configuração por operadora)
@@ -433,3 +434,8 @@ Desvios registrados:
 - **Seed `faturamento`:** o módulo é dono do domínio `contratos` do tenant da demo e o recria a cada execução: 4 contratos (operadoras A–D), 128 preços, 1 pacote por operadora e auditoria com divergências. Operadoras ausentes do cadastro são inseridas como "Operadora X (demonstração)" (`versao_ref = 'demo'`), sem tocar linhas reais do CADOP.
 - **UI (`Contratos.tsx`):** diferença zero sem sinal (some o "−R$ 0,00"), "Vigência indeterminada" para vigência `null`, aba "Tabela negociada" com rolagem horizontal. Em `VITE_AMBIENTE_DEMO=true`, "Novo contrato" busca só as 4 operadoras da demo (por rótulo A–D ou registro), sem enumerar o CADOP real (`apps/ui/src/modulos/faturamento/operadoraDemo.ts`).
 - **Catálogo TUSS da demo:** `CATALOGO_TUSS_DEMO` e `TABELA_PRECOS_SINTETICA_CENTAVOS` (`packages/contracts`, só aditivo) foram alinhados à Tabela 22 oficial (19 códigos). O mesmo código passou a ter outro termo para 11 entradas, e a tabela negociada da demo passou a 19 itens.
+
+**Código do contratado na operadora (`codigoContratado`, 19/11/2026, status: em implementação).** Ver [[plano-guia-indicacao-unica-e-autopreenchimento|plano]] e [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028]].
+
+- **Já entregue na fundação (`feat/guia-fundacao`, commit `dc4ae7b`):** coluna `contratos.codigo_contratado` (`text`, `CHECK` 1..20, migração `0047`), campo `codigoContratado` nos schemas `CriarContratoSchema`, `AtualizarContratoSchema`, `ContratoResumoSchema` (e `ContratoDetalheSchema`) em `@pep/contracts/contratos.ts`, e retorno em `ContratosService.resumo`.
+- **Intenção do plano em andamento (fatias G3 e G5 — *a confirmar na integração*):** persistência de `codigoContratado` na criação/atualização do contrato, campo editável na tela 21 (`Contratos.tsx`) e consulta pelo resolvedor de autopreenchimento da guia (`SugestaoDadosGuia`, campos 13/29 da SP/SADT e campo 9 da consulta) usando o contrato vigente na data do atendimento.

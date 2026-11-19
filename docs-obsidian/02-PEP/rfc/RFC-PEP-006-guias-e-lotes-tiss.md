@@ -147,6 +147,7 @@ Geração roda em job BullMQ (`lote-gerar`), com progresso por SSE. Meta: 500 gu
 | `GET` | `/api/v1/guias?status=&operadora=&risco=&prazo_ate=&responsavel=&ordem=risco` | Mesa (cursor) + totais (na fila, risco alto, prazo 48 h, prontas, valor) |
 | `POST` | `/api/v1/guias` | Guia manual |
 | `GET` | `/api/v1/guias/{id}` | Guia + revisão atual + validação local + resumo da análise |
+| `GET` | `/api/v1/guias/{id}/sugestao-dados` | Sugestão de autopreenchimento a partir dos cadastros de origem (`SugestaoDadosGuia`, [[ADR-PEP-0028-resolvedor-de-dados-da-guia\|ADR-PEP-0028]], *em implementação — a confirmar na integração*) |
 | `POST` | `/api/v1/guias/{id}/revisoes` | Nova revisão `{ "base": 3, "dados": {...}, "procedimentos": [...], "cids": [...], "indicacao_clinica": "…" }` → 409 se `base` desatualizada |
 | `POST` | `/api/v1/guias/{id}/transicoes` | `{ "para": "em_revisao" \| "validada" \| "cancelada", "motivo": "…" }` |
 | `POST` | `/api/v1/guias/acoes-em-lote` | `{ "acao": "atribuir" \| "revalidar" \| "mover_para_lote", "guia_ids": [...] }` |
@@ -301,3 +302,11 @@ Geração roda em job BullMQ (`lote-gerar`), com progresso por SSE. Meta: 500 gu
 - **UI:** a Mesa deixou de exibir o selo "Dados ilustrativos" (a fila vem da API); Lotes avisa "Mostrando os 50 lotes mais recentes" quando a lista vem cheia (limite fixo em `LotesService.listar`, sem cursor); a Mesa e o editor não citam mais RFC/fase nos textos visíveis.
 - **Risco residual:** `lotes.service.ts` (cerca das linhas 100 e 200) ainda leva data de texto livre ao SQL (erro 500 ao gerar lote com guia de data malformada). Não alterado.
 - **Seed:** as guias "Prontas" da Mesa agora gravam a revisão completa (campos 1 a 33, CRM, UF, CBO, CNES). A G-004818 (consulta do seed base) fica incompleta de propósito (`consulta.spec.ts`).
+
+**Indicação única no Campo 23 e autopreenchimento da guia (19/11/2026, status: em implementação).** Ver [[plano-guia-indicacao-unica-e-autopreenchimento|plano]], [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027]] e [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028]].
+
+- **Já entregue na fundação (`feat/guia-fundacao`, commit `dc4ae7b`):** schemas `OrigemDadoGuiaSchema` e `SugestaoDadosGuiaSchema` em `@pep/contracts/validacao-guia.ts` (`registroAns`, `contratoId`, `dados`, `origens`, `pendencias`).
+- **Intenção do plano em andamento (fatias G1, G3 e G4 — *a confirmar na integração*):**
+  - **Campo 23 (G1):** a revisão 1 da guia SP/SADT criada em `ProntuarioService.fechar` → `FaturamentoService.criarRascunho` passa a nascer com `indicacaoClinica` preenchida a partir de `atendimentos.indicacao_pedidos` (com *fallback* para o primeiro pedido).
+  - **Resolvedor no servidor (G3):** `GET /api/v1/guias/{id}/sugestao-dados` resolve dados de beneficiário (`pacientes`), profissional (`identidade`, incluindo `cbo`), unidade (`organizacao`, incluindo `clinicas.registro_cnes`) e contrato vigente na data (`contratos`, incluindo `codigoContratado`), sem inventar códigos de domínio ANS não confirmados nas bases carregadas em `ref_*`, e devolve `pendencias` acionáveis indicando onde cadastrar o que faltar. O mesmo resolvedor preenche `dados` da revisão 1 no fechamento do atendimento.
+  - **Editor de guia — tela 17 (G4):** consome `GET /api/v1/guias/{id}/sugestao-dados` ao abrir e ao trocar a operadora, aplica sugestões **sem nunca sobrescrever** campos já editados pelo faturista, exibe a origem de cada dado preenchido e oferece atalhos para resolver as pendências cadastrais.
