@@ -41,7 +41,7 @@ Prontuário
 Documentos
 
 - [RF-DOC-01] Receita simples (P1), controle especial e antimicrobiano (P2, dependem de ICP-Brasil — RFC-PEP-011), com checagem de alergias.
-- [RF-DOC-02] Pedido de exame com TUSS, quantidade e **indicação clínica ≤ 500 caracteres** (vira o Campo 23 da guia).
+- [RF-DOC-02] Pedido de exame com TUSS, quantidade e **indicação clínica ≤ 500 caracteres por atendimento** (vira o Campo 23 da guia).
 - [RF-DOC-03] Atestado (comparecimento, afastamento, acompanhante); CID só com consentimento `cid_em_atestado`.
 - [RF-DOC-04] Encaminhamento para especialidade.
 - [RF-DOC-05] Resumo ao paciente em linguagem simples: na P1, escrito pelo médico (ou a partir de modelo); geração por IA na P2 (SPK-04). Envio por WhatsApp só com revisão marcada e consentimento.
@@ -255,3 +255,8 @@ Definição de campo (JSON validado por schema na publicação):
 - **Auditoria:** cada chamada grava `documento.visualizado` (recurso `paciente`) antes da leitura, só quando o paciente tem atendimentos. A linha do tempo chama o endpoint a cada versão da evolução, então abrir ou recarregar a tela gera uma linha de auditoria (ponto de revisão futura: deduplicar).
 - **Outros ajustes:** `pendentes()` ignora o `resumo_paciente` (não se assina); o atestado nasce com data e horário do atendimento; o resumo da linha do tempo e do adendo usa `resumir()` (limite de 90 caracteres, com "…"); `textoModelo` e `textoPlano` foram movidos para `@pep/contracts` (`textoModeloEvolucao`, `textoPlanoEvolucao`) para o seed montar o `texto_plano` do mesmo jeito.
 - **Seed `clinico`:** 93 atendimentos do elenco com evolução versionada, adendos, receitas e atestados (assinados e rascunho) e 4 modelos da clínica. Cobre os casos do roteiro (Carla com 2 versões e adendo; Ana com infiltração do joelho E).
+
+**Indicação clínica única por atendimento (19/11/2026, status: em implementação).** Ver [[plano-guia-indicacao-unica-e-autopreenchimento|plano]] e [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027]].
+
+- **Já entregue na fundação (`feat/guia-fundacao`, commit `dc4ae7b`):** coluna `atendimentos.indicacao_pedidos` (`text`, `CHECK` 1..500, migração `0047`), contratos aditivos em `@pep/contracts` (`Atendimento.indicacaoPedidos`, `CriarPedidoExame.indicacaoClinica` opcional, `DefinirIndicacaoPedidosSchema`) e *fallback* de leitura `a.indicacaoPedidos ?? pedidos[0]?.indicacaoClinica ?? null` em `ProntuarioService.montar` (sem *backfill* SQL por causa do RLS forçado).
+- **Implementado (fatias G1 e G2; validado em 20/11/2026: API 437/437 testes e e2e:demo 42/42):** rota `PUT /api/v1/atendimentos/{id}/indicacao-pedidos`, herança automática ao criar pedido sem `indicacaoClinica` (mantendo cópia em `pedidos_exame.indicacao_clinica`), propagação ao editar pedido, preenchimento do Campo 23 da revisão 1 em `ProntuarioService.fechar`, leitura da indicação do atendimento no envio à Spike (sem alterar o contrato HTTP `indicacao_clinica`) e unificação da UI nas telas 05a–08 (um campo de indicação por atendimento; pedidos só com exame e quantidade).

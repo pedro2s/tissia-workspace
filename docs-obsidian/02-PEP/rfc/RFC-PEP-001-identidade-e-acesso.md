@@ -74,6 +74,7 @@ CREATE TABLE usuarios (
   id uuid PRIMARY KEY, keycloak_sub text UNIQUE NOT NULL,
   nome text NOT NULL, email text NOT NULL,
   conselho text, numero_conselho text, uf_conselho text,   -- CRM/COREN etc.
+  cbo text,                                                -- CBO-S (6 dígitos, domínio 24 ANS; migração 0047)
   ativo boolean NOT NULL DEFAULT true, criado_em timestamptz NOT NULL DEFAULT now()
 );
 CREATE TABLE vinculos (                -- usuário × unidade × perfil (RLS por tenant)
@@ -115,6 +116,7 @@ Permissões finas (`recurso:ação`), perfis como conjuntos fixos por padrão e 
 | Rota | Uso |
 | :--- | :--- |
 | `GET /api/v1/eu` | Usuário, vínculos, unidade ativa |
+| `GET` / `PUT` `/api/v1/me/dados-profissionais` | Dados profissionais do usuário autenticado (`conselho`, `numeroConselho`, `ufConselho`, `cbo`; [[ADR-PEP-0028-resolvedor-de-dados-da-guia\|ADR-PEP-0028]], *implementado, fatia G5*) |
 | `GET /api/v1/eu/unidades` | Unidades disponíveis agrupadas por clínica (tela 01b, etapa 3) |
 | `POST /api/v1/sessao/unidade` | Ativa unidade → token de sessão |
 | `POST /api/v1/sessao/encerrar` | Logout (revoga refresh no Keycloak) |
@@ -212,3 +214,8 @@ Permissões finas (`recurso:ação`), perfis como conjuntos fixos por padrão e 
 - **`resetPasswordAllowed=false`** nos dois realms: o Keycloak do Compose não tem SMTP e o fluxo de redefinição por e-mail não passa pelo segundo fator (o `amr` fixo marcaria o token como `mfa`). A redefinição é feita pelo administrador do Keycloak, com senha temporária.
 - Outros: `sslRequired=external`, redirects com os caminhos exatos da UI (sem curinga), e-mail editável só pelo administrador (a API vincula convites pelo claim `email`), eventos de login e administrativos ligados por 90 dias.
 - **Lacunas registradas no runbook (não resolvidas):** a API vincula o convite sem checar `email_verified` (mitigado pelos realms; virar proposta SPK), sem códigos de recuperação, sem alerta de bloqueio ao administrador, e o `master` não vem do JSON (proteção contra força bruta desligada por padrão, recomendada à mão). Os realms só são importados se ainda não existirem: mudar o JSON depois do primeiro boot não altera o realm em produção.
+
+**Dados profissionais e CBO (19/11/2026, status: em implementação).** Ver [[plano-guia-indicacao-unica-e-autopreenchimento|plano]] e [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028]].
+
+- **Já entregue na fundação (`feat/guia-fundacao`, commit `dc4ae7b`):** coluna `usuarios.cbo` (`text`, migração `0047`) para suportar o campo 19 da guia SP/SADT (domínio 24 da ANS).
+- **Implementado (fatia G5; validado em 20/11/2026: API 437/437 testes e e2e:demo 42/42):** exposição e edição dos dados profissionais (`conselho`, `numeroConselho`, `ufConselho`, `cbo`) via `/api/v1/me/dados-profissionais` e tela correspondente no PEP, alimentando o resolvedor de autopreenchimento da guia ([[RFC-PEP-006-guias-e-lotes-tiss|RFC-PEP-006]]). *(Nota: confirmar na integração se a rota final mantém o prefixo `/api/v1/me/dados-profissionais` ou se alinha à convenção `/api/v1/eu/*` já existente nesta RFC.)*

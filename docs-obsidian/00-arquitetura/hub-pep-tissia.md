@@ -49,6 +49,7 @@ A Spike tem documentação própria (PRD-001, RFC-000…014, ADR-0001…0012, [[
 | Release | [[release-plan-pep\|Release Plan]] |
 | Demonstração | [[demo\|Ambiente de demonstração]] (Docker Compose + Caddy, `infra/demo/`) |
 | Dados da demonstração | [[demo-dados-ficticios\|Demo de dados fictícios]] (seed `demo:reset`, cenários de referências, invariantes do Painel) |
+| Plano ativo | [[plano-guia-indicacao-unica-e-autopreenchimento\|Plano — Indicação clínica única e autopreenchimento da guia SP/SADT]] (em execução, 19/11/2026) |
 | Decisões | [[MOC-Index#04 — ADRs\|ADRs]] |
 | Design | [[MOC-Index#02 — PEP\|RFCs]] |
 | Design visual | [Canvas do design](https://claude.ai/code/artifact/f1aa775e-58db-457c-b094-c147a8d8b48d) (telas 01–26) |
@@ -140,6 +141,9 @@ Backoffice ([canvas](https://claude.ai/code/artifact/8a0b5083-bb44-4f07-966a-645
 | [[ADR-PEP-0024-dados-de-referencia-ans\|0024]] | Dados de referência da ANS: fonte oficial, versão com proveniência e alerta de defasagem | Aceita |
 | [[ADR-PEP-0025-decisoes-scribe-e-ops-tissia-ai\|0025]] | Decisões de integração para Scribe (streaming) e `/ops/v1` na `tissia-ai` | Aceita |
 | [[ADR-PEP-0026-seed-de-demonstracao-modular\|0026]] | Seed de demonstração modular com contrato de contexto, histórico de receita em pacientes próprios, operadoras fictícias e referências da ANS opcionais | Aceita |
+| [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento\|0027]] | Indicação clínica única por atendimento (Campo 23 da guia SP/SADT) | Aceita |
+| [[ADR-PEP-0028-resolvedor-de-dados-da-guia\|0028]] | Resolvedor de dados da guia no servidor e cadastros de origem | Aceita |
+| [[ADR-PEP-0029-consulta-tiss-e-preco-de-contrato-na-guia\|0029]] | Consulta sempre cobrada (SP/SADT única ou separada por contrato) e preço só pelo contrato | Aceita |
 
 **Aceita** = vem do documento de design de produto e arquitetura, ou foi aceita pelo responsável depois de revisada (0006, 0010 e 0013 em 09/11/2026; 0012, 0014 e 0024 em 13/11/2026). **Proposta** = recomendação deste hub para uma decisão em aberto (§12 do design de produto) ou uma lacuna; precisa de aceite antes da RFC que depende dela.
 

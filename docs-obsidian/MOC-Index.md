@@ -45,6 +45,8 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[auditoria-mvp-plano-orquestracao|Auditoria MVP e Plano de Orquestração Multi-Agente]]
 - [[infraestrutura-oci-provisionamento-deploy|Infraestrutura OCI (sa-saopaulo-1) — Provisionamento e Deploy Always Free]]
 - [[refatoracao-oci-always-free-plano|Plano Técnico de Refatoração — Adaptação para OCI Always Free]]
+- [[plano-guia-indicacao-unica-e-autopreenchimento|Plano — Indicação clínica única (Campo 23) e autopreenchimento da guia SP/SADT]]
+- [[fluxo-guia-consulta-exame-e-estados|Fluxo da guia: consulta + exame, preço do contrato e estados]]
 
 ---
 
@@ -58,7 +60,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[validacao-integracao-tissia-ia|Roteiro de Validação da Integração]]
 - [[ensaios-postman-api-v1|Ensaios Postman API v1]]
 
-### Propostas de Evolução de Contrato (`SPK-01` .. `SPK-13`)
+### Propostas de Evolução de Contrato (`SPK-01` .. `SPK-14`)
 
 - [[SPK-01-api-de-clinicas-e-flags|SPK-01 — API de clínicas e flags]]
 - [[SPK-02-recurso-de-glosa|SPK-02 — Recurso de glosa assistido]]
@@ -73,6 +75,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[SPK-11-contratos-auditar-substituicao|SPK-11 — Semântica de substituição em contratos/auditar]]
 - [[SPK-12-desfecho-recurso-manual|SPK-12 — Desfecho de recurso manual sem sobrescrever o original]]
 - [[SPK-13-ingestao-mapa-guia-ref|SPK-13 — Mapa de numeroGuiaPrestador ↔ guia_ref na ingestão TISS]]
+- [[SPK-14-sugestao-de-codigos-e-indicacao-a-partir-da-evolucao|SPK-14 — Sugestão de CID, exames e indicação a partir da evolução, sem guia em rascunho]]
 
 ---
 
@@ -157,7 +160,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 
 ## 04 — ADRs
 
-### ADRs do PEP (`ADR-PEP-0001` .. `ADR-PEP-0026`)
+### ADRs do PEP (`ADR-PEP-0001` .. `ADR-PEP-0029`)
 
 - [[ADR-PEP-0001-repositorios|ADR-PEP-0001 — Repositórios separados]]
 - [[ADR-PEP-0002-backend-nestjs-monolito-modular|ADR-PEP-0002 — Backend NestJS monólito modular]]
@@ -185,6 +188,9 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[ADR-PEP-0024-dados-de-referencia-ans|ADR-PEP-0024 — Dados de referência da ANS]]
 - [[ADR-PEP-0025-decisoes-scribe-e-ops-tissia-ai|ADR-PEP-0025 — Decisões de integração para Scribe e /ops/v1]]
 - [[ADR-PEP-0026-seed-de-demonstracao-modular|ADR-PEP-0026 — Seed de demonstração modular e referências opcionais]]
+- [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027 — Indicação clínica única por atendimento (Campo 23)]]
+- [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028 — Resolvedor de dados da guia no servidor e cadastros de origem]]
+- [[ADR-PEP-0029-consulta-tiss-e-preco-de-contrato-na-guia|ADR-PEP-0029 — Consulta sempre cobrada (SP/SADT única ou separada por contrato) e preço só pelo contrato]]
 
 ### ADRs do Motor de IA (`ADR-IA-0001` .. `ADR-IA-0012`)
 
