@@ -17,7 +17,7 @@ aliases:
 
 # ADR-PEP-0028 — Resolvedor de dados da guia no servidor e cadastros de origem
 
-**Status:** Aceita — 19/11/2026 (implementada e validada no PR #31 do `tissia`; a partir do merge é imutável: mudanças só por nova ADR)
+**Status:** Aceita — 19/11/2026 (implementada e validada no PR #31 do `tissia`, commit `31b9a66`; a partir do merge é imutável: mudanças só por nova ADR)
 **Relacionadas:** [[ADR-PEP-0002-backend-nestjs-monolito-modular|ADR-PEP-0002]], [[ADR-PEP-0017-orm-drizzle-rls|ADR-PEP-0017]], [[ADR-PEP-0018-monorepo-pnpm-turborepo|ADR-PEP-0018]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0024-dados-de-referencia-ans|ADR-PEP-0024]], [[RFC-PEP-001-identidade-e-acesso|RFC-PEP-001]], [[RFC-PEP-006-guias-e-lotes-tiss|RFC-PEP-006]], [[RFC-PEP-008-contratos|RFC-PEP-008]]
 
 ## Contexto

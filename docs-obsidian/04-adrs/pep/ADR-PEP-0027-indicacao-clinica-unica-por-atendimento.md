@@ -16,7 +16,7 @@ aliases:
 
 # ADR-PEP-0027 — Indicação clínica única por atendimento (Campo 23)
 
-**Status:** Aceita — 19/11/2026 (implementada e validada no PR #31 do `tissia`; a partir do merge é imutável: mudanças só por nova ADR)
+**Status:** Aceita — 19/11/2026 (implementada e validada no PR #31 do `tissia`, commit `31b9a66`; a partir do merge é imutável: mudanças só por nova ADR)
 **Relacionadas:** [[ADR-PEP-0003-postgres-rls-multitenant|ADR-PEP-0003]], [[ADR-PEP-0005-spike-adapter|ADR-PEP-0005]], [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0017-orm-drizzle-rls|ADR-PEP-0017]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[RFC-PEP-004-prontuario|RFC-PEP-004]], [[RFC-PEP-006-guias-e-lotes-tiss|RFC-PEP-006]]
 
 ## Contexto
