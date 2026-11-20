@@ -438,7 +438,7 @@ Desvios registrados:
 **Código do contratado na operadora (`codigoContratado`, 19/11/2026, status: em implementação).** Ver [[plano-guia-indicacao-unica-e-autopreenchimento|plano]] e [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028]].
 
 - **Já entregue na fundação (`feat/guia-fundacao`, commit `dc4ae7b`):** coluna `contratos.codigo_contratado` (`text`, `CHECK` 1..20, migração `0047`), campo `codigoContratado` nos schemas `CriarContratoSchema`, `AtualizarContratoSchema`, `ContratoResumoSchema` (e `ContratoDetalheSchema`) em `@pep/contracts/contratos.ts`, e retorno em `ContratosService.resumo`.
-- **Intenção do plano em andamento (fatias G3 e G5 — *a confirmar na integração*):** persistência de `codigoContratado` na criação/atualização do contrato, campo editável na tela 21 (`Contratos.tsx`) e consulta pelo resolvedor de autopreenchimento da guia (`SugestaoDadosGuia`, campos 13/29 da SP/SADT e campo 9 da consulta) usando o contrato vigente na data do atendimento.
+- **Implementado (fatias G3 e G5; validado em 20/11/2026: API 437/437 testes e e2e:demo 42/42):** persistência de `codigoContratado` na criação/atualização do contrato, campo editável na tela 21 (`Contratos.tsx`) e consulta pelo resolvedor de autopreenchimento da guia (`SugestaoDadosGuia`, campos 13/29 da SP/SADT e campo 9 da consulta) usando o contrato vigente na data do atendimento.
 
 **Consulta em guia separada (`consultaEmGuiaSeparada`, 20/11/2026, status: em implementação).** Ver [[ADR-PEP-0029-consulta-tiss-e-preco-de-contrato-na-guia|ADR-PEP-0029]].
 

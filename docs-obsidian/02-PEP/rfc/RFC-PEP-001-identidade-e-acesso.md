@@ -116,7 +116,7 @@ Permissões finas (`recurso:ação`), perfis como conjuntos fixos por padrão e 
 | Rota | Uso |
 | :--- | :--- |
 | `GET /api/v1/eu` | Usuário, vínculos, unidade ativa |
-| `GET` / `PUT` `/api/v1/me/dados-profissionais` | Dados profissionais do usuário autenticado (`conselho`, `numeroConselho`, `ufConselho`, `cbo`; [[ADR-PEP-0028-resolvedor-de-dados-da-guia\|ADR-PEP-0028]], *intenção do plano, fatia G5 — a confirmar na integração*) |
+| `GET` / `PUT` `/api/v1/me/dados-profissionais` | Dados profissionais do usuário autenticado (`conselho`, `numeroConselho`, `ufConselho`, `cbo`; [[ADR-PEP-0028-resolvedor-de-dados-da-guia\|ADR-PEP-0028]], *implementado, fatia G5*) |
 | `GET /api/v1/eu/unidades` | Unidades disponíveis agrupadas por clínica (tela 01b, etapa 3) |
 | `POST /api/v1/sessao/unidade` | Ativa unidade → token de sessão |
 | `POST /api/v1/sessao/encerrar` | Logout (revoga refresh no Keycloak) |
@@ -218,4 +218,4 @@ Permissões finas (`recurso:ação`), perfis como conjuntos fixos por padrão e 
 **Dados profissionais e CBO (19/11/2026, status: em implementação).** Ver [[plano-guia-indicacao-unica-e-autopreenchimento|plano]] e [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028]].
 
 - **Já entregue na fundação (`feat/guia-fundacao`, commit `dc4ae7b`):** coluna `usuarios.cbo` (`text`, migração `0047`) para suportar o campo 19 da guia SP/SADT (domínio 24 da ANS).
-- **Intenção do plano em andamento (fatia G5 — *a confirmar na integração*):** exposição e edição dos dados profissionais (`conselho`, `numeroConselho`, `ufConselho`, `cbo`) via `/api/v1/me/dados-profissionais` e tela correspondente no PEP, alimentando o resolvedor de autopreenchimento da guia ([[RFC-PEP-006-guias-e-lotes-tiss|RFC-PEP-006]]). *(Nota: confirmar na integração se a rota final mantém o prefixo `/api/v1/me/dados-profissionais` ou se alinha à convenção `/api/v1/eu/*` já existente nesta RFC.)*
+- **Implementado (fatia G5; validado em 20/11/2026: API 437/437 testes e e2e:demo 42/42):** exposição e edição dos dados profissionais (`conselho`, `numeroConselho`, `ufConselho`, `cbo`) via `/api/v1/me/dados-profissionais` e tela correspondente no PEP, alimentando o resolvedor de autopreenchimento da guia ([[RFC-PEP-006-guias-e-lotes-tiss|RFC-PEP-006]]). *(Nota: confirmar na integração se a rota final mantém o prefixo `/api/v1/me/dados-profissionais` ou se alinha à convenção `/api/v1/eu/*` já existente nesta RFC.)*

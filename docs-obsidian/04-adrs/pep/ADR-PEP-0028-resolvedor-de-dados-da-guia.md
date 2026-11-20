@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: adr
-status: proposta
+status: aceita
 tags:
   - tissia
   - pep
@@ -17,7 +17,7 @@ aliases:
 
 # ADR-PEP-0028 — Resolvedor de dados da guia no servidor e cadastros de origem
 
-**Status:** Proposta — 19/11/2026 (base em `feat/guia-fundacao`, fatias G3/G4/G5 em implementação; vira `aceita` somente no merge do código — ADRs aceitas são imutáveis; ver [[plano-guia-indicacao-unica-e-autopreenchimento|plano]])
+**Status:** Aceita — 19/11/2026 (implementada e validada no PR #31 do `tissia`; a partir do merge é imutável: mudanças só por nova ADR)
 **Relacionadas:** [[ADR-PEP-0002-backend-nestjs-monolito-modular|ADR-PEP-0002]], [[ADR-PEP-0017-orm-drizzle-rls|ADR-PEP-0017]], [[ADR-PEP-0018-monorepo-pnpm-turborepo|ADR-PEP-0018]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0024-dados-de-referencia-ans|ADR-PEP-0024]], [[RFC-PEP-001-identidade-e-acesso|RFC-PEP-001]], [[RFC-PEP-006-guias-e-lotes-tiss|RFC-PEP-006]], [[RFC-PEP-008-contratos|RFC-PEP-008]]
 
 ## Contexto
@@ -32,8 +32,8 @@ Além disso, faltavam dois campos nos cadastros de origem:
 
 1. **D3 — Resolvedor único no servidor e preenchimento não destrutivo.**
    - A resolução dos dados da guia é centralizada **no servidor**, retornando `SugestaoDadosGuia` (`registroAns`, `contratoId`, `dados`, `origens` com `OrigemDadoGuia`: `beneficiario | profissional | contrato | unidade | padrao`, e `pendencias`: `{ chave, motivo }[]`, schemas já definidos em `packages/contracts/src/validacao-guia.ts` na fundação `feat/guia-fundacao`).
-   - *(Intenção do plano, fatia G3 — a confirmar na integração)*: um endpoint dedicado `GET /api/v1/guias/:id/sugestao-dados` expõe o resolvedor (aceitando troca de `registroAns` por query para consulta no editor). No fechamento do atendimento (`ProntuarioService.fechar` → `FaturamentoService.criarRascunho`), o servidor já cria a revisão 1 com `dados` resolvidos.
-   - *(Intenção do plano, fatia G4 — a confirmar na integração)*: o Editor de guia (tela 17) consulta o mesmo resolvedor ao abrir ou ao trocar a operadora e **nunca sobrescreve** valores já digitados pelo faturista.
+   - *(Implementado, fatia G3)*: um endpoint dedicado `GET /api/v1/guias/:id/sugestao-dados` expõe o resolvedor (aceitando troca de `registroAns` por query para consulta no editor). No fechamento do atendimento (`ProntuarioService.fechar` → `FaturamentoService.criarRascunho`), o servidor já cria a revisão 1 com `dados` resolvidos.
+   - *(Implementado, fatia G4)*: o Editor de guia (tela 17) consulta o mesmo resolvedor ao abrir ou ao trocar a operadora e **nunca sobrescreve** valores já digitados pelo faturista.
 
 2. **Módulos donos de cada dado (fronteiras estritas da [[ADR-PEP-0017-orm-drizzle-rls|ADR-PEP-0017]] e [[ADR-PEP-0018-monorepo-pnpm-turborepo|ADR-PEP-0018]]).**
    O resolvedor consulta cada domínio exclusivamente pelos serviços públicos dos respectivos módulos (proibido importar `schema.ts` de outro módulo):
@@ -50,8 +50,8 @@ Além disso, faltavam dois campos nos cadastros de origem:
    - Quando a base não estiver carregada ou não houver confirmação segura de domínio, o campo permanece vazio e é listado em `pendencias`.
 
 4. **D5 — Pendências acionáveis e cadastros de origem.**
-   - Quando falta dado na origem, o resolvedor inclui uma entrada em `pendencias` explicando **o que falta e onde cadastrar** (contrato, perfil do profissional ou clínica/unidade), em vez de deixar o campo vazio sem orientação. A UI da tela 17 (fatia G4, *a confirmar na integração*) exibe a origem de cada dado preenchido e atalhos para o cadastro correspondente.
-   - Os cadastros de origem faltantes foram adicionados na migração `0047_guia_indicacao_unica_e_cadastros_de_origem.sql` (`contratos.codigo_contratado` e `usuarios.cbo`, já em `feat/guia-fundacao`) e têm API e telas previstas na fatia G5 (*a confirmar na integração*: `codigoContratado` em `Contratos` e `/api/v1/me/dados-profissionais` + tela do profissional).
+   - Quando falta dado na origem, o resolvedor inclui uma entrada em `pendencias` explicando **o que falta e onde cadastrar** (contrato, perfil do profissional ou clínica/unidade), em vez de deixar o campo vazio sem orientação. A UI da tela 17 (fatia G4, implementada) exibe a origem de cada dado preenchido e atalhos para o cadastro correspondente.
+   - Os cadastros de origem faltantes foram adicionados na migração `0047_guia_indicacao_unica_e_cadastros_de_origem.sql` (`contratos.codigo_contratado` e `usuarios.cbo`, já em `feat/guia-fundacao`) e têm API e telas implementadas na fatia G5 ( `codigoContratado` em `Contratos` e `/api/v1/me/dados-profissionais` + tela do profissional).
 
 ## Alternativas consideradas
 

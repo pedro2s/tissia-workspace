@@ -56,8 +56,8 @@ Este documento conecta a documentação de contratos em `01-contratos-api/` aos 
     - `atendimento.ts` (na fundação `feat/guia-fundacao`): `DefinirIndicacaoPedidosSchema` (`DefinirIndicacaoPedidosInput`), `AtendimentoSchema.indicacaoPedidos` e `CriarPedidoExameSchema.indicacaoClinica` opcional.
     - `validacao-guia.ts` (na fundação `feat/guia-fundacao`): `OrigemDadoGuiaSchema` (`OrigemDadoGuia`) e `SugestaoDadosGuiaSchema` (`SugestaoDadosGuia`).
     - `contratos.ts` (na fundação `feat/guia-fundacao`): `codigoContratado` em `CriarContratoSchema`, `AtualizarContratoSchema`, `ContratoResumoSchema` e `ContratoDetalheSchema`.
-    - `identidade.ts` (*em implementação na fatia G5 — a confirmar na integração*): schema de dados profissionais (`conselho`, `numeroConselho`, `ufConselho`, `cbo`).
-- **Novas rotas da API interna do PEP (`@pep/api`, *em implementação — a confirmar na integração*):**
+    - `identidade.ts` (*implementado na fatia G5*): schema de dados profissionais (`conselho`, `numeroConselho`, `ufConselho`, `cbo`).
+- **Novas rotas da API interna do PEP (`@pep/api`, *implementado*):**
   - `PUT /api/v1/atendimentos/{id}/indicacao-pedidos` (`DefinirIndicacaoPedidosSchema`, fatia G1)
   - `GET /api/v1/guias/{id}/sugestao-dados` (`SugestaoDadosGuiaSchema`, fatia G3)
   - `GET` / `PUT` `/api/v1/me/dados-profissionais` (dados profissionais e `cbo`, fatia G5)

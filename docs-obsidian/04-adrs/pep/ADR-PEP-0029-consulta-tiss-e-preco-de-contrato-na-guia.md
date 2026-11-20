@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: adr
-status: proposta
+status: aceita
 tags:
   - tissia
   - pep
@@ -17,7 +17,7 @@ aliases:
 
 # ADR-PEP-0029 — Consulta sempre cobrada (SP/SADT única ou Guia de Consulta separada por contrato) e preço só pelo contrato
 
-**Status:** Proposta — 20/11/2026 (branch `feat/guia-correcoes-a`; vira `aceita` somente no merge do código — ADRs aceitas são imutáveis)
+**Status:** Aceita — 20/11/2026 (implementada e validada no PR #31 do `tissia`; a partir do merge é imutável: mudanças só por nova ADR)
 **Relacionadas:** [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0017-orm-drizzle-rls|ADR-PEP-0017]], [[RFC-PEP-006-guias-e-lotes-tiss|RFC-PEP-006]], [[RFC-PEP-008-contratos|RFC-PEP-008]], [[fluxo-guia-consulta-exame-e-estados|Fluxo da guia: consulta + exame e estados]]
 
 ## Contexto
