@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: rascunho
+status: implementada
 tags:
   - tissia
   - pep
@@ -17,7 +17,7 @@ aliases:
 
 # RFC-PEP-022 — Triagem (pré-consulta), Check-out da Recepção e fronteira Médico × Faturista
 
-**Fase:** P2 (evolução operacional pós-P1) · **Status:** Rascunho · **ADRs:** [[ADR-PEP-0003-postgres-rls-multitenant|ADR-PEP-0003]], [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0014-convenio-e-particular-no-mvp|ADR-PEP-0014]], [[ADR-PEP-0017-orm-drizzle-rls|ADR-PEP-0017]], [[ADR-PEP-0031-separacao-papeis-checkout-recepcao-e-triagem|ADR-PEP-0031]]
+**Fase:** P2 (evolução operacional pós-P1) · **Status:** Implementada · **ADRs:** [[ADR-PEP-0003-postgres-rls-multitenant|ADR-PEP-0003]], [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0014-convenio-e-particular-no-mvp|ADR-PEP-0014]], [[ADR-PEP-0017-orm-drizzle-rls|ADR-PEP-0017]], [[ADR-PEP-0031-separacao-papeis-checkout-recepcao-e-triagem|ADR-PEP-0031]]
 **Telas:** 03 (Agenda — fila de triagem e painel de check-out), 05 (Prontuário — faixa de sinais vitais da triagem), 17 (Editor de guia — restrição ao faturista)
 **Requisitos:** RF-AGE-10..12, RF-PRO-11, RF-FIN-07 (propostos ao PRD-001)
 **Depende de:** [[RFC-PEP-001-identidade-e-acesso|RFC-PEP-001]], [[RFC-PEP-003-agenda|RFC-PEP-003]], [[RFC-PEP-004-prontuario|RFC-PEP-004]], [[RFC-PEP-010-financeiro-e-repasse|RFC-PEP-010]] (Fatia 1)
@@ -87,7 +87,14 @@ Mantém a máquina de estados principal da [[RFC-PEP-003-agenda|RFC-PEP-003]] (`
 
 ## Critérios de aceite
 
-- [ ] Usuário apenas com perfil `medico` não consegue chamar `POST /api/v1/guias/:id/revisoes` ou `transicoes` (`403 Forbidden`), mas visualiza guias na Mesa (se tiver `guias:ler`) e no Histórico de Guias do paciente (`GET /api/v1/pacientes/:id/guias`).
-- [ ] Recepcionista (`recepcao`) visualiza atendimento particular fechado na fila de Check-out da Agenda, registra recebimento, emite recibo PDF e agenda retorno sem precisar entrar em `/atendimento/:id`.
-- [ ] Enfermeira (`enfermagem`) registra sinais vitais para paciente em estado `chegou`; ao médico iniciar o atendimento, os sinais vitais aparecem automaticamente no topo de `Atendimento.tsx`.
-- [ ] RLS isolando `triagens` por `tenant_id` (teste com dois tenants).
+- [x] Usuário apenas com perfil `medico` não consegue chamar `POST /api/v1/guias/:id/revisoes` ou `transicoes` (`403 Forbidden`), mas visualiza guias na Mesa (se tiver `guias:ler`) e no Histórico de Guias do paciente (`GET /api/v1/pacientes/:id/guias`).
+- [x] Recepcionista (`recepcao`) visualiza atendimento particular fechado na fila de Check-out da Agenda, registra recebimento, emite recibo PDF e agenda retorno sem precisar entrar em `/atendimento/:id`.
+- [x] Enfermeira (`enfermagem`) registra sinais vitais para paciente em estado `chegou`; ao médico iniciar o atendimento, os sinais vitais aparecem automaticamente no topo de `Atendimento.tsx`.
+- [x] RLS isolando `triagens` por `tenant_id` (teste com dois tenants).
+
+## Notas de implementação
+
+- Implementada na branch `feat/fluxo-clinico-integrado` (`apps/api/drizzle/0049_triagem_e_destino_pedido.sql`).
+- `GET /api/v1/agendamentos/:id/triagem` exige `@RequerPermissao('prontuario:ler')` (concedida a `enfermagem`, `medico`, `gestor`, `admin` e `somente_leitura`, mantendo bloqueio `403` para `recepcao` e `faturista`).
+- A pré-seleção de `profissionalId` e `tipo: 'retorno'` em `CheckoutDrawer` -> `NovoAgendamentoModal` usa estado controlado para suportar carregamento assíncrono das opções da agenda.
+- Follow-up mapeado para E2E demo (`apps/e2e/specs-demo/lote.spec.ts`, `guia.spec.ts`, `fluxo-medico-faturista.spec.ts`, `mesa-medica-faturista.spec.ts`): specs da suíte demo que anteriormente exerciam `guias:escrever` com perfil `medico` precisam ser alinhados à fronteira do `ADR-PEP-0031` quando a stack Playwright demo for executada.
