@@ -439,3 +439,7 @@ Desvios registrados:
 
 - **Já entregue na fundação (`feat/guia-fundacao`, commit `dc4ae7b`):** coluna `contratos.codigo_contratado` (`text`, `CHECK` 1..20, migração `0047`), campo `codigoContratado` nos schemas `CriarContratoSchema`, `AtualizarContratoSchema`, `ContratoResumoSchema` (e `ContratoDetalheSchema`) em `@pep/contracts/contratos.ts`, e retorno em `ContratosService.resumo`.
 - **Intenção do plano em andamento (fatias G3 e G5 — *a confirmar na integração*):** persistência de `codigoContratado` na criação/atualização do contrato, campo editável na tela 21 (`Contratos.tsx`) e consulta pelo resolvedor de autopreenchimento da guia (`SugestaoDadosGuia`, campos 13/29 da SP/SADT e campo 9 da consulta) usando o contrato vigente na data do atendimento.
+
+**Consulta em guia separada (`consultaEmGuiaSeparada`, 20/11/2026, status: em implementação).** Ver [[ADR-PEP-0029-consulta-tiss-e-preco-de-contrato-na-guia|ADR-PEP-0029]].
+
+- `contratos.consulta_em_guia_separada boolean NOT NULL DEFAULT false` (migração 0048). `false` (padrão): atendimento com exames gera UMA SP/SADT com a consulta como linha; `true`: a operadora bloqueia consulta dentro da SP/SADT e nascem Guia de Consulta + SP/SADT. Aditivo em `Criar/AtualizarContrato` (default `false`), `ContratoResumo`/`ContratoDetalhe`; auditado com os demais campos (`contrato.criado`/`contrato.atualizado`); controle em `NovoContrato.tsx` e `Contratos.tsx` ("Consulta em guia separada (a operadora não aceita consulta dentro da SP/SADT)"). Demo: Operadora B com `true`, A, C e D com `false`.

@@ -46,6 +46,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[infraestrutura-oci-provisionamento-deploy|Infraestrutura OCI (sa-saopaulo-1) — Provisionamento e Deploy Always Free]]
 - [[refatoracao-oci-always-free-plano|Plano Técnico de Refatoração — Adaptação para OCI Always Free]]
 - [[plano-guia-indicacao-unica-e-autopreenchimento|Plano — Indicação clínica única (Campo 23) e autopreenchimento da guia SP/SADT]]
+- [[fluxo-guia-consulta-exame-e-estados|Fluxo da guia: consulta + exame, preço do contrato e estados]]
 
 ---
 
@@ -159,7 +160,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 
 ## 04 — ADRs
 
-### ADRs do PEP (`ADR-PEP-0001` .. `ADR-PEP-0028`)
+### ADRs do PEP (`ADR-PEP-0001` .. `ADR-PEP-0029`)
 
 - [[ADR-PEP-0001-repositorios|ADR-PEP-0001 — Repositórios separados]]
 - [[ADR-PEP-0002-backend-nestjs-monolito-modular|ADR-PEP-0002 — Backend NestJS monólito modular]]
@@ -189,6 +190,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[ADR-PEP-0026-seed-de-demonstracao-modular|ADR-PEP-0026 — Seed de demonstração modular e referências opcionais]]
 - [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027 — Indicação clínica única por atendimento (Campo 23)]]
 - [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028 — Resolvedor de dados da guia no servidor e cadastros de origem]]
+- [[ADR-PEP-0029-consulta-tiss-e-preco-de-contrato-na-guia|ADR-PEP-0029 — Consulta sempre cobrada (SP/SADT única ou separada por contrato) e preço só pelo contrato]]
 
 ### ADRs do Motor de IA (`ADR-IA-0001` .. `ADR-IA-0012`)
 
