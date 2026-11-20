@@ -288,3 +288,9 @@ Widget do shell (02) e cartão do painel do gestor (24) usam `GET /resumo` (valo
 4. **Fonte clínica** — pendências `tissia_ai_sugestao` (`guia_so_consulta`, `procedimento_nao_lancado`, `sem_guia` com TUSS da evolução), análise de atendimentos sem análise com `guia_id_reservado`, trecho no painel, decisões e feedback. Depende da Q7 e das tabelas de análise da RFC-PEP-005.
 5. **Particular e retorno pelo contrato** — `particular_sem_recibo` (consome `RecebimentoRegistrado`) e janela de retorno, prazo e preço vindos do contrato. Depende da RFC-PEP-010 fatia 1 (ADR-PEP-0014) e da RFC-PEP-008.
 6. **Recuperado e widgets** — "Recuperado este mês", `PendenciaCobrancaDecidida`, widget do shell (02) e cartão do painel do gestor (24). Depende da RFC-PEP-007.
+
+## Notas de alinhamento (20/11/2026)
+
+- **Alinhamento pós-`tissia#31`, `feat/guia-correcoes-int` e `tissia-workspace#2`:**
+  - Com a `ADR-PEP-0029` (consulta sempre cobrada em SP/SADT única ou Guia de Consulta separada), a nota em *Tipos de pendência* sobre "consulta de convênio sem pedido não gera guia" deixou de ocorrer para consultas novas, mantendo-se o cruzamento para atendimentos legados, procedimentos de consultório não lançados (`guia_so_consulta`) e itens sem preço no contrato (`itens_sem_preco`).
+  - A [[ADR-PEP-0030-separacao-pedido-externo-execucao-local-e-retorno|ADR-PEP-0030]] e a [[RFC-PEP-023-faturamento-clinico-execucao-vs-solicitacao-e-retorno|RFC-PEP-023]] endereçam diretamente as perguntas abertas **Q3, Q5, Q7 e Q8** desta RFC: pedidos marcados como `solicitacao_externa` não entram na guia faturável da clínica, e retornos fechados dentro de `dias_retorno` são reconhecidos como regulares sem gerar falso positivo `sem_guia`.
