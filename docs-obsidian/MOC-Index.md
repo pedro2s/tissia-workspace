@@ -87,7 +87,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[PRD-002-spike-standalone|PRD-002 — Spike como produto standalone]]
 - [[PRD-003-backoffice|PRD-003 — Backoffice interno]]
 
-### RFCs do PEP (`RFC-PEP-000` .. `RFC-PEP-023`)
+### RFCs do PEP (`RFC-PEP-000` .. `RFC-PEP-024`)
 
 - [[RFC-PEP-000-fundacoes|RFC-PEP-000 — Fundações e arquitetura de referência]]
 - [[RFC-PEP-001-identidade-e-acesso|RFC-PEP-001 — Identidade e acesso]]
@@ -113,6 +113,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[RFC-PEP-021-dados-de-referencia-ans|RFC-PEP-021 — Dados de referência da ANS]]
 - [[RFC-PEP-022-triagem-e-checkout-recepcao|RFC-PEP-022 — Triagem (pré-consulta), Check-out da Recepção e fronteira Médico × Faturista]]
 - [[RFC-PEP-023-faturamento-clinico-execucao-vs-solicitacao-e-retorno|RFC-PEP-023 — Separação Solicitação Externa × Execução na Unidade e Janela de Retorno]]
+- [[RFC-PEP-024-ux-escuta-revisao-e-documentos-clinicos|RFC-PEP-024 — Evolução de UX Clínica: Escuta Ambiental, Revisão, Documentos e Catálogos]]
 
 ### Operação, Planos e Marca (`PEP`)
 
