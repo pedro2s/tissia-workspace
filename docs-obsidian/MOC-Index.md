@@ -87,7 +87,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[PRD-002-spike-standalone|PRD-002 — Spike como produto standalone]]
 - [[PRD-003-backoffice|PRD-003 — Backoffice interno]]
 
-### RFCs do PEP (`RFC-PEP-000` .. `RFC-PEP-021`)
+### RFCs do PEP (`RFC-PEP-000` .. `RFC-PEP-023`)
 
 - [[RFC-PEP-000-fundacoes|RFC-PEP-000 — Fundações e arquitetura de referência]]
 - [[RFC-PEP-001-identidade-e-acesso|RFC-PEP-001 — Identidade e acesso]]
@@ -111,6 +111,8 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[RFC-PEP-019-backoffice-planos-e-cobranca|RFC-PEP-019 — Backoffice: planos e cobrança]]
 - [[RFC-PEP-020-backoffice-operacao-da-spike|RFC-PEP-020 — Backoffice: operação da Spike]]
 - [[RFC-PEP-021-dados-de-referencia-ans|RFC-PEP-021 — Dados de referência da ANS]]
+- [[RFC-PEP-022-triagem-e-checkout-recepcao|RFC-PEP-022 — Triagem (pré-consulta), Check-out da Recepção e fronteira Médico × Faturista]]
+- [[RFC-PEP-023-faturamento-clinico-execucao-vs-solicitacao-e-retorno|RFC-PEP-023 — Separação Solicitação Externa × Execução na Unidade e Janela de Retorno]]
 
 ### Operação, Planos e Marca (`PEP`)
 
@@ -160,7 +162,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 
 ## 04 — ADRs
 
-### ADRs do PEP (`ADR-PEP-0001` .. `ADR-PEP-0029`)
+### ADRs do PEP (`ADR-PEP-0001` .. `ADR-PEP-0031`)
 
 - [[ADR-PEP-0001-repositorios|ADR-PEP-0001 — Repositórios separados]]
 - [[ADR-PEP-0002-backend-nestjs-monolito-modular|ADR-PEP-0002 — Backend NestJS monólito modular]]
@@ -191,6 +193,8 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027 — Indicação clínica única por atendimento (Campo 23)]]
 - [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028 — Resolvedor de dados da guia no servidor e cadastros de origem]]
 - [[ADR-PEP-0029-consulta-tiss-e-preco-de-contrato-na-guia|ADR-PEP-0029 — Consulta sempre cobrada (SP/SADT única ou separada por contrato) e preço só pelo contrato]]
+- [[ADR-PEP-0030-separacao-pedido-externo-execucao-local-e-retorno|ADR-PEP-0030 — Separação entre solicitação externa e execução na unidade, e janela de retorno]]
+- [[ADR-PEP-0031-separacao-papeis-checkout-recepcao-e-triagem|ADR-PEP-0031 — Separação operacional entre Recepção (check-out), Enfermagem (triagem), Médico e Faturista]]
 
 ### ADRs do Motor de IA (`ADR-IA-0001` .. `ADR-IA-0012`)
 
