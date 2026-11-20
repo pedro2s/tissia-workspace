@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: rascunho
+status: implementada
 tags:
   - tissia
   - pep
@@ -17,7 +17,7 @@ aliases:
 
 # RFC-PEP-023 — Separação Solicitação Externa × Execução na Unidade e Janela de Retorno no Fechamento
 
-**Fase:** P2 (alinhamento clínico-financeiro pós-P1) · **Status:** Rascunho · **ADRs:** [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027]], [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028]], [[ADR-PEP-0029-consulta-tiss-e-preco-de-contrato-na-guia|ADR-PEP-0029]], [[ADR-PEP-0030-separacao-pedido-externo-execucao-local-e-retorno|ADR-PEP-0030]]
+**Fase:** P2 (alinhamento clínico-financeiro pós-P1) · **Status:** Implementada · **ADRs:** [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027]], [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028]], [[ADR-PEP-0029-consulta-tiss-e-preco-de-contrato-na-guia|ADR-PEP-0029]], [[ADR-PEP-0030-separacao-pedido-externo-execucao-local-e-retorno|ADR-PEP-0030]]
 **Telas:** 05 (Prontuário — pedidos de exame/procedimento), 08 (Documentos — guia de solicitação impressa), 16/17 (Mesa e Editor — apenas itens faturáveis da clínica), 21 (Contratos — `dias_retorno`)
 **Requisitos:** RF-PRO-06, RF-DOC-02, RF-FAT-01, RF-FAT-13, RF-CON-01
 **Depende de:** [[RFC-PEP-004-prontuario|RFC-PEP-004]], [[RFC-PEP-006-guias-e-lotes-tiss|RFC-PEP-006]], [[RFC-PEP-008-contratos|RFC-PEP-008]], [[RFC-PEP-009-receita-esquecida|RFC-PEP-009]]
@@ -76,7 +76,15 @@ Corrigir duas premissas do fechamento automático de guias consolidadas após `t
 
 ## Critérios de aceite
 
-- [ ] Consulta de convênio com 1 exame marcado como `solicitacao_externa` gera apenas 1 Guia de Consulta faturável (`10101012`) e permite imprimir a solicitação externa com Campo 23.
-- [ ] Consulta de convênio com 1 procedimento `execucao_unidade` + 1 exame `solicitacao_externa` fatura apenas a consulta + o procedimento local (respeitando `consulta_em_guia_separada`).
-- [ ] Atendimento de `retorno` em até `dias_retorno` dias de consulta anterior com o mesmo profissional fecha sem criar Guia de Consulta (nem recebível particular de consulta), salvo marcação explícita de cobrança.
-- [ ] Retrocompatibilidade: `POST /api/v1/atendimentos/:id/pedidos` sem campo `destino` continua funcionando com default `'solicitacao_externa'`.
+- [x] Consulta de convênio com 1 exame marcado como `solicitacao_externa` gera apenas 1 Guia de Consulta faturável (`10101012`) e permite imprimir a solicitação externa com Campo 23.
+- [x] Consulta de convênio com 1 procedimento `execucao_unidade` + 1 exame `solicitacao_externa` fatura apenas a consulta + o procedimento local (respeitando `consulta_em_guia_separada`).
+- [x] Atendimento de `retorno` em até `retorno_sem_cobranca_dias` dias de consulta anterior com o mesmo profissional fecha sem criar Guia de Consulta (nem recebível particular de consulta), salvo marcação explícita de cobrança.
+- [x] Retrocompatibilidade: `POST /api/v1/atendimentos/:id/pedidos` sem campo `destino` continua funcionando com default `'solicitacao_externa'`.
+
+## Notas de implementação
+
+- Implementada na branch `feat/fluxo-clinico-integrado` (`apps/api/drizzle/0049_triagem_e_destino_pedido.sql`).
+- Aproveitou-se a coluna já existente `contratos.retorno_sem_cobranca_dias` (`retornoSemCobrancaDias` em `@pep/contracts/contratos`) em vez de criar uma nova coluna `dias_retorno`.
+- `PedidoExameSchema.destino` foi mantido opcional no schema Zod de resposta para retrocompatibilidade de fixtures; no backend, a coluna `pedidos_exame.destino` tem `DEFAULT 'solicitacao_externa'` e sempre devolve `'solicitacao_externa' | 'execucao_unidade'`.
+- Em `Receita Esquecida` (`RFC-PEP-009`), a adaptação específica das métricas de retorno sem guia ficou pendente de fatia própria, caso necessário.
+- O spec demo `apps/e2e/specs-demo/fluxo-medico-faturista.spec.ts` deve passar a selecionar `Executado na clínica` no pedido de exame quando a suíte Playwright demo for atualizada.
