@@ -59,7 +59,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[validacao-integracao-tissia-ia|Roteiro de Validação da Integração]]
 - [[ensaios-postman-api-v1|Ensaios Postman API v1]]
 
-### Propostas de Evolução de Contrato (`SPK-01` .. `SPK-13`)
+### Propostas de Evolução de Contrato (`SPK-01` .. `SPK-14`)
 
 - [[SPK-01-api-de-clinicas-e-flags|SPK-01 — API de clínicas e flags]]
 - [[SPK-02-recurso-de-glosa|SPK-02 — Recurso de glosa assistido]]
@@ -74,6 +74,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[SPK-11-contratos-auditar-substituicao|SPK-11 — Semântica de substituição em contratos/auditar]]
 - [[SPK-12-desfecho-recurso-manual|SPK-12 — Desfecho de recurso manual sem sobrescrever o original]]
 - [[SPK-13-ingestao-mapa-guia-ref|SPK-13 — Mapa de numeroGuiaPrestador ↔ guia_ref na ingestão TISS]]
+- [[SPK-14-sugestao-de-codigos-e-indicacao-a-partir-da-evolucao|SPK-14 — Sugestão de CID, exames e indicação a partir da evolução, sem guia em rascunho]]
 
 ---
 
