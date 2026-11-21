@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: adr
-status: proposta
+status: aceita
 tags:
   - tissia
   - pep
@@ -19,7 +19,7 @@ aliases:
 
 # ADR-PEP-0034 — Evolução do Motor TISS: Autorização Prévia Ponta a Ponta, Fidelidade de Carteirinha, Outras Despesas, Multi-Versão e Precificação CBHPM/AMB
 
-**Status:** Proposta — 21/11/2026
+**Status:** Aceita — 21/11/2026
 **Relacionadas:** [[ADR-PEP-0012-motor-tiss|ADR-PEP-0012]], [[ADR-PEP-0024-dados-de-referencia-ans|ADR-PEP-0024]], [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027]], [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028]], [[ADR-PEP-0029-consulta-tiss-e-preco-de-contrato-na-guia|ADR-PEP-0029]], [[ADR-PEP-0030-separacao-pedido-externo-execucao-local-e-retorno|ADR-PEP-0030]], [[RFC-PEP-006-guias-e-lotes-tiss|RFC-PEP-006]], [[RFC-PEP-007-retorno-e-glosas|RFC-PEP-007]], [[RFC-PEP-008-contratos|RFC-PEP-008]], [[RFC-PEP-027-motor-tiss-autorizacao-outras-despesas-e-cbhpm|RFC-PEP-027]], [[SPK-09-catalogo-tuss|SPK-09]], [[SPK-15-metadados-modelo-resumo-soap-e-tabelas-tuss-despesas|SPK-15]]
 
 ## Contexto

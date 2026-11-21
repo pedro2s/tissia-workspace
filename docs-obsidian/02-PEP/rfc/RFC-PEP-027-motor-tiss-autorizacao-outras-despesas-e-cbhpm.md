@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: rascunho
+status: implementada
 tags:
   - tissia
   - pep
@@ -21,7 +21,7 @@ aliases:
 
 # RFC-PEP-027 — Motor TISS Completo: Autorização Prévia, Multi-Carteirinha, Multi-Versão, Outras Despesas, Recurso XML e CBHPM/AMB
 
-**Fase:** P2 — Onda B: Bloqueio de Glosa TISS SP/SADT · **Status:** Rascunho · **ADRs:** [[ADR-PEP-0003-postgres-rls-multitenant|ADR-PEP-0003]], [[ADR-PEP-0005-spike-adapter|ADR-PEP-0005]], [[ADR-PEP-0012-motor-tiss|ADR-PEP-0012]], [[ADR-PEP-0017-orm-drizzle-rls|ADR-PEP-0017]], [[ADR-PEP-0018-monorepo-pnpm-turborepo|ADR-PEP-0018]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0024-dados-de-referencia-ans|ADR-PEP-0024]], [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027]], [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028]], [[ADR-PEP-0029-consulta-tiss-e-preco-de-contrato-na-guia|ADR-PEP-0029]], [[ADR-PEP-0030-separacao-pedido-externo-execucao-local-e-retorno|ADR-PEP-0030]], [[ADR-PEP-0034-motor-tiss-autorizacao-outras-despesas-e-cbhpm|ADR-PEP-0034]]
+**Fase:** P2 — Onda B: Bloqueio de Glosa TISS SP/SADT · **Status:** Implementada (F1–F4 entregues em 21/11/2026) · **ADRs:** [[ADR-PEP-0003-postgres-rls-multitenant|ADR-PEP-0003]], [[ADR-PEP-0005-spike-adapter|ADR-PEP-0005]], [[ADR-PEP-0012-motor-tiss|ADR-PEP-0012]], [[ADR-PEP-0017-orm-drizzle-rls|ADR-PEP-0017]], [[ADR-PEP-0018-monorepo-pnpm-turborepo|ADR-PEP-0018]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0024-dados-de-referencia-ans|ADR-PEP-0024]], [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027]], [[ADR-PEP-0028-resolvedor-de-dados-da-guia|ADR-PEP-0028]], [[ADR-PEP-0029-consulta-tiss-e-preco-de-contrato-na-guia|ADR-PEP-0029]], [[ADR-PEP-0030-separacao-pedido-externo-execucao-local-e-retorno|ADR-PEP-0030]], [[ADR-PEP-0034-motor-tiss-autorizacao-outras-despesas-e-cbhpm|ADR-PEP-0034]]
 **Telas impactadas:** 03 (Agenda / Check-in), 05 (Atendimento / Sala de Procedimentos), 16 (Mesa do Faturista), 17 (Editor de Guia), 18 (Lotes TISS), 20 (Central de Glosas e Recursos), 21/22 (Contratos e Tabelas)
 **Depende de:** [[RFC-PEP-006-guias-e-lotes-tiss|RFC-PEP-006]], [[RFC-PEP-007-retorno-e-glosas|RFC-PEP-007]], [[RFC-PEP-008-contratos|RFC-PEP-008]], [[RFC-PEP-023-faturamento-clinico-execucao-vs-solicitacao-e-retorno|RFC-PEP-023]], [[SPK-09-catalogo-tuss|SPK-09]], [[SPK-15-metadados-modelo-resumo-soap-e-tabelas-tuss-despesas|SPK-15]]
 
@@ -638,34 +638,34 @@ CREATE POLICY p_int_tiss_logs_tenant ON integracao_tiss_logs
 ## 6. Critérios de Aceite Verificáveis
 
 ### Fatia F1
-- [ ] Paciente com 2 carteirinhas (A principal, B secundária) agendado com B gera atendimento, análise `tissia-ia` e guia vinculados à operadora B (`beneficiario_id = B`).
-- [ ] `PATCH /api/v1/agendamentos/:id/autorizacao` grava autorização aprovada e valida campos obrigatórios (HTTP `422` se `status = 'aprovada'` sem `dataAutorizacao` ou sem `senha`/`numeroGuiaOperadora`).
-- [ ] Guia SP/SADT com procedimento que exige autorização no contrato e sem senha (ou com senha vencida pela regra `dataValidadeSenha` / `validade_senha_dias`) retorna erro bloqueante (`severidade: 'erro'`) e recebe HTTP `422` ao tentar transicionar para `validada`.
-- [ ] XML gerado por `gerarLoteXml` para guia SP/SADT autorizada contém `<ans:dadosAutorizacao>` válido no XSD `4.03.00`.
-- [ ] Atendimento com Guia de Consulta + pedidos `solicitacao_externa` não polui a Guia de Consulta com risco/pendência dos exames externos.
+- [x] Paciente com 2 carteirinhas (A principal, B secundária) agendado com B gera atendimento, análise `tissia-ia` e guia vinculados à operadora B (`beneficiario_id = B`).
+- [x] `PATCH /api/v1/agendamentos/:id/autorizacao` grava autorização aprovada e valida campos obrigatórios (HTTP `422` se `status = 'aprovada'` sem `dataAutorizacao` ou sem `senha`/`numeroGuiaOperadora`).
+- [x] Guia SP/SADT com procedimento que exige autorização no contrato e sem senha (ou com senha vencida pela regra `dataValidadeSenha` / `validade_senha_dias`) retorna erro bloqueante (`severidade: 'erro'`) e recebe HTTP `422` ao tentar transicionar para `validada`.
+- [x] XML gerado por `gerarLoteXml` para guia SP/SADT autorizada contém `<ans:dadosAutorizacao>` válido no XSD `4.03.00`.
+- [x] Atendimento com Guia de Consulta + pedidos `solicitacao_externa` não polui a Guia de Consulta com risco/pendência dos exames externos.
 
 ### Fatia F2
-- [ ] `<ans:descricaoProcedimento>` no XML nunca contém `"Procedimento <codigo>"`; bloqueia com erro claro se não houver termo oficial disponível.
-- [ ] Lote gerado para contrato com `versao_tiss = '4.01.00'`, `'4.02.00'` ou `'4.03.00'` emite `<ans:Padrao>` correspondente e passa na validação do XSD daquela versão.
-- [ ] Guia com carteira vencida na `dataExecucao`, TUSS fora de vigência na Tabela 22 (`SPK-15`), Campo 23 vazio em SP/SADT com exames ou quantidade acima de `limitePorGuia` é bloqueada antes de entrar em lote.
-- [ ] Tentativa de validar guia ou gerar lote com `ref_campos_guia` vazia retorna HTTP `422` (sem degradação silenciosa).
-- [ ] `ContratosService.aplicarValores` grava `vigenciaInicio` igual à vigência da tabela publicada; `FaturamentoService.criarRascunho` respeita `contratos.prazo_envio_dias`.
-- [ ] XML SP/SADT serializa corretamente `horaInicial`, `horaFinal`, `viaAcesso`, `tecnicaUtilizada`, `reducaoAcrescimo` variável e `<ans:equipeSadt>` (`grauPart`) passando no XSD.
-- [ ] Botão `+ Procedimento` no `EditorGuia.tsx` adiciona novos códigos TUSS via busca incremental e `motivoCobrancaRetorno` fica persistido no banco ao cobrar retorno dentro da janela.
+- [x] `<ans:descricaoProcedimento>` no XML nunca contém `"Procedimento <codigo>"`; bloqueia com erro claro se não houver termo oficial disponível.
+- [x] Lote gerado para contrato com `versao_tiss = '4.01.00'`, `'4.02.00'` ou `'4.03.00'` emite `<ans:Padrao>` correspondente e passa na validação do XSD daquela versão (quando o pacote XSD correspondente está presente em `apps/api/ref/tiss/{versao}/`; caso ausente, recusa com HTTP `422` explícito).
+- [x] Guia com carteira vencida na `dataExecucao`, TUSS fora de vigência na Tabela 22 (`SPK-15`), Campo 23 vazio em SP/SADT com exames ou quantidade acima de `limitePorGuia` é bloqueada antes de entrar em lote.
+- [x] Tentativa de validar guia ou gerar lote com `ref_campos_guia` vazia retorna HTTP `422` (sem degradação silenciosa).
+- [x] `ContratosService.aplicarValores` grava `vigenciaInicio` igual à vigência da tabela publicada; `FaturamentoService.criarRascunho` respeita `contratos.prazo_envio_dias`.
+- [x] XML SP/SADT serializa corretamente `horaInicial`, `horaFinal`, `viaAcesso`, `tecnicaUtilizada`, `reducaoAcrescimo` variável e `<ans:equipeSadt>` (`grauPart`) passando no XSD.
+- [x] Botão `+ Procedimento` no `EditorGuia.tsx` adiciona novos códigos TUSS via busca incremental e `motivoCobrancaRetorno` fica persistido no banco ao cobrar retorno dentro da janela.
 
 ### Fatia F3
-- [ ] Despesas das Tabelas 18, 19 e 20 lançadas na sala de procedimentos migram para `guia_despesas`, são serializadas em `<ans:outrasDespesas>` e somadas corretamente por categoria em `<ans:valorTotal>`, passando no XSD oficial.
-- [ ] Lote de recurso com `formato = 'xml_tiss'` gera XML `RECURSO_GLOSA` (`ctm_recursoGlosa`) com hash MD5 válido e aprovado no XSD da versão do contrato.
-- [ ] PDF do pacote de recurso suporta textos extensos (ex.: 150 linhas e parágrafos com > 200 caracteres) em múltiplas páginas sem qualquer truncamento.
-- [ ] Parser `retorno-xml.ts` preserva integralmente múltiplas `<relacaoGlosa>` em um mesmo item, gravando todas em `retorno_item_glosas`.
-- [ ] Cálculo de prazo de recurso respeita `dias_uteis` vs `dias_corridos` e dispara alertas `D-5`, `D-2`, `D-0` de forma idempotente.
+- [x] Despesas das Tabelas 18, 19 e 20 lançadas na sala de procedimentos migram para `guia_despesas`, são serializadas em `<ans:outrasDespesas>` e somadas corretamente por categoria em `<ans:valorTotal>`, passando no XSD oficial.
+- [x] Lote de recurso com `formato = 'xml_tiss'` gera XML `RECURSO_GLOSA` (`ctm_recursoGlosa`) com hash MD5 válido e aprovado no XSD da versão do contrato.
+- [x] PDF do pacote de recurso suporta textos extensos (ex.: 150 linhas e parágrafos com > 200 caracteres) em múltiplas páginas sem qualquer truncamento.
+- [x] Parser `retorno-xml.ts` preserva integralmente múltiplas `<relacaoGlosa>` em um mesmo item, gravando todas em `retorno_item_glosas`.
+- [x] Cálculo de prazo de recurso respeita `dias_uteis` vs `dias_corridos` e dispara alertas `D-5`, `D-2`, `D-0` de forma idempotente.
 
 ### Fatia F4
-- [ ] Contrato configurado em modelo `cbhpm` ou `amb` calcula corretamente `valorUnitarioCentavos` (Porte/CH + UCO + Filme + Banda + auxiliares + urgência) com testes unitários determinísticos de centavos.
-- [ ] `ServicoWebserviceTiss` está isolado em `apps/api/src/modulos/integracoes/`, sem violação de fronteiras (`pnpm deps` verde) e sem logar PII em `integracao_tiss_logs`.
+- [x] Contrato configurado em modelo `cbhpm` ou `amb` calcula corretamente `valorUnitarioCentavos` (Porte/CH + UCO + Filme + Banda + auxiliares + urgência) com testes unitários determinísticos de centavos.
+- [x] `ServicoWebserviceTiss` está isolado em `apps/api/src/modulos/integracoes/`, sem violação de fronteiras (`pnpm deps` verde) e sem logar PII em `integracao_tiss_logs`.
 
 ### Verificação transversal obrigatória (todas as fatias)
-- [ ] `pnpm typecheck`, `pnpm test`, `pnpm deps`, `pnpm --filter @pep/api openapi` e testes de isolamento RLS entre tenants passam integralmente.
+- [x] `pnpm typecheck`, `pnpm test`, `pnpm deps`, `pnpm --filter @pep/api openapi` e testes de isolamento RLS entre tenants passam integralmente.
 
 ---
 
@@ -684,3 +684,19 @@ CREATE POLICY p_int_tiss_logs_tenant ON integracao_tiss_logs
 2. **Q2 (`[validar com piloto]`):** A enfermagem / técnico de sala deve ter permissão própria (`despesas:registrar`) para lançar materiais e medicamentos consumidos em sala sem precisar de `prontuario:escrever` (alinhado à [[ADR-PEP-0031-separacao-papeis-checkout-recepcao-e-triagem|ADR-PEP-0031]])? Recomendação arquitetural: **sim**.
 3. **Q3 (`[validar com piloto]`):** Para acréscimo de urgência (30%) em contratos CBHPM, as operadoras do piloto preferem o fator refletido em `<ans:reducaoAcrescimo>1.30</ans:reducaoAcrescimo>` com `valorUnitario` base, ou `reducaoAcrescimo = 1.00` com `valorUnitario` já acrescido? O modelo de F4 deve permitir parametrizar essa opção por contrato se houver divergência entre operadoras.
 4. **Q4 (`[validar]`):** Conferência final do algoritmo de `hashTiss` (MD5 ISO-8859-1) tanto para `ENVIO_LOTE_GUIAS` quanto para `RECURSO_GLOSA` contra um arquivo de referência validado por portal oficial de operadora ou pelo projeto de referência `tiss` (apenas em CI, conforme [[ADR-PEP-0012-motor-tiss|ADR-PEP-0012]]).
+
+---
+
+## Notas de implementação
+
+Implementada integralmente em 21/11/2026 nas 4 fatias (`F1`–`F4`), consolidada na migração aditiva `0053_rfc027_schema.sql` (com RLS automática via `drizzle/rls/rls.sql` para todas as novas tabelas com `tenant_id`):
+
+- **F1 (Autorização prévia e multi-carteirinha):**
+  - Colunas de autorização em `agendamentos`, `beneficiario_id` em `atendimentos`, endpoint `PATCH /api/v1/agendamentos/:id/autorizacao` com auditoria `agenda.autorizacao_atualizada`, autopreenchimento com origem `'agendamento'` em `DadosGuiaService.resolver`, serialização de `<ans:dadosAutorizacao>` (`ct_autorizacaoSADT`) em `lote-xml.ts`, resolução do caráter real de atendimento pela Tabela 23 em `ref_dominios_tiss`, bloqueios (`severidade: 'erro'`) para senha ausente/vencida/sem `dataAutorizacao`, e isolamento de alertas `solicitacao_externa` fora da Guia de Consulta pura.
+- **F2 (Multi-versão TISS, descrição TUSS real, execução SP/SADT completa e validações pré-lote):**
+  - `tiss-xsd.ts` com cache `Map<VersaoTissSuportada, XsdValidator>` por versão (`4.01.00`, `4.02.00`, `4.03.00`); como apenas o pacote XSD oficial `4.03.00` está embarcado no repositório atualmente (regra de nunca inventar XSD), solicitações de validação em versões sem pacote XSD em disco retornam HTTP `422` explícito (sem degradação silenciosa).
+  - Resolução determinística de `<ans:descricaoProcedimento>` (proibindo `"Procedimento XXXXXXXX"`), serialização completa de horários, `viaAcesso`, `tecnicaUtilizada`, `reducaoAcrescimo` e `<ans:equipeSadt>` (`ct_identEquipeSADT`), validações bloqueantes (`validadeCarteira`, `!referenciaCarregada` -> `422`, Campo 23 em SP/SADT com exames, `limitePorGuia`, `pacotes` e vigência Tabela 22 via `CatalogoService` com fallback `aviso` quando `tissia-ia` indisponível), persistência de `motivo_cobranca_retorno`, correções em `ContratosService.aplicarValores` e `FaturamentoService.criarRascunho` (`prazo_envio_dias` com fallback `5`), e habilitação do botão `+ Procedimento` no `EditorGuia.tsx`.
+- **F3 (`<ans:outrasDespesas>`, Recurso de Glosa XML TISS, PDF multipágina, múltiplas `<relacaoGlosa>` e prazos em dias úteis):**
+  - Tabelas `atendimento_despesas`, `guia_despesas` e `retorno_item_glosas`; endpoints `GET/POST/DELETE /api/v1/atendimentos/:id/despesas`; serialização de `<ans:outrasDespesas>` (Tabelas 18/19/20) e totalizadores segregados em `<ans:valorTotal>`; gerador puro `gerarLoteRecursoXml` (`RECURSO_GLOSA` / `ctm_recursoGlosa`) com endpoint `GET /api/v1/lotes-recurso/:id/xml`; gerador PDF multipágina com word-wrap (`gerarPdfMultipagina`); preservação de todas as `<relacaoGlosa>` por item no retorno; e suporte a `prazo_recurso_tipo_dias` (`corridos | uteis`) com classificação idempotente de alertas `D-5`/`D-2`/`D-0`/`vencida`.
+- **F4 (Precificação referencial CBHPM/AMB/Brasíndice/Simpro e porta Webservice TISS):**
+  - Tabela `contrato_regras_precificacao` e colunas referenciais em `tabela_negociada_itens`; função pura `calcularPrecoReferencialCentavos` em `@pep/contracts` com simulador interativo na tela de Contratos; precedência explícita em `ContratosService.precoFaturamento` (`precos_faturamento` > regra referencial > `null`); e porta hexagonal `ServicoWebserviceTiss` com `PortalManualWebserviceAdapter` e telemetria zero-PII em `integracao_tiss_logs`.
