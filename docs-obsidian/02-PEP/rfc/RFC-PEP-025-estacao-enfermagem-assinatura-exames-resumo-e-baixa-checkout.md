@@ -19,10 +19,11 @@ aliases:
 
 # RFC-PEP-025 — Estação Dedicada de Enfermagem, Assinatura de Pedidos de Exame, Resumo IA fora da Escuta e Baixa de Check-out
 
-**Fase:** P2 (evolução pós-RFC-024) · **Status:** Rascunho · **ADRs:** [[ADR-PEP-0003-postgres-rls-multitenant|ADR-PEP-0003]], [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0024-bases-ans-vigentes-sem-inventar-codigos|ADR-PEP-0024]], [[ADR-PEP-0030-separacao-pedido-externo-execucao-local-e-retorno|ADR-PEP-0030]], [[ADR-PEP-0031-separacao-papeis-checkout-recepcao-e-triagem|ADR-PEP-0031]]
+**Fase:** P2 (evolução pós-RFC-024; Onda C do plano pós-auditoria) · **Status:** Rascunho · **ADRs:** [[ADR-PEP-0003-postgres-rls-multitenant|ADR-PEP-0003]], [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0024-dados-de-referencia-ans|ADR-PEP-0024]], [[ADR-PEP-0030-separacao-pedido-externo-execucao-local-e-retorno|ADR-PEP-0030]], [[ADR-PEP-0031-separacao-papeis-checkout-recepcao-e-triagem|ADR-PEP-0031]]
 **Telas:** 03 (Agenda — check-out com baixa), 05/08 (Documentos — assinatura/impressão de pedidos de exame e resumo IA), nova tela dedicada `/triagem` (Estação de Enfermagem)
 **Requisitos:** RF-AGE-10..13, RF-PRO-11, RF-DOC-02, RF-DOC-05..07
-**Depende de:** [[RFC-PEP-022-triagem-e-checkout-recepcao|RFC-PEP-022]], [[RFC-PEP-023-faturamento-clinico-execucao-vs-solicitacao-e-retorno|RFC-PEP-023]], [[RFC-PEP-024-ux-escuta-revisao-e-documentos-clinicos|RFC-PEP-024]]
+**Depende de:** [[RFC-PEP-022-triagem-e-checkout-recepcao|RFC-PEP-022]], [[RFC-PEP-023-faturamento-clinico-execucao-vs-solicitacao-e-retorno|RFC-PEP-023]], [[RFC-PEP-024-ux-escuta-revisao-e-documentos-clinicos|RFC-PEP-024]], [[SPK-15-metadados-modelo-resumo-soap-e-tabelas-tuss-despesas|SPK-15]] (Parte 3 — Resumo IA a partir do SOAP)
+**Relacionadas (Pós-Auditoria):** [[auditoria-clinica-regulatoria-ux-2026-11|Auditoria Clínica, Regulatória e UX (Nov/2026)]], [[RFC-PEP-026-blindagem-regulatoria-autoria-sigilo-e-governanca-ia|RFC-PEP-026]] (sigilo `documentos:imprimir_checkout`, versão append-only de triagens, segurança de alergias e validade documental), [[RFC-PEP-027-motor-tiss-autorizacao-outras-despesas-e-cbhpm|RFC-PEP-027]], [[RFC-PEP-028-jornada-hibrida-grande-clinica-e-sae-enfermagem|RFC-PEP-028]] (evolução SAE/COFEN e Sala de Medicação sobre `/triagem`), [[RFC-PEP-029-ergonomia-clinica-resiliencia-e-aceleradores-produtividade|RFC-PEP-029]] (impressão consolidada no check-out e impressão de resumo)
 
 ## Contexto e Motivação
 

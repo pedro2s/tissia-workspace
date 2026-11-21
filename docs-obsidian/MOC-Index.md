@@ -60,7 +60,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[validacao-integracao-tissia-ia|Roteiro de Validação da Integração]]
 - [[ensaios-postman-api-v1|Ensaios Postman API v1]]
 
-### Propostas de Evolução de Contrato (`SPK-01` .. `SPK-14`)
+### Propostas de Evolução de Contrato (`SPK-01` .. `SPK-15`)
 
 - [[SPK-01-api-de-clinicas-e-flags|SPK-01 — API de clínicas e flags]]
 - [[SPK-02-recurso-de-glosa|SPK-02 — Recurso de glosa assistido]]
@@ -76,6 +76,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[SPK-12-desfecho-recurso-manual|SPK-12 — Desfecho de recurso manual sem sobrescrever o original]]
 - [[SPK-13-ingestao-mapa-guia-ref|SPK-13 — Mapa de numeroGuiaPrestador ↔ guia_ref na ingestão TISS]]
 - [[SPK-14-sugestao-de-codigos-e-indicacao-a-partir-da-evolucao|SPK-14 — Sugestão de CID, exames e indicação a partir da evolução, sem guia em rascunho]]
+- [[SPK-15-metadados-modelo-resumo-soap-e-tabelas-tuss-despesas|SPK-15 — Metadados de modelo/prompt, resumo a partir do SOAP e tabelas TUSS 18/19/20]]
 
 ---
 
@@ -87,7 +88,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[PRD-002-spike-standalone|PRD-002 — Spike como produto standalone]]
 - [[PRD-003-backoffice|PRD-003 — Backoffice interno]]
 
-### RFCs do PEP (`RFC-PEP-000` .. `RFC-PEP-025`)
+### RFCs do PEP (`RFC-PEP-000` .. `RFC-PEP-029`)
 
 - [[RFC-PEP-000-fundacoes|RFC-PEP-000 — Fundações e arquitetura de referência]]
 - [[RFC-PEP-001-identidade-e-acesso|RFC-PEP-001 — Identidade e acesso]]
@@ -115,9 +116,14 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[RFC-PEP-023-faturamento-clinico-execucao-vs-solicitacao-e-retorno|RFC-PEP-023 — Separação Solicitação Externa × Execução na Unidade e Janela de Retorno]]
 - [[RFC-PEP-024-ux-escuta-revisao-e-documentos-clinicos|RFC-PEP-024 — Evolução de UX Clínica: Escuta Ambiental, Revisão, Documentos e Catálogos]]
 - [[RFC-PEP-025-estacao-enfermagem-assinatura-exames-resumo-e-baixa-checkout|RFC-PEP-025 — Estação Dedicada de Enfermagem, Assinatura de Pedidos de Exame, Resumo IA e Baixa de Check-out]]
+- [[RFC-PEP-026-blindagem-regulatoria-autoria-sigilo-e-governanca-ia|RFC-PEP-026 — Blindagem Regulatória: Autoria, Sigilo, Trilha Selada, LGPD e Governança de IA]]
+- [[RFC-PEP-027-motor-tiss-autorizacao-outras-despesas-e-cbhpm|RFC-PEP-027 — Motor TISS SP/SADT Completo: Autorização, Outras Despesas, Multi-Versão e CBHPM]]
+- [[RFC-PEP-028-jornada-hibrida-grande-clinica-e-sae-enfermagem|RFC-PEP-028 — Jornada Híbrida Real (Particular × Convênio), Grande Clínica e SAE/Enfermagem]]
+- [[RFC-PEP-029-ergonomia-clinica-resiliencia-e-aceleradores-produtividade|RFC-PEP-029 — Ergonomia Clínica, Resiliência Anti-Perda de Dados e Aceleradores de Produtividade]]
 
 ### Operação, Planos e Marca (`PEP`)
 
+- [[auditoria-clinica-regulatoria-ux-2026-11|Auditoria Clínica, Regulatória e UX (Nov/2026) — Diagnóstico e Roadmap de Evolução]]
 - [[release-plan-pep|Release Plan do PEP]]
 - [[test-plan-pep|Test Plan do PEP]]
 - [[demo|Ambiente de Demonstração (Docker Compose + Caddy)]]
@@ -164,7 +170,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 
 ## 04 — ADRs
 
-### ADRs do PEP (`ADR-PEP-0001` .. `ADR-PEP-0031`)
+### ADRs do PEP (`ADR-PEP-0001` .. `ADR-PEP-0035`)
 
 - [[ADR-PEP-0001-repositorios|ADR-PEP-0001 — Repositórios separados]]
 - [[ADR-PEP-0002-backend-nestjs-monolito-modular|ADR-PEP-0002 — Backend NestJS monólito modular]]
@@ -197,6 +203,10 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[ADR-PEP-0029-consulta-tiss-e-preco-de-contrato-na-guia|ADR-PEP-0029 — Consulta sempre cobrada (SP/SADT única ou separada por contrato) e preço só pelo contrato]]
 - [[ADR-PEP-0030-separacao-pedido-externo-execucao-local-e-retorno|ADR-PEP-0030 — Separação entre solicitação externa e execução na unidade, e janela de retorno]]
 - [[ADR-PEP-0031-separacao-papeis-checkout-recepcao-e-triagem|ADR-PEP-0031 — Separação operacional entre Recepção (check-out), Enfermagem (triagem), Médico e Faturista]]
+- [[ADR-PEP-0032-autoria-clinica-sigilo-e-trilha-selada-obrigatoria|ADR-PEP-0032 — Autoria clínica estrita, sigilo por papel e trilha selada obrigatória]]
+- [[ADR-PEP-0033-governanca-ia-cfm-2454-e-seguranca-prescricao|ADR-PEP-0033 — Governança de IA (CFM 2.454/2026) e segurança determinística na prescrição]]
+- [[ADR-PEP-0034-motor-tiss-autorizacao-outras-despesas-e-cbhpm|ADR-PEP-0034 — Motor TISS SP/SADT: autorização prévia, despesas acessórias, multi-versão e CBHPM]]
+- [[ADR-PEP-0035-conta-hibrida-por-item-e-processo-enfermagem-sae|ADR-PEP-0035 — Conta híbrida por item e segregação formal do Processo de Enfermagem (SAE/COFEN)]]
 
 ### ADRs do Motor de IA (`ADR-IA-0001` .. `ADR-IA-0012`)
 
