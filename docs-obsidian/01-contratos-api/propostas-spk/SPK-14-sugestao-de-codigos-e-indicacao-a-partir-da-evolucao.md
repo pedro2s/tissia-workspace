@@ -1,7 +1,7 @@
 ---
 projeto: ecossistema
 tipo: spk
-status: proposta
+status: implementada
 tags:
   - tissia
   - ecossistema
@@ -15,7 +15,7 @@ origem: fatia B da rodada de correções da guia (sugestão proativa durante o a
 
 # SPK-14 — Sugestão de CID, exames (TUSS) e indicação clínica a partir da evolução, sem guia em rascunho
 
-**Status:** Proposta · **Destino:** repo `tissia-ai` · **Necessária para:** sugestão proativa durante o atendimento no PEP ([[RFC-PEP-005-spike-adapter|RFC-PEP-005]], [[RFC-PEP-004-prontuario|RFC-PEP-004]]) e para atender também o atendimento **particular**
+**Status:** Implementada na `tissia-ia` (PR `pedro2s/tissia-ai#9`) · **Destino:** repo `tissia-ai` · **Necessária para:** sugestão proativa durante o atendimento no PEP ([[RFC-PEP-005-spike-adapter|RFC-PEP-005]], [[RFC-PEP-004-prontuario|RFC-PEP-004]]) e para atender também o atendimento **particular**
 
 ## Problema
 
@@ -76,3 +76,10 @@ A proposta do produto é auxiliar o médico **durante** o atendimento: a partir 
 - Rota nova em `/v1/guias` ou `/v1/consultas` (a sugestão é anterior à guia; a semelhança com `/v1/consultas/estruturar` é só no insumo, texto da consulta).
 - Aceitar o `evolucao_clinica` com o mesmo limite de 20.000 caracteres e o corpo com o mesmo teto de 64 KB.
 - Se o feedback entra na mesma tabela de `decisoes` ou em tabela própria (o BI do PEP lê `analises` e `decisoes`).
+
+## Notas de implementação
+
+- Implementada em `tissia-ia` (`feat/spk-14-guias-sugerir`, PR `pedro2s/tissia-ai#9`):
+  - Endpoints `POST /v1/guias/sugerir` (`200 OK`) e `POST /v1/guias/sugerir/{sugestao_id}/feedback` (`204 No Content`).
+  - Suporta `operadora` opcional (atende atendimentos particulares e convênios sem inventar `registro_ans`), scrubber de PII em `evolucao_clinica`, validação de códigos contra `data/` (`ADR-IA-0008`), `metadados_ia` (`ADR-IA-0010`) e persistência separada de `analises`.
+  - Suíte `pytest` (`192 passed`) e `ruff check .` / `ruff format --check .` verdes.
