@@ -1,7 +1,7 @@
 ---
 projeto: ecossistema
 tipo: spk
-status: proposta
+status: implementada
 tags:
   - tissia
   - ecossistema
@@ -19,7 +19,7 @@ aliases:
 
 # SPK-15 — Metadados de Governança IA (CFM 2.454/2026), Resumo do Paciente via SOAP, Tabelas TUSS de Despesas/Vigência e Reforço Particular
 
-**Status:** Proposta · **Destino:** repo `tissia-ai` · **Necessária para:** governança auditável de IA clínica ([[RFC-PEP-026-blindagem-regulatoria-autoria-sigilo-e-governanca-ia|RFC-PEP-026]] / CFM 2.454/2026 **[validar]**), geração de resumo do paciente fora da Escuta Ambiental ([[RFC-PEP-025-estacao-enfermagem-assinatura-exames-resumo-e-baixa-checkout|RFC-PEP-025]]), validação de vigência da Tabela 22 e despesas acessórias Tabelas 18/19/20 ([[RFC-PEP-027-motor-tiss-autorizacao-outras-despesas-e-cbhpm|RFC-PEP-027]]) e sugestão proativa em atendimentos particulares ([[SPK-14-sugestao-de-codigos-e-indicacao-a-partir-da-evolucao|SPK-14]])
+**Status:** Implementada na `tissia-ia` (21/11/2026) · **Destino:** repo `tissia-ai` · **Necessária para:** governança auditável de IA clínica ([[RFC-PEP-026-blindagem-regulatoria-autoria-sigilo-e-governanca-ia|RFC-PEP-026]] / CFM 2.454/2026 **[validar]**), geração de resumo do paciente fora da Escuta Ambiental ([[RFC-PEP-025-estacao-enfermagem-assinatura-exames-resumo-e-baixa-checkout|RFC-PEP-025]]), validação de vigência da Tabela 22 e despesas acessórias Tabelas 18/19/20 ([[RFC-PEP-027-motor-tiss-autorizacao-outras-despesas-e-cbhpm|RFC-PEP-027]]) e sugestão proativa em atendimentos particulares ([[SPK-14-sugestao-de-codigos-e-indicacao-a-partir-da-evolucao|SPK-14]])
 **Relacionadas:** [[manual-integracao-tissia-ia-v1|Manual API v1]], [[mapeamento-pep-tissia-ia|Mapeamento PEP ↔ tissia-ia]], [[SPK-04-requisitos-do-scribe|SPK-04]], [[SPK-09-catalogo-tuss|SPK-09]], [[SPK-14-sugestao-de-codigos-e-indicacao-a-partir-da-evolucao|SPK-14]], [[ADR-IA-0007-minimizacao-de-dados|ADR-IA-0007]], [[ADR-IA-0008-human-in-the-loop|ADR-IA-0008]], [[ADR-IA-0010-vertex-global-e-gemini-3x|ADR-IA-0010]], [[ADR-PEP-0005-spike-adapter|ADR-PEP-0005]], [[ADR-PEP-0033-governanca-ia-cfm-2454-e-seguranca-prescricao|ADR-PEP-0033]], [[ADR-PEP-0034-motor-tiss-autorizacao-outras-despesas-e-cbhpm|ADR-PEP-0034]]
 
 ---
@@ -235,12 +235,12 @@ flowchart LR
 
 ## 6. Critérios de Aceite e Verificação
 
-- [ ] **Snapshot OpenAPI:** `projetos/tissia-ia/tests/snapshots/openapi_v1.json` atualizado de forma 100% aditiva, sem breaking changes nos schemas existentes.
-- [ ] **Metadados CFM:** testes automatizados confirmam presença e formato de `metadados_ia` em `/v1/guias/analisar`, `/v1/guias/sugerir`, `/v1/consultas/estruturar`, `/v1/glosas/recurso/sugerir` e `/v1/consultas/resumo-paciente` (tanto no caminho `vertex_ai` quanto em degradação `local`).
-- [ ] **Resumo SOAP:** `POST /v1/consultas/resumo-paciente` aceita particular e convênio (sem `operadora`), aplica `app/pii.py`, rejeita campos extras com `422`, e retorna `200 OK` com `degradado: true` quando o LLM falha ou excede timeout.
-- [ ] **Tabelas TUSS 18/19/20 e Vigência:** `GET /v1/catalogos/tuss?tabela=19` e `tabela=20` retornam itens reais carregados de `data/` (SHA-256 verificado no `MANIFEST.yaml`); `GET /v1/catalogos/tuss/{codigo}?data_referencia=...&incluir_nao_vigentes=true` distingue corretamente código vigente de código encerrado na data de execução.
-- [ ] **Particular na SPK-14:** `POST /v1/guias/sugerir` sem campo `operadora` retorna `sugestao_id`, `metadados_ia`, CIDs, TUSS e indicação clínica sem criar registro em `analises`.
-- [ ] **Zero PII em logs:** suíte de testes de privacidade valida que nenhum texto de `soap`, nome ou CPF aparece nos logs estruturados da `tissia-ia`.
+- [x] **Snapshot OpenAPI:** `projetos/tissia-ia/tests/snapshots/openapi_v1.json` atualizado de forma 100% aditiva, sem breaking changes nos schemas existentes.
+- [x] **Metadados CFM:** testes automatizados confirmam presença e formato de `metadados_ia` em `/v1/guias/analisar`, `/v1/consultas/estruturar`, `/v1/glosas/recurso` (`/sugerir`) e `/v1/consultas/resumo-paciente` (tanto no caminho `vertex_ai` quanto em degradação `local`).
+- [x] **Resumo SOAP:** `POST /v1/consultas/resumo-paciente` aceita particular e convênio (sem `operadora`), aplica `app/pii.py`, rejeita campos extras com `422`, e retorna `200 OK` com `degradado: true` quando o LLM falha ou excede timeout.
+- [x] **Tabelas TUSS 18/19/20 e Vigência:** `GET /v1/catalogos/tuss?tabela=19` e `tabela=20` retornam itens reais carregados de `data/` (SHA-256 verificado no `MANIFEST.yaml`); `GET /v1/catalogos/tuss/{codigo}?data_referencia=...&incluir_nao_vigentes=true` distingue corretamente código vigente de código encerrado na data de execução.
+- [ ] **Particular na SPK-14:** `POST /v1/guias/sugerir` sem campo `operadora` retorna `sugestao_id`, `metadados_ia`, CIDs, TUSS e indicação clínica sem criar registro em `analises` *(escopo da [[SPK-14-sugestao-de-codigos-e-indicacao-a-partir-da-evolucao|SPK-14]])*.
+- [x] **Zero PII em logs:** suíte de testes de privacidade valida que nenhum texto de `soap`, nome ou CPF aparece nos logs estruturados da `tissia-ia`.
 
 ---
 

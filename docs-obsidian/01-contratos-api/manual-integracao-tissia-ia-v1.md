@@ -579,12 +579,12 @@ Cruza a lista de atendimentos realizados na agenda do sistema integrador contra 
 }
 ```
 
-### 5.7 Catálogo de Terminologia TUSS e CID-10 (`GET /v1/catalogos/*` — RFC-011 / SPK-09)
+### 5.7 Catálogo de Terminologia TUSS e CID-10 (`GET /v1/catalogos/*` — RFC-011 / SPK-09 / SPK-15)
 
-Permite ao PEP listar, buscar incrementalmente (autocomplete por prefixo de código ou termo normalizado sem acento/caixa e com expansão de siglas) e consultar detalhes de códigos TUSS e CID-10 a partir da mesma base vigente que alimenta o motor anti-glosa e o RAG.
+Permite ao PEP listar, buscar incrementalmente (autocomplete por prefixo de código ou termo normalizado sem acento/caixa e com expansão de siglas) e consultar detalhes e vigência de códigos TUSS e CID-10 a partir da mesma base vigente que alimenta o motor anti-glosa e o RAG.
 
-- `GET /v1/catalogos/tuss?q=<texto|código>&limit=20&tabela=22` → `{ "itens": [{ "codigo_tuss", "termo", "grupo", "tem_dut" }], "versao_bases" }` (`limit` de `1` a `50`; `tabela` aceita `"18" | "19" | "20" | "22" | "23" | "36" | "38" | "50"`)
-- `GET /v1/catalogos/tuss/{codigo}?tabela=22` → `{ "codigo_tuss", "termo", "grupo", "tem_dut", "numero_dut", "titulo_dut", "criterios_dut": [{ "id", "texto" }], "versao_bases" }`
+- `GET /v1/catalogos/tuss?q=<texto|código>&limit=20&tabela=22&data_referencia=YYYY-MM-DD&incluir_nao_vigentes=false` → `{ "itens": [{ "codigo_tuss", "termo", "grupo", "tem_dut", "tabela", "vigencia_inicio", "vigencia_fim", "vigente_na_data", "unidade_medida_padrao" }], "versao_bases" }` (`limit` de `1` a `50`; `tabela` aceita `"18" | "19" | "20" | "22" | "23" | "36" | "38" | "50"`; `data_referencia` opcional em formato `YYYY-MM-DD`, padrão data atual em `America/Sao_Paulo`; `incluir_nao_vigentes` booleano, padrão `false`)
+- `GET /v1/catalogos/tuss/{codigo}?tabela=22&data_referencia=YYYY-MM-DD&incluir_nao_vigentes=false` → `{ "codigo_tuss", "termo", "grupo", "tem_dut", "numero_dut", "titulo_dut", "criterios_dut": [{ "id", "texto" }], "tabela", "vigencia_inicio", "vigencia_fim", "vigente_na_data", "unidade_medida_padrao", "versao_bases" }`
 - `GET /v1/catalogos/cid?q=<texto|código>&limit=20` → `{ "itens": [{ "codigo_cid", "termo" }], "versao_bases" }`
 - `GET /v1/catalogos/cid/{codigo}` → `{ "codigo_cid", "termo", "restricao_sexo", "versao_bases" }`
 
@@ -624,6 +624,13 @@ Sem IA: `200 OK` com `degradado: true`, `provedor: "local"` e apenas o `pedido_e
 
 - `POST /v1/consultas/estruturar` devolve `estruturacao_id`. O servidor guarda só metadados (contagens, provedor, latência), nunca transcrição, SOAP, campos ou resumo. A clínica segue a mesma política de `analisar` (`exigir_clinica_cadastrada` → `404 clinica_nao_cadastrada`; desativada → `404 clinica_desativada`).
 - Feedback: mesmo corpo de `/v1/analises/{id}/feedback` (`papel`: `"faturista" | "medico"`, `itens[]` com `item_id`, `acao`: `"aceito" | "editado" | "rejeitado"`, `texto_final`), resposta `204 No Content`. `item_id`: `"campo:<id>"`, `"soap:<S|O|A|P>"` ou `"soap:<S|O|A|P>:<índice do trecho>"`, `"doc:<n>"`, `"resumo_paciente"`; outro formato → `422`. ID de outro integrador → `404`. `texto_final` só é gravado (após o scrubber) se a clínica tiver `guardar_entrada_para_avaliacao`; senão é descartado.
+
+### 5.11.1 Resumo para o Paciente via SOAP e Metadados de Governança IA (`POST /v1/consultas/resumo-paciente` — SPK-15)
+
+- **Metadados de Governança IA (`metadados_ia`):** as respostas de `POST /v1/guias/analisar`, `POST /v1/consultas/estruturar`, `POST /v1/glosas/recurso` (`/v1/glosas/recurso/sugerir`) e `POST /v1/consultas/resumo-paciente` incluem de forma aditiva o objeto `metadados_ia`: `{ "modelo": string, "versao_modelo": string, "versao_prompt": string, "provedor": "vertex_ai" | "local" }`.
+- **`POST /v1/consultas/resumo-paciente`:** gera sugestão de resumo em linguagem simples para o paciente a partir da evolução SOAP já estruturada (sem exigir Escuta Ambiental nem `operadora`, suportando atendimentos particulares e convênios).
+  - Request (`extra="forbid"`): `clinica_ref` (`string`, 1–128 chars), `atendimento_ref` (`string`, 1–128 chars), `paciente` (`{ "ref", "sexo": "M"|"F"|"I", "idade": 0..130 } | null`), `especialidade` (`string | null`), `soap` (`{ "subjetivo"?, "objetivo"?, "avaliacao"?, "plano"? }`, ao menos 1 seção com ≥ 10 chars, até 10.000 chars por seção) e `opcoes` (`{ "nivel_leitura"?: "simples" | "padrao", "incluir_sinais_alerta"?: boolean, "limite_caracteres"?: 200..3000 }`).
+  - Response (`200 OK`): `{ "resumo_id": uuid, "versao_bases": string, "degradado": boolean, "origem_ia": "llm" | "local", "metadados_ia": MetadadosIA, "texto": string, "orientacoes": string[], "sinais_alerta": string[], "aviso_legal": string }`. Todo texto do `soap` passa pelo scrubber `app/pii.py` antes da chamada ao LLM; falha ou indisponibilidade do provedor responde `200 OK` com `degradado: true` e `provedor: "local"`.
 
 ### 5.12 Clínicas, Flags, Política do Integrador e Indicadores (`SPK-01`)
 
@@ -714,3 +721,4 @@ Para maximizar a adesão de médicos e faturistas sem adicionar atrito ao fluxo 
 | `v1.4` | 14/11/2026 | Suporte a TISS `04.02.00`/`04.03.00` em `/v1/tiss/lotes/ingerir` e rota `GET /v1/bases/versoes` (`RFC-013` / `ADR-PEP-0024`). |
 | `v1.5` | 15/11/2026 | Evolução do Scribe (`RFC-009` / `SPK-04`): geração de `documentos`, análise anti-glosa encadeada (`analise`), retorno de `estruturacao_id` e endpoint `POST /v1/consultas/estruturacoes/{id}/feedback`; inclusão de headers `X-Tissia-Tempos-Ms` e `X-Tissia-Cota-Restante` e códigos `201`, `202`, `409`, `429`. |
 | `v1.6` | 16/11/2026 | Correção da numeração sequencial da seção 5 (`5.7`–`5.16`) e documentação completa de `SPK-01` (clínicas/indicadores/configuração), `SPK-02` (recurso de glosa), `SPK-03` (jobs, webhooks e limite de `20.000.000` chars em `/v1/tiss/lotes/ingerir` assíncrono), `SPK-04` (`POST /v1/consultas/transcrever`), `SPK-05` (`/v1/uso` e `/v1/integrador/chaves*`), `GET /v1/auth/verificar` e `GET /healthz`. |
+| `v1.7` | 21/11/2026 | Implementação aditiva da `SPK-15`: objeto `metadados_ia` (`modelo`, `versao_modelo`, `versao_prompt`, `provedor`) nas respostas de IA, novo endpoint `POST /v1/consultas/resumo-paciente` (a partir do SOAP, sem exigir `operadora`) e extensão de `GET /v1/catalogos/tuss` / `/tuss/{codigo}` com `data_referencia`, `incluir_nao_vigentes` e campos `tabela`, `vigencia_inicio`, `vigencia_fim`, `vigente_na_data`, `unidade_medida_padrao`. |
