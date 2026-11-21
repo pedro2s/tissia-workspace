@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: rascunho
+status: implementada
 tags:
   - tissia
   - pep
@@ -18,7 +18,7 @@ aliases:
 
 # RFC-PEP-024 — Evolução de UX Clínica: Escuta Ambiental, Revisão, Documentos e Catálogos
 
-**Fase:** P2 (evolução pós-P1 / pós-RFC-022 e 023) · **Status:** Rascunho · **ADRs:** [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0024-bases-ans-vigentes-sem-inventar-codigos|ADR-PEP-0024]], [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027]]
+**Fase:** P2 (evolução pós-P1 / pós-RFC-022 e 023) · **Status:** Implementada · **ADRs:** [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0024-bases-ans-vigentes-sem-inventar-codigos|ADR-PEP-0024]], [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027]]
 **Telas:** 05 (Prontuário — botão Finalizar integrado e editor em bloco), 06 (Escuta Ambiental), 07 (Revisão Pós-Consulta), 08 (Documentos do Atendimento)
 **Requisitos:** RF-PRO-05..10, RF-ENV-03..04, RF-DOC-01..06
 **Depende de:** [[RFC-PEP-004-prontuario|RFC-PEP-004]], [[RFC-PEP-013-voz-ambiental|RFC-PEP-013]], [[RFC-PEP-021-dados-de-referencia-ans|RFC-PEP-021]], [[RFC-PEP-022-triagem-e-checkout-recepcao|RFC-PEP-022]], [[RFC-PEP-023-faturamento-clinico-execucao-vs-solicitacao-e-retorno|RFC-PEP-023]]
@@ -115,9 +115,16 @@ Atendimento aberto (Manual OU Escuta -> Revisão)
 
 ## Critérios de aceite
 
-- [ ] **P1.1:** Encerrar escuta exibe indicador claro de carregamento até a abertura de `/revisao` (sem estado silencioso).
-- [ ] **P1.2:** Na `Revisao.tsx`, indicação clínica sugerida já carrega preenchida localmente quando ausente no servidor; na `Documentos.tsx`, o resumo sugerido pela IA já carrega preenchido com marcação de revisão pendente.
-- [ ] **P1.3:** O botão primário da `Revisao.tsx` aplica a evolução mantendo o atendimento aberto e abre `Documentos.tsx`; em `Documentos.tsx`, `"Finalizar atendimento"` fecha a evolução, gera as guias TISS aplicáveis e disponibiliza os documentos assinados para check-out.
-- [ ] **P2.1:** É possível emitir e assinar dois atestados no mesmo atendimento (ex.: afastamento do paciente + acompanhante nominal) e imprimi-los individualmente no check-out da recepção.
-- [ ] **P2.2:** Campo de especialidade no encaminhamento oferece autocomplete de especialidades CFM/multiprofissionais com fallback livre.
-- [ ] **P2.3:** Campo de medicamento na receita sugere apresentações da base Anvisa/CMED carregada e detecta alergia por princípio ativo.
+- [x] **P1.1:** Encerrar escuta exibe indicador claro de carregamento até a abertura de `/revisao` (sem estado silencioso).
+- [x] **P1.2:** Na `Revisao.tsx`, indicação clínica sugerida já carrega preenchida localmente quando ausente no servidor; na `Documentos.tsx`, o resumo sugerido pela IA já carrega preenchido com marcação de revisão pendente.
+- [x] **P1.3:** O botão primário da `Revisao.tsx` aplica a evolução mantendo o atendimento aberto e abre `Documentos.tsx`; em `Documentos.tsx`, `"Finalizar atendimento"` fecha a evolução, gera as guias TISS aplicáveis e disponibiliza os documentos assinados para check-out.
+- [x] **P2.1:** É possível emitir e assinar dois atestados no mesmo atendimento (ex.: afastamento do paciente + acompanhante nominal) e imprimi-los individualmente no check-out da recepção.
+- [x] **P2.2:** Campo de especialidade no encaminhamento oferece autocomplete de especialidades CFM/multiprofissionais com fallback livre.
+- [x] **P2.3:** Campo de medicamento na receita sugere apresentações da base Anvisa/CMED carregada e detecta alergia por princípio ativo.
+
+## Notas de implementação
+
+- Implementada na branch `feat/rfc-024-integrada` (`apps/api/drizzle/0050_multi_documentos_e_ref_medicamentos.sql`).
+- O fluxo sem travamento prematuro foi implementado via flag `finalizarAtendimento: boolean` (default `true` para retrocompatibilidade) em `FinalizarEscutaSchema` (`POST /api/v1/escuta/:sid/finalizar`).
+- A tabela regulatória de medicamentos foi criada como `ref_medicamentos` (seguindo a convenção `ref_*` de `db-rls.ts`, com `REVOKE` automático de escrita para `app_rw` e `app_admin`), com ingestão via `pnpm --filter @pep/api ref:carregar medicamentos <arquivo.csv> [versao]`.
+- `ItemReceitaSchema` ganhou campo opcional `principioAtivo` para cruzamento em `conflitosAlergia` tanto pelo nome comercial quanto pelo princípio ativo (DCB).
