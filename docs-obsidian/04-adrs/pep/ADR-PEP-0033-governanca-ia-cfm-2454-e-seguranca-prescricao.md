@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: adr
-status: proposta
+status: aceita
 tags:
   - tissia
   - pep
@@ -17,7 +17,7 @@ aliases:
 
 # ADR-PEP-0033 — Governança de IA, CFM nº 2.454/2026 e segurança da prescrição
 
-**Status:** Proposta — 21/11/2026  
+**Status:** Aceita — 21/11/2026 (implementada na [[RFC-PEP-026-blindagem-regulatoria-autoria-sigilo-e-governanca-ia|RFC-PEP-026]], PR `pedro2s/tissia#34`; a partir daqui é imutável: mudanças só por nova ADR)
 **Relacionadas:** [[ADR-PEP-0005-spike-adapter|ADR-PEP-0005]], [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0011-assinatura-icp-brasil|ADR-PEP-0011]], [[ADR-PEP-0013-asr-na-spike|ADR-PEP-0013]], [[ADR-PEP-0025-decisoes-scribe-e-ops-tissia-ai|ADR-PEP-0025]], [[RFC-PEP-005-spike-adapter|RFC-PEP-005]], [[RFC-PEP-011-assinatura-icp-brasil|RFC-PEP-011]], [[RFC-PEP-013-voz-ambiental|RFC-PEP-013]], [[RFC-PEP-026-blindagem-regulatoria-autoria-sigilo-e-governanca-ia|RFC-PEP-026]], [[SPK-14-sugestao-de-codigos-e-indicacao-a-partir-da-evolucao|SPK-14]], [[SPK-15-metadados-modelo-resumo-soap-e-tabelas-tuss-despesas|SPK-15]]
 
 ## Contexto
