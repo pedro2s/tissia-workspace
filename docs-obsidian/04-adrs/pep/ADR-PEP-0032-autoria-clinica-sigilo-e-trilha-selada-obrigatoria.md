@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: adr
-status: proposta
+status: aceita
 tags:
   - tissia
   - pep
@@ -17,7 +17,7 @@ aliases:
 
 # ADR-PEP-0032 — Autoria clínica, sigilo e trilha selada obrigatória
 
-**Status:** Proposta — 21/11/2026  
+**Status:** Aceita — 21/11/2026 (implementada na [[RFC-PEP-026-blindagem-regulatoria-autoria-sigilo-e-governanca-ia|RFC-PEP-026]], PR `pedro2s/tissia#34`; a partir daqui é imutável: mudanças só por nova ADR)
 **Relacionadas:** [[ADR-PEP-0003-postgres-rls-multitenant|ADR-PEP-0003]], [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0008-eventos-outbox-bullmq|ADR-PEP-0008]], [[ADR-PEP-0011-assinatura-icp-brasil|ADR-PEP-0011]], [[ADR-PEP-0017-orm-drizzle-rls|ADR-PEP-0017]], [[ADR-PEP-0031-separacao-papeis-checkout-recepcao-e-triagem|ADR-PEP-0031]], [[RFC-PEP-001-identidade-e-acesso|RFC-PEP-001]], [[RFC-PEP-004-prontuario|RFC-PEP-004]], [[RFC-PEP-014-plataforma-lgpd-auditoria|RFC-PEP-014]], [[RFC-PEP-026-blindagem-regulatoria-autoria-sigilo-e-governanca-ia|RFC-PEP-026]]
 
 ## Contexto

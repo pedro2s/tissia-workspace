@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: rascunho
+status: implementada
 tags:
   - tissia
   - pep
@@ -17,7 +17,7 @@ aliases:
 
 # RFC-PEP-026 — Blindagem regulatória: autoria, sigilo e governança de IA
 
-**Fase:** P1/P2 (Onda A — Bloqueante para Produção) · **Status:** Rascunho  
+**Fase:** P1/P2 (Onda A — Bloqueante para Produção) · **Status:** Implementada (PR `pedro2s/tissia#34`, 21/11/2026)  
 **ADRs:** [[ADR-PEP-0003-postgres-rls-multitenant|ADR-PEP-0003]], [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0011-assinatura-icp-brasil|ADR-PEP-0011]], [[ADR-PEP-0017-orm-drizzle-rls|ADR-PEP-0017]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0032-autoria-clinica-sigilo-e-trilha-selada-obrigatoria|ADR-PEP-0032]], [[ADR-PEP-0033-governanca-ia-cfm-2454-e-seguranca-prescricao|ADR-PEP-0033]]  
 **Depende de:** [[RFC-PEP-001-identidade-e-acesso|RFC-PEP-001]], [[RFC-PEP-004-prontuario|RFC-PEP-004]], [[RFC-PEP-011-assinatura-icp-brasil|RFC-PEP-011]], [[RFC-PEP-013-voz-ambiental|RFC-PEP-013]], [[RFC-PEP-014-plataforma-lgpd-auditoria|RFC-PEP-014]], [[RFC-PEP-024-ux-escuta-revisao-e-documentos-clinicos|RFC-PEP-024]], [[SPK-15-metadados-modelo-resumo-soap-e-tabelas-tuss-despesas|SPK-15]]
 
@@ -274,3 +274,16 @@ sequenceDiagram
 - [[ADR-PEP-0032-autoria-clinica-sigilo-e-trilha-selada-obrigatoria|ADR-PEP-0032]] e [[ADR-PEP-0033-governanca-ia-cfm-2454-e-seguranca-prescricao|ADR-PEP-0033]].
 - [[RFC-PEP-014-plataforma-lgpd-auditoria|RFC-PEP-014]], [[RFC-PEP-024-ux-escuta-revisao-e-documentos-clinicos|RFC-PEP-024]] e [[modelo-de-dados-pep|modelo de dados PEP]].
 - Lei nº 13.787/2018 e LGPD: interpretação e prazos específicos sujeitos a validação jurídica.
+
+## Notas de implementação
+
+**Entrega consolidada — 21/11/2026 (PR `pedro2s/tissia#34`, branch `feat/rfc-026-integrada`, commit `fc340a6`):**
+
+- **Migrações Drizzle sincronizadas (`db:generate` sem drift):**
+  - `0051_rfc026_schema.sql` (`fechado_por`, `triagem_versoes`, `lgpd_solicitacoes`, `decisoes_analise_log`, `sugestoes_ia_log`, colunas `modelo_nome`/`modelo_versao`/`prompt_versao`/`consentimento_revogado_em` e constraint `sessao_estado` com `'cancelada'`).
+  - `0052_rfc026_triggers_imutabilidade.sql` (triggers imutáveis em `triagem_versoes`, `atendimentos`, `pedidos_exame`, `documentos` incluindo `resumo_paciente` liberado, `decisoes_analise_log` e `sugestoes_ia_log`, além de `REVOKE UPDATE, DELETE, TRUNCATE ... FROM app_rw`). RLS aplicada por convenção em todas as novas tabelas via `drizzle/rls/001_tenant_policies.sql`.
+- **Alinhamentos e desvios pontuais em relação às rotas-alvo:**
+  - Mantidos os paths já existentes na API para preservar compatibilidade retroativa com `@pep/ui`: `GET /api/v1/agenda/checkout/documentos/:documentoId/impressao` (agora exigindo `documentos:imprimir_checkout`), `GET /api/v1/lotes/:id/xml` (agora exigindo `lotes:baixar_xml`), `GET /api/v1/guias/:id/metadados` (`guias:ler_metadados`), `POST /api/v1/escuta/:sid/revogar`, `GET/POST /api/v1/lgpd/solicitacoes`, `PATCH /api/v1/lgpd/solicitacoes/:id` e `GET /api/v1/lgpd/solicitacoes/:id/exportacao`.
+  - O override de conflito de alergia é enviado no campo aditivo `overrideAlergiaJustificativa` de `ReceitaSchema` (validado >= 10 chars no servidor em `assinar` com auditoria síncrona `prescricao.conflito_override`).
+  - Delegação/coassinatura formal de plantão entre médicos e fluxo de aprovação assíncrona de `DadosProfissionais` por fila de admin ficam como evolução incremental após o bloqueio imediato de titularidade, perfil × conselho e anti-auto-escalação já entregues nesta RFC.
+- **Verificação observada (PostgreSQL zerado + CI-equivalente):** `pnpm --filter @pep/api db:generate` (zero drift), `db:setup` + RLS, `pnpm typecheck`, `pnpm deps` (0 violações), `pnpm build` e `pnpm test` completo (**664/664 testes**: `@pep/contracts` 7/61, `@pep/backoffice` 1/3, `@pep/ui` 23/125, `@pep/api` 50/475 incluindo `rfc026-f1..f4` e `openapi.spec.ts`).
