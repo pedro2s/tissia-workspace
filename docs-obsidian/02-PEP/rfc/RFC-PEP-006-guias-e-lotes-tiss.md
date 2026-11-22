@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-006-guias-e-lotes-tiss.md
 
 # RFC-PEP-006 — Guias TISS, mesa do faturista e lotes XML
 
-**Fase:** P1 · **Status:** Em implementação (Marco D e Onda 5 concluídas em 14/11/2026; pendências registradas em Notas de implementação) · **ADRs:** ADR-PEP-0003, ADR-PEP-0007, ADR-PEP-0008, ADR-PEP-0012, ADR-PEP-0014
+**Fase:** P1 · **Status:** Implementada (Marco D e Onda 5 concluídas em 14/11/2026; pendências registradas em Notas de implementação) · **ADRs:** ADR-PEP-0003, ADR-PEP-0007, ADR-PEP-0008, ADR-PEP-0012, ADR-PEP-0014
 **Telas:** 13 (Revisão da guia SP/SADT — dados e checagem local), 16 (Mesa do faturista), 17 (Editor completo de guia), 18 (Gestão de lotes)
 **Requisitos:** RF-FAT-01 a RF-FAT-13
 **Depende de:** RFC-PEP-002 (beneficiário), RFC-PEP-004 (`AtendimentoFechado`, pedidos), RFC-PEP-005 (análise Spike); RFC-PEP-021 (XSD 4.03.00, campos e domínios da guia); cadastro mínimo de operadoras/contratos (versão TISS, prazo de envio)

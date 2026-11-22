@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-013-voz-ambiental.md
 
 # RFC-PEP-013 — Voz ambiental e revisão pós-consulta
 
-**Fase:** P2 (fatia antecipada no Marco D) · **Status:** Em implementação (fatia do Marco D entregue; restante detalhado em 09/11/2026) · **ADRs:** ADR-PEP-0013, ADR-PEP-0005, ADR-PEP-0007, ADR-PEP-0008, ADR-PEP-0015; Spike ADR-0010
+**Fase:** P2 (fatia antecipada no Marco D) · **Status:** Implementada (fatia do Marco D entregue; restante detalhado em 09/11/2026) · **ADRs:** ADR-PEP-0013, ADR-PEP-0005, ADR-PEP-0007, ADR-PEP-0008, ADR-PEP-0015; Spike ADR-0010
 **Telas:** 06 (Captura de voz ambiental), 07 (Revisão pós-consulta), 26b (Mobile — captura de voz); painel Tissia IA da tela 05 (aba "Resumo")
 **Requisitos:** RF-VOZ-01 a RF-VOZ-04; RF-ASS-02 (decisão em todo trecho de IA antes de assinar); RF-PLT-02 e RF-PLT-03 (trilha e consentimento); RF-PLT-04 (flag `modulos.voz`); RF-MOD-03 (modelos por especialidade)
 **Depende de:** RFC-PEP-002 (`consentimentos` do cadastro, finalidade `escuta_ambiental`), RFC-PEP-004 (modelos por especialidade e evolução versionada), RFC-PEP-011 (assinatura ICP-Brasil, só referência), RFC-PEP-014 (auditoria e consentimentos), RFC-PEP-015 (layout tablet/mobile); Spike RFC-009 (Scribe; pós-consulta em trechos entregue, streaming pendente) e [[SPK-04-requisitos-do-scribe|SPK-04]]

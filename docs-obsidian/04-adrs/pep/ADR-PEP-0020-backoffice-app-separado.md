@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: adr
-status: proposta
+status: aceita
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/adr/ADR-PEP-0020-backoffice-app-separado.md
 
 # ADR-PEP-0020 — Backoffice interno como app separado no monorepo (`apps/backoffice`)
 
-**Status:** Proposta — 08/11/2026
+**Status:** Aceita — 08/11/2026
 **Complementa:** [[ADR-PEP-0018-monorepo-pnpm-turborepo|ADR-PEP-0018]] (adiciona um app ao monorepo)
 
 ## Contexto

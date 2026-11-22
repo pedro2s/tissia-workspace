@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-017-backoffice-fundacoes-e-acesso.md
 
 # RFC-PEP-017 — Backoffice: fundações, acesso interno e trilha de auditoria
 
-**Fase:** B0 (P1, antes do piloto em produção) · **Status:** Em implementação (B0 entregue em homologação em 15/11/2026; ver Notas de implementação) · **ADRs:** ADR-PEP-0020, 0021, 0022 (e ADR-PEP-0010 para o Keycloak)
+**Fase:** B0 (P1, antes do piloto em produção) · **Status:** Implementada (B0 entregue em homologação em 15/11/2026; ver Notas de implementação) · **ADRs:** ADR-PEP-0020, 0021, 0022 (e ADR-PEP-0010 para o Keycloak)
 **Telas do backoffice:** 01 (acesso), barra lateral e barra superior, 18 (papéis e trilha, parcial)
 **Requisitos:** RF-BKO-01, 02, 03 · RNF-BKO-01…05 ([[PRD-003-backoffice|PRD-003]])
 **Depende de:** RFC-PEP-000 (Db, outbox, erros), RFC-PEP-001 (padrão de sessão e guard)

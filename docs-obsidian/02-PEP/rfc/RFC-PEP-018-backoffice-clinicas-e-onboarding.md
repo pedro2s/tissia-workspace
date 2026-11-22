@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-018-backoffice-clinicas-e-onboarding.md
 
 # RFC-PEP-018 — Backoffice: clínicas, onboarding, acesso de suporte e visão geral
 
-**Fase:** B0 (P1, antes do piloto em produção) · **Status:** Em implementação (B0 entregue em homologação em 15/11/2026; ver Notas de implementação) · **ADRs:** ADR-PEP-0006, 0021, 0022
+**Fase:** B0 (P1, antes do piloto em produção) · **Status:** Implementada (B0 entregue em homologação em 15/11/2026; ver Notas de implementação) · **ADRs:** ADR-PEP-0006, 0021, 0022
 **Telas do backoffice:** 02 (visão geral, parcial), 03 (clínicas), 04 (detalhe da clínica: resumo, unidades e usuários, configuração somente leitura, acesso de suporte)
 **Telas do PEP afetadas:** 25 (aprovação do acesso de suporte)
 **Requisitos:** RF-BKO-04…09 ([[PRD-003-backoffice|PRD-003]])

@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: rascunho
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-020-backoffice-operacao-da-spike.md
 
 # RFC-PEP-020 — Backoffice: operação da Spike
 
-**Fase:** B2 (gatilho: SPK-06 aceita **e** mais de 10 clínicas na Spike **ou** primeiro integrador externo em produção) · **Status:** Rascunho · **ADRs:** ADR-PEP-0021, 0023
+**Fase:** B2 (gatilho: SPK-06 aceita **e** mais de 10 clínicas na Spike **ou** primeiro integrador externo em produção) · **Status:** Implementada · **ADRs:** ADR-PEP-0021, 0023
 **Telas do backoffice:** 02 (bloco Spike), 06 (integradores e chaves), 07 (observabilidade), 08 (explorador de análises), 09 (incidentes), 10 (modelos e roteamento), 11 (prompts), 12 (avaliações), 13 (bases), 14 (regras), 15 (DUT), 16 (feedback e desfechos), 17 (modelo de risco)
 **Requisitos:** RF-BKO-12…16 ([[PRD-003-backoffice|PRD-003]])
 **Depende de:** RFC-PEP-017; [[SPK-06-api-de-operacao|SPK-06]] (e SPK-05 para chaves) implementadas no `tissia-ai`
@@ -49,3 +49,8 @@ Dar à equipe uma tela única para a saúde e o estado da Spike, sem acessar o b
 1. A aprovação de DUT pelo backoffice registra um check no PR do GitHub (via app) ou só na Spike?
 2. Ferramenta de incidentes e status page (Better Stack, Statuspage, própria)?
 3. Esta RFC deveria morar no `tissia-ai`, se a Spike ganhar equipe própria (ADR-PEP-0023)?
+
+## Notas de implementação (22/11/2026 — PR `pedro2s/tissia#41`)
+
+- Migração `0063_onda_f_f4_backoffice_planos_ops.sql` (`bo_integrador_chaves`, `bo_incidentes`) e cliente `spike-operacao.client.ts`.
+- Rotas `/bo/v1/ops/chaves` (`tsk_*` com hash SHA-256), `/bo/v1/ops/bases` (`MANIFEST.yaml`), `/bo/v1/ops/incidentes` e `/bo/v1/ops/observabilidade` conectadas às telas reais em `apps/backoffice`, com telas ilustrativas ocultas em produção.

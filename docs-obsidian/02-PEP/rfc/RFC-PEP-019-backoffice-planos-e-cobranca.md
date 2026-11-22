@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: rascunho
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-019-backoffice-planos-e-cobranca.md
 
 # RFC-PEP-019 — Backoffice: planos, assinaturas e cobrança
 
-**Fase:** B1 (P2, gatilho: primeira clínica pagante fora do piloto) · **Status:** Rascunho · **ADRs:** ADR-PEP-0021, 0022
+**Fase:** B1 (P2, gatilho: primeira clínica pagante fora do piloto) · **Status:** Implementada · **ADRs:** ADR-PEP-0021, 0022
 **Telas do backoffice:** 05 (planos e cobrança), 04 (aba Cobrança), 02 (bloco Negócio)
 **Requisitos:** RF-BKO-10, 11 ([[PRD-003-backoffice|PRD-003]])
 **Depende de:** RFC-PEP-018
@@ -40,3 +40,8 @@ Cobrar clínicas sem planilha: plano versionado, assinatura por tenant, faturas 
 2. "Médico ativo" = profissional com ao menos um atendimento fechado na competência?
 3. Teste gratuito = período em modo silencioso (30 dias, release plan §6)?
 4. Provedor de cobrança: integrado já na B1 ou manual com o registro só no backoffice?
+
+## Notas de implementação (22/11/2026 — PR `pedro2s/tissia#41`)
+
+- Migração `0063_onda_f_f4_backoffice_planos_ops.sql` (`bo_planos`, `bo_assinaturas` e `bo_faturas` com RLS nas tabelas por tenant), contratos em `packages/contracts/src/backoffice.ts`.
+- Rotas `/bo/v1/planos`, `/bo/v1/assinaturas` e `/bo/v1/faturas` com trilha de auditoria interna e UI real em `apps/backoffice/src/pages/Planos.tsx`.

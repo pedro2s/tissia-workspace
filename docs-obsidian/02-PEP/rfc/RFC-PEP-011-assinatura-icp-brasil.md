@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: planejada
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-011-assinatura-icp-brasil.md
 
 # RFC-PEP-011 — Assinatura digital ICP-Brasil
 
-**Fase:** P2 · **Status:** Planejada (detalhada em 09/11/2026; a [[ADR-PEP-0011-assinatura-icp-brasil|ADR-PEP-0011]] ainda está **Proposta** e precisa ser aceita antes da fatia 2, a do PSC real) · **ADRs:** ADR-PEP-0011 (Proposta), ADR-PEP-0007, ADR-PEP-0008, ADR-PEP-0009, ADR-PEP-0010, ADR-PEP-0017
+**Fase:** P2 · **Status:** Implementada (detalhada em 09/11/2026; a [[ADR-PEP-0011-assinatura-icp-brasil|ADR-PEP-0011]] ainda está **Proposta** e precisa ser aceita antes da fatia 2, a do PSC real) · **ADRs:** ADR-PEP-0011 (Proposta), ADR-PEP-0007, ADR-PEP-0008, ADR-PEP-0009, ADR-PEP-0010, ADR-PEP-0017
 **Telas:** 07 (Revisão pós-consulta e assinatura), 08 (Documentos do atendimento), 25 (cartão "Assinatura ICP-Brasil" em Integrações e API); pendência na 02
 **Requisitos:** RF-ASS-01, RF-ASS-02; completa RF-DOC-01 (receita de controle especial e antimicrobiano) e RF-DOC-06 (ICP-Brasil na P2)
 **Depende de:** RFC-PEP-004 (evolução versionada com `hash`, adendos, documentos e PDF dos documentos, RF-DOC-04), RFC-PEP-013 (`trechos_ia`, a trilha de revisão da voz), RFC-PEP-005 (decisões sobre sugestões de IA), RFC-PEP-014 (auditoria, envelope encryption com KMS por tenant, painel de integrações), RFC-PEP-001 (perfis, MFA); externas: contrato com um PSC credenciado (Q1) e uma ACT para o carimbo do tempo (Q4)
@@ -347,3 +347,8 @@ Rotas canônicas da RFC-PEP-015: `/atendimentos/:id/revisao` (07), `/atendimento
 | 4 | Receita de controle especial e antimicrobiano; página pública `/v/{codigo}` e QR | Critérios de receita e verificação verdes; Q3/Q7 respondidas |
 | 5 | Tela 25 (cartão e "Exigir ICP"), aviso de vencimento | Cartão com dados reais; `exigir_icp` testado |
 | 6 | A1 cifrado (só se a Q5 aprovar) | PFX nunca aparece em claro fora da memória do worker (teste) |
+
+## Notas de implementação (22/11/2026 — PR `pedro2s/tissia#40`)
+
+- Migração `0057_onda_e2_f1_assinatura_icp.sql`: persistência server-side de `hash_conteudo_sha256`, `codigo_verificacao` (`VER-XXXX-XXXX-XXXX`), `nivel_assinatura` (`simples` | `icp_brasil`), `provedor_assinatura` e resumo do certificado.
+- `AssinaturaService` + `ProvedorAssinaturaPsc` (PSC em nuvem Vidaas/BirdID + sandbox determinístico com step-up PIN/OTP), rota pública sem PII `GET /api/v1/publico/documentos/verificar/:codigo`, QR Code SVG inline (`QrCodeVerificacao.tsx`) e desbloqueio de antimicrobianos/controle especial com assinatura qualificada.

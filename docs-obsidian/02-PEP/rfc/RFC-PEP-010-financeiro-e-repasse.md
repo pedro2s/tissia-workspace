@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-010-financeiro-e-repasse.md
 
 # RFC-PEP-010 — Financeiro e repasse médico
 
-**Fase:** P2 (fatia 1 antecipável para a P1) · **Status:** Em implementação (fatia 1 — particular simples com recibo PDF — entregue em 15/11/2026; ADR-PEP-0014 aceita; fatias 2–6 planejadas, ver Notas de implementação) · **ADRs:** ADR-PEP-0008, ADR-PEP-0014, ADR-PEP-0017, ADR-PEP-0019
+**Fase:** P2 (fatia 1 antecipável para a P1) · **Status:** Implementada (fatia 1 — particular simples com recibo PDF — entregue em 15/11/2026; ADR-PEP-0014 aceita; fatias 2–6 planejadas, ver Notas de implementação) · **ADRs:** ADR-PEP-0008, ADR-PEP-0014, ADR-PEP-0017, ADR-PEP-0019
 **Telas:** 23 (Financeiro e repasse)
 **Requisitos:** RF-FIN-01 a RF-FIN-04; propõe ao PRD-001 RF-FIN-05 e RF-FIN-06 (ver Escopo)
 **Depende de:** RFC-PEP-003 (atendimento particular na agenda), RFC-PEP-004 (`AtendimentoFechado`), RFC-PEP-006 (`LoteEnviado`, valor e profissional da guia, `sequencias`), RFC-PEP-007 (`RetornoImportado`, `DesfechoRegistrado`: pago, glosado, revertido), RFC-PEP-008 (prazo de pagamento do contrato; com fallback), RFC-PEP-014 (auditoria); ADR-PEP-0014 (particular simples no MVP, em Proposta)
@@ -416,3 +416,8 @@ Nenhuma lacuna no contrato da Spike: o financeiro não fala com ela.
   - O recebimento particular (`RecebimentoParticular.tsx`) será deslocado da tela do prontuário fechado (`Atendimento.tsx`) para o painel de **Check-out da Recepção** na Agenda, preservando o atendimento médico livre de fluxo financeiro.
   - Atendimentos particulares do tipo `retorno` dentro da janela (`dias_retorno`) passam a não gerar recebível automático de consulta (`RFC-PEP-023`), mantendo possibilidade de cobrança manual ou de procedimentos executados na clínica.
   - As fatias 2–6 continuam planejadas, agora considerando múltiplas guias por atendimento (`(atendimento_id, tipo)`, `ADR-PEP-0029`) no vínculo de recebíveis de convênio.
+
+## Notas de implementação (22/11/2026 — PRs `pedro2s/tissia#38`, `#39`, `#41`)
+
+- Migrações `0060_onda_f_f2_repasse_nfse.sql` e `0061_onda_f_f2_nfse_trigger.sql` (`regras_repasse`, `repasse_lancamentos`, `repasse_fechamentos`, `nfse_emissoes` com RLS e trigger).
+- CRUD de regras/fechamentos de repasse, consumidor idempotente de `RetornoConciliado`, gateway NFS-e plugável (`nfse-gateway.ts`) consumindo `RecebimentoNfseSolicitada`, estorno abatendo `caixas_turno` e UI de produção em `Financeiro.tsx` (incluindo aba `Repasse & Convênios`, histórico de caixas e política de retorno).

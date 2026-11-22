@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-012-painel-do-gestor.md
 
 # RFC-PEP-012 — Painel do gestor (BI)
 
-**Fase:** P2 · **Status:** Em implementação (fatia do Marco D sobre lote sintético e fatia 1 — projeções por evento e Painel do Gestor — entregues em 15/11/2026; fatias 2–3 planejadas, ver Notas de implementação) · **ADRs:** ADR-PEP-0006, ADR-PEP-0008, ADR-PEP-0003, ADR-PEP-0017
+**Fase:** P2 · **Status:** Implementada (fatia do Marco D sobre lote sintético e fatia 1 — projeções por evento e Painel do Gestor — entregues em 15/11/2026; fatias 2–3 planejadas, ver Notas de implementação) · **ADRs:** ADR-PEP-0006, ADR-PEP-0008, ADR-PEP-0003, ADR-PEP-0017
 **Telas:** 24 (Painel do gestor); 15 (relatório "glosas que teriam sido evitadas", bloco do relatório)
 **Requisitos:** RF-BI-01, RF-BI-02, RF-BI-03 (RF-BI-04, BI avançado, é P3)
 **Depende de:** RFC-PEP-005 (análises com `modo` e decisões, P1), RFC-PEP-006 (guias, revisões, valores, `LoteEnviado`, P1), RFC-PEP-007 (`DesfechoRegistrado` com código da Tabela 38 por item), RFC-PEP-009 (guia marcada com origem "receita esquecida"), RFC-PEP-014 (perfil Gestor, auditoria); consultor de faturamento para o mapeamento alerta → Tabela 38 (Q2). A RFC-PEP-010 **não** é dependência: os valores vêm do desfecho, não do caixa.

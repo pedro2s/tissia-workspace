@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: adr
-status: proposta
+status: aceita
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/adr/ADR-PEP-0023-spike-no-backoffice.md
 
 # ADR-PEP-0023 — Spike no backoffice: só pela API de operação da Spike; conteúdo editorial continua em git
 
-**Status:** Proposta — 08/11/2026
+**Status:** Aceita — 08/11/2026
 **Relacionadas:** [[PRD-002-spike-standalone|PRD-002 §4]] (neutralidade), [[SPK-06-api-de-operacao|SPK-06]], Spike ADR-0006 (bases versionadas), Spike ADR-0009 (regras em YAML), Spike RFC-005 (harness e portão)
 
 ## Contexto

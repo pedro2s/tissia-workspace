@@ -20,9 +20,14 @@ aliases:
 
 # Auditoria Clínica, Regulatória, TISS e UX do PEP Tissia — 2026-11
 
-**Data da auditoria:** 21/11/2026 · **Escopo:** `projetos/PEP` (`@pep/api`, `@pep/ui`, `@pep/contracts`, worker e integrações com `tissia-ia`) · **Classificação de prontidão para produção:** **`CRÍTICO` (Não apto a Go-Live assistencial/faturamento real sem execução das Ondas 0, A e B)**
+**Data da auditoria:** 21/11/2026 · **Encerramento técnico da remediação:** 22/11/2026 · **Escopo:** `projetos/PEP` (`@pep/api`, `@pep/ui`, `@pep/backoffice`, `@pep/contracts`, worker e integrações com `tissia-ia`) · **Classificação atual de prontidão técnica para Go-Live:** **`APTO A GO-LIVE PILOTO`** *(pendente apenas de itens externos não-código: DPA/RIPD, credenciais de produção PSC/NFS-e/operadoras e pentest externo — ver [[release-plan-pep|Release Plan §4]])*.
 
-> **Contexto documental:** Este documento consolida os achados técnicos verificados diretamente no código-fonte de `projetos/PEP` em 21/11/2026, estabelece a matriz completa de rastreabilidade até as ADRs, RFCs e propostas de contrato `SPK-*`, e define o sequenciamento em ondas com *gates* objetivos de saída para entrada em piloto clínico real.
+> **Encerramento Pós-Remediação (22/11/2026):** 100% dos achados **P0, P1 e P2** desta auditoria e da auditoria complementar de Go-Live foram remediados e mesclados na `main` de `pedro2s/tissia`:
+> - **Ondas A–D (`PRs #35–#37`):** `RFC-PEP-025`, `026`, `027`, `028`, `029` + `SPK-14`/`SPK-15`.
+> - **Onda E1 — P0 (`PR #38`):** enfermagem/SAE e Sala de Medicação, conta híbrida sem `fetch()` cru, estorno no `caixas_turno`, preservação de `guia_despesas`, `GuiaImpressa` real, titularidade/CRM/LGPD e migração nativa `SPK-14`.
+> - **Onda E2 — P1 (`PRs #39–#40`):** administração real da clínica (`Plataforma.tsx`), Financeiro/Agenda sem `window.prompt`, assinatura ICP-Brasil (`RFC-PEP-011`) + SHA-256 + QR Code + rota pública sem PII + desbloqueio de antimicrobianos/controlados, separação COFEN (`enfermeiro` vs `tecnico_enfermagem`) + snapshot imutável de conselho + LGPD, e UX de consultório/lotes/Guia de Consulta.
+> - **Onda F — P2 (`PR #41`):** Receita Esquecida (`RFC-PEP-009`), Repasse Médico + `RetornoConciliado` + Gateway NFS-e (`RFC-PEP-010`), TISS multi-versão (`4.01`/`4.02`/`4.03`) + `hashTiss` oficial + múltiplas glosas + SOAP Webservice TISS, e Backoffice de escala (`RFC-PEP-019`/`020`) com telas ilustrativas ocultas em produção.
+> - O texto abaixo preserva integralmente o diagnóstico original de 21/11/2026 como registro histórico de auditoria.
 
 ---
 

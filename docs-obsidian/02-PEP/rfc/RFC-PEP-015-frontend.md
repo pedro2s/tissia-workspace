@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-015-frontend.md
 
 # RFC-PEP-015 — Frontend: arquitetura da UI, design system e migração
 
-**Fase:** P1 (design system e shell começam na P0) · **Status:** Em implementação (base de bibliotecas e tokens configurada em `apps/ui`) · **ADRs:** ADR-PEP-0004, 0015, 0018
+**Fase:** P1 (design system e shell começam na P0) · **Status:** Implementada (base de bibliotecas e tokens configurada em `apps/ui`) · **ADRs:** ADR-PEP-0004, 0015, 0018
 **Telas:** 02 (shell, barra de comandos, notificações), 26a–d (tablet e mobile); padrões usados em todas
 **Requisitos:** RF-UI-01…RF-UI-12
 
