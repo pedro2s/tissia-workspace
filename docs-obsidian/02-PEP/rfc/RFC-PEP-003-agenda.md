@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-003-agenda.md
 
 # RFC-PEP-003 — Agenda multiprofissional e recepção
 
-**Fase:** P1 · **Status:** Em implementação (Marco D e onda 2 do MVP entregues; pendentes na nota de 09/11/2026) · **ADRs:** ADR-PEP-0002, ADR-PEP-0003, ADR-PEP-0008
+**Fase:** P1 · **Status:** Implementada (Marco D e onda 2 do MVP entregues; pendentes na nota de 09/11/2026) · **ADRs:** ADR-PEP-0002, ADR-PEP-0003, ADR-PEP-0008
 **Telas:** 03 (Agenda multiprofissional), 02 (widgets "Próximos atendimentos")
 **Requisitos:** RF-AGE-01 a RF-AGE-09
 **Depende de:** RFC-PEP-002 (paciente, beneficiário, elegibilidade), RFC-PEP-001 (profissionais, unidades, salas)

@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-002-paciente-e-beneficiario.md
 
 # RFC-PEP-002 — Paciente, beneficiário e elegibilidade
 
-**Fase:** P1 · **Status:** Em implementação (fatia do Marco D e onda 1 do MVP entregues; pendentes na nota de 09/11/2026) · **ADRs:** ADR-PEP-0002, ADR-PEP-0003, ADR-PEP-0005, ADR-PEP-0012
+**Fase:** P1 · **Status:** Implementada (fatia do Marco D e onda 1 do MVP entregues; pendentes na nota de 09/11/2026) · **ADRs:** ADR-PEP-0002, ADR-PEP-0003, ADR-PEP-0005, ADR-PEP-0012
 **Telas:** 04 (Cadastro de paciente e carteirinhas)
 **Requisitos:** RF-PAC-01 a RF-PAC-08
 **Depende de:** RFC-PEP-000 (tenancy, RLS, outbox), RFC-PEP-001 (perfis), RFC-PEP-014 (auditoria de acesso e consentimentos)

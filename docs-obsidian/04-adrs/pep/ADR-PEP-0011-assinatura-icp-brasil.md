@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: adr
-status: proposta
+status: aceita
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/adr/ADR-PEP-0011-assinatura-icp-brasil.md
 
 # ADR-PEP-0011 — Assinatura ICP-Brasil via PSC em nuvem (PAdES)
 
-**Status:** Proposta — 07/11/2026
+**Status:** Aceita — 07/11/2026
 
 ## Contexto
 

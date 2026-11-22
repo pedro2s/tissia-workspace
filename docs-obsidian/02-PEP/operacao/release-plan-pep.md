@@ -17,7 +17,13 @@ origem: tissia/docs/release-plan.md
 
 ## 1. Visão geral
 
-> **Prioridade atual (14/11/2026): terminar a P1 pela [sequência do §13.4](#134-sequência-das-próximas-fases)** (onda 5 ✅ → onda 6 ✅ → medição do piloto → B0 → piloto silencioso). O [Marco D](#12-marco-d--mvp-de-demonstração-para-investidores) está tecnicamente entregue; só faltam a VM do GCP, o vídeo narrado e os 3 ensaios no ambiente de demo (§12.8).
+> **Estado atual (22/11/2026 — Pronto para Go-Live Piloto):** 100% do escopo técnico de **Marco D, P0, P1, P2, B0, B1, B2** e toda a remediação da auditoria clínica (Ondas A–F, PRs `#35`–`#41` na `main`, migrações `0000`–`0063`, 67 suítes / 564 testes `@pep/api` + UI + Backoffice + Contracts verdes) está concluído. Restam exclusivamente os **pré-requisitos operacionais e jurídicos de produção** listados abaixo e no §4.
+>
+> **Checklist objetivo de Go-Live (pré-piloto):**
+> - [ ] Configurar segredos de produção: `TISSIA_AI_API_KEY` (`tsk_live_*`), credenciais PSC ICP-Brasil (Vidaas/BirdID), credenciais gateway NFS-e, Keycloak (realms PEP + Backoffice) e `DATABASE_URL`/`REDIS_URL`.
+> - [ ] Validar DNS/TLS, backup PITR + restore testado (< 1 h) e âncora de auditoria em bucket GCS.
+> - [ ] Fechar pré-requisitos jurídicos/LGPD (§4: DPA PEP ↔ Spike, termos com clínicas-piloto, RIPD) e pentest externo.
+> - [ ] Iniciar rollout conforme §6: staging → produção silencioso (dias 1–15) → assistido 1 clínica (dias 16–22) → assistido todas (dias 23–30).
 
 | Fase | Duração indicativa | Entrega | Gate de saída |
 | :--- | :--- | :--- | :--- |

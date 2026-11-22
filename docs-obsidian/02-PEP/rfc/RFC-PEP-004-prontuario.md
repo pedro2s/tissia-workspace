@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-004-prontuario.md
 
 # RFC-PEP-004 — Prontuário, documentos e modelos por especialidade
 
-**Fase:** P1 · **Status:** Em implementação · **ADRs:** ADR-PEP-0002, ADR-PEP-0003, ADR-PEP-0007, ADR-PEP-0008, ADR-PEP-0015
+**Fase:** P1 · **Status:** Implementada · **ADRs:** ADR-PEP-0002, ADR-PEP-0003, ADR-PEP-0007, ADR-PEP-0008, ADR-PEP-0015
 **Telas:** 05 (Prontuário em atendimento), 07 (revisão da evolução, parcial), 08 (Documentos), 09 (Construtor de modelos), 10 (Biblioteca), 11 (Modelo preenchido — Ortopedia)
 **Requisitos:** RF-PRO-01 a RF-PRO-10, RF-DOC-01 a RF-DOC-06, RF-MOD-01 a RF-MOD-07
 **Depende de:** RFC-PEP-002, RFC-PEP-003, RFC-PEP-014 (auditoria "quem viu"); alimenta RFC-PEP-005 e RFC-PEP-006

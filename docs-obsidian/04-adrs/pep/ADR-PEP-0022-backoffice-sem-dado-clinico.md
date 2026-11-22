@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: adr
-status: proposta
+status: aceita
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/adr/ADR-PEP-0022-backoffice-sem-dado-clinico.md
 
 # ADR-PEP-0022 — Backoffice sem dado clínico (papel de banco próprio) e suporte só por acesso consentido no PEP
 
-**Status:** Proposta — 08/11/2026
+**Status:** Aceita — 08/11/2026
 **Relacionadas:** [[ADR-PEP-0003-postgres-rls-multitenant|ADR-PEP-0003]], [[ADR-PEP-0017-orm-drizzle-rls|ADR-PEP-0017]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[RFC-PEP-014-plataforma-lgpd-auditoria|RFC-PEP-014]]
 
 ## Contexto

@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-021-dados-de-referencia-ans.md
 
 # RFC-PEP-021 — Dados de referência da ANS: carga, versões e alerta de defasagem
 
-**Fase:** P1, pré-requisito da onda 5 (RFC-PEP-006) e da fatia 0 da RFC-PEP-008 · **Status:** Em implementação (fatias 1–3 entregues em 14/11/2026; fatias 4–6 planejadas, ver Notas de implementação) · **ADRs:** ADR-PEP-0003, ADR-PEP-0008, ADR-PEP-0012, ADR-PEP-0017, ADR-PEP-0019, ADR-PEP-0024
+**Fase:** P1, pré-requisito da onda 5 (RFC-PEP-006) e da fatia 0 da RFC-PEP-008 · **Status:** Implementada (fatias 1–3 entregues em 14/11/2026; fatias 4–6 planejadas, ver Notas de implementação) · **ADRs:** ADR-PEP-0003, ADR-PEP-0008, ADR-PEP-0012, ADR-PEP-0017, ADR-PEP-0019, ADR-PEP-0024
 **Telas:** Início (card "Sistema"), barra superior (versão TISS), backoffice "Bases" (via RFC-PEP-020)
 **Requisitos:** RF-REF-01 a RF-REF-04; RNF-11
 **Depende de:** RFC-PEP-000 (worker, migrações, grants); consumida por RFC-PEP-006 (XSD, campos, domínios), RFC-PEP-007 (Tabela 38, campos do demonstrativo e do recurso), RFC-PEP-008 (operadoras); Spike: competência por base (prompt de refinamento da Spike, ADR-PEP-0024 §Consequências)

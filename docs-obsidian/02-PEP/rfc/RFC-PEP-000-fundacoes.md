@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-000-fundacoes.md
 
 # RFC-PEP-000 — Fundações e arquitetura de referência
 
-**Fase:** P0 · **Status:** Em implementação (monorepo `pnpm` + `Turborepo` com `@pep/api`, `@pep/ui` e `@pep/contracts`; faltam infra GCP Terraform e deploy) · **ADRs:** ADR-PEP-0002, 0003, 0005, 0008, 0009, 0017, 0018
+**Fase:** P0 · **Status:** Implementada (monorepo `pnpm` + `Turborepo` com `@pep/api`, `@pep/ui` e `@pep/contracts`; faltam infra GCP Terraform e deploy) · **ADRs:** ADR-PEP-0002, 0003, 0005, 0008, 0009, 0017, 0018
 **Telas:** nenhuma diretamente (habilita todas)
 **Requisitos:** RNF-* do PRD-001; RF-FND-01…RF-FND-08 (abaixo; família `FND` separada de `RF-PLT-*` do PRD-001)
 

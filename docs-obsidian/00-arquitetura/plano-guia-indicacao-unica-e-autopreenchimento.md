@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: plano
-status: em-execucao
+status: concluido
 tags:
   - tissia
   - pep

@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-005-spike-adapter.md
 
 # RFC-PEP-005 — SpikeAdapter: integração nativa com a Spike anti-glosa
 
-**Fase:** P1 · **Status:** Em implementação · **ADRs:** ADR-PEP-0005, ADR-PEP-0006, ADR-PEP-0008, ADR-PEP-0009 · Spike ADR-0005, ADR-0007, ADR-0008
+**Fase:** P1 · **Status:** Implementada · **ADRs:** ADR-PEP-0005, ADR-PEP-0006, ADR-PEP-0008, ADR-PEP-0009 · Spike ADR-0005, ADR-0007, ADR-0008
 **Telas:** 12 (Painel anti-glosa), 13 (Revisão da guia SP/SADT), 14 (Análise parcial e estados), 15 (Modo silencioso × assistido); painel lateral da 05 e coluna de risco da 16
 **Requisitos:** RF-SPK-01 a RF-SPK-14
 **Depende de:** RFC-PEP-004 (evolução, `AtendimentoFechado`), RFC-PEP-006 (guia e `GuiaRevisao`), Spike `v1` em `staging` ([[manual-integracao-tissia-ia-v1|manual de integração]])

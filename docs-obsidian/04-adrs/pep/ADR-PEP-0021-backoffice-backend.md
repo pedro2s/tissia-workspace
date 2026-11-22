@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: adr
-status: proposta
+status: aceita
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/adr/ADR-PEP-0021-backoffice-backend.md
 
 # ADR-PEP-0021 — Backend do backoffice: módulo no monólito, processo e ingresso próprios, realm da equipe
 
-**Status:** Proposta — 08/11/2026
+**Status:** Aceita — 08/11/2026
 **Relacionadas:** [[ADR-PEP-0002-backend-nestjs-monolito-modular|ADR-PEP-0002]], [[ADR-PEP-0010-identidade-keycloak|ADR-PEP-0010]], [[ADR-PEP-0020-backoffice-app-separado|ADR-PEP-0020]], [[PRD-003-backoffice|PRD-003]]
 
 ## Contexto

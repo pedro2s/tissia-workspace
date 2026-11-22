@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-007-retorno-e-glosas.md
 
 # RFC-PEP-007 — Retorno da operadora, conciliação e central de glosas
 
-**Fase:** P2 · **Status:** Em implementação (fatias 0–5 e infraestrutura da fatia 6 entregues; ADRs 0006, 0012 e 0014 aceitas; pendente integração de recurso assistido via [[SPK-02-recurso-de-glosa|SPK-02]], [[SPK-12-desfecho-recurso-manual|SPK-12]] e [[SPK-13-ingestao-mapa-guia-ref|SPK-13]], ver Notas de implementação) · **ADRs:** ADR-PEP-0003, ADR-PEP-0005, ADR-PEP-0006, ADR-PEP-0008, ADR-PEP-0012, ADR-PEP-0014, ADR-PEP-0017
+**Fase:** P2 · **Status:** Implementada (fatias 0–5 e infraestrutura da fatia 6 entregues; ADRs 0006, 0012 e 0014 aceitas; pendente integração de recurso assistido via [[SPK-02-recurso-de-glosa|SPK-02]], [[SPK-12-desfecho-recurso-manual|SPK-12]] e [[SPK-13-ingestao-mapa-guia-ref|SPK-13]], ver Notas de implementação) · **ADRs:** ADR-PEP-0003, ADR-PEP-0005, ADR-PEP-0006, ADR-PEP-0008, ADR-PEP-0012, ADR-PEP-0014, ADR-PEP-0017
 **Telas:** 19 (Retorno e demonstrativo), 20 (Central de glosas e recurso)
 **Requisitos:** RF-RET-01 a RF-RET-05
 **Depende de:** RFC-PEP-006 completa (lotes, `numero_prestador`, guia `enviada`, `LoteEnviado`); RFC-PEP-008 (preço contratado vigente, prazo e limite de texto do recurso; sem ela, fallback abaixo); RFC-PEP-005 (SpikeAdapter, fila); RFC-PEP-000 (relay do outbox com fan-out por consumidor, fatia 0); RFC-PEP-010 (consome a baixa; não bloqueia esta RFC); RFC-PEP-011 (evolução em PDF assinado como anexo; sem ela, evolução fechada com hash); Spike [[SPK-02-recurso-de-glosa|SPK-02]] (só a fatia 6) e [[SPK-03-processamento-assincrono|SPK-03]] (desejável)

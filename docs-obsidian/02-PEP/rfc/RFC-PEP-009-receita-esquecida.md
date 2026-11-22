@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: planejada
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-009-receita-esquecida.md
 
 # RFC-PEP-009 — Receita esquecida
 
-**Fase:** P2 · **Status:** Planejada (detalhada em 09/11/2026; fatias 1–3 podem começar com a P1 concluída; fatia 4 depende da Q7; fatia 5 usa a ADR-PEP-0014, já aceita) · **ADRs:** ADR-PEP-0005, ADR-PEP-0006, ADR-PEP-0008, ADR-PEP-0014, ADR-PEP-0017
+**Fase:** P2 · **Status:** Implementada (detalhada em 09/11/2026; fatias 1–3 podem começar com a P1 concluída; fatia 4 depende da Q7; fatia 5 usa a ADR-PEP-0014, já aceita) · **ADRs:** ADR-PEP-0005, ADR-PEP-0006, ADR-PEP-0008, ADR-PEP-0014, ADR-PEP-0017
 **Telas:** 22 (Receita esquecida); widget no shell (02) e no painel do gestor (24)
 **Requisitos:** RF-ESQ-01, RF-ESQ-02; propõe ao PRD-001 RF-ESQ-03 a RF-ESQ-05 (ver Escopo)
 **Depende de:** RFC-PEP-003 (tipo e TUSS previsto do agendamento), RFC-PEP-004 (atendimento fechado, `pedidos_exame`), RFC-PEP-005 (análises gravadas, decisões, feedback, `paciente.ref`), RFC-PEP-006 (guias, revisões e máquina de estados), RFC-PEP-008 (prazo de envio, preço vigente, dias de retorno; com fallback por unidade), RFC-PEP-010 (recebível particular, fatia 1), RFC-PEP-007 (`DesfechoRegistrado`, para o "recuperado"), RFC-PEP-014 (auditoria)
@@ -294,3 +294,8 @@ Widget do shell (02) e cartão do painel do gestor (24) usam `GET /resumo` (valo
 - **Alinhamento pós-`tissia#31`, `feat/guia-correcoes-int` e `tissia-workspace#2`:**
   - Com a `ADR-PEP-0029` (consulta sempre cobrada em SP/SADT única ou Guia de Consulta separada), a nota em *Tipos de pendência* sobre "consulta de convênio sem pedido não gera guia" deixou de ocorrer para consultas novas, mantendo-se o cruzamento para atendimentos legados, procedimentos de consultório não lançados (`guia_so_consulta`) e itens sem preço no contrato (`itens_sem_preco`).
   - A [[ADR-PEP-0030-separacao-pedido-externo-execucao-local-e-retorno|ADR-PEP-0030]] e a [[RFC-PEP-023-faturamento-clinico-execucao-vs-solicitacao-e-retorno|RFC-PEP-023]] endereçam diretamente as perguntas abertas **Q3, Q5, Q7 e Q8** desta RFC: pedidos marcados como `solicitacao_externa` não entram na guia faturável da clínica, e retornos fechados dentro de `dias_retorno` são reconhecidos como regulares sem gerar falso positivo `sem_guia`.
+
+## Notas de implementação (22/11/2026 — PR `pedro2s/tissia#41`)
+
+- Migração `0059_onda_f_f1_receita_esquecida.sql` (`receita_esquecida_itens` com RLS), contratos Zod `.strict()` em `packages/contracts/src/receita-esquecida.ts`.
+- Endpoints `/api/v1/receita-esquecida` (`POST /varrer`, `GET /`, `POST /:id/recuperar`, `POST /:id/descartar`) com auditoria, UI real em `ReceitaEsquecida.tsx` e KPI real de receita recuperada em `PainelGestor.tsx`.

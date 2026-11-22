@@ -18,6 +18,8 @@ aliases:
 Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — **Single Source of Truth** documental para humanos e agentes de IA.
 
 > **Regra de ouro:** Consulte [[01-contratos-api/manual-integracao-tissia-ia-v1|Manual da API v1]] e [[01-contratos-api/mapeamento-pep-tissia-ia|Mapeamento PEP ↔ tissia-ia]] antes de alterar qualquer contrato HTTP, schema Zod (`@pep/contracts`) ou schema Pydantic (`tissia-ia/app/schemas.py`).
+>
+> **Trilha de Go-Live (22/11/2026 — 100% P0 + P1 + P2 entregues na `main`):** [[release-plan-pep|Release Plan & Checklist de Go-Live]] · [[test-plan-pep|Test Plan]] · [[auditoria-clinica-regulatoria-ux-2026-11|Auditoria Clínica & Encerramento]] · [[hub-pep-tissia|Hub do PEP]].
 
 ## Visão do Workspace
 

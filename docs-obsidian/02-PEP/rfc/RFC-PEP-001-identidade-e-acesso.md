@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-001-identidade-e-acesso.md
 
 # RFC-PEP-001 — Identidade, acesso, MFA, unidades e perfis
 
-**Fase:** P0 · **Status:** Em implementação (API, fluxo na UI e login com segundo fator validados em E2E; tema da marca no Keycloak e realms de produção entregues (PR #25, #26 e #29); recuperação, auditoria de login e quebra-vidro pendentes) · **ADRs:** ADR-PEP-0003, 0010
+**Fase:** P0 · **Status:** Implementada (API, fluxo na UI e login com segundo fator validados em E2E; tema da marca no Keycloak e realms de produção entregues (PR #25, #26 e #29); recuperação, auditoria de login e quebra-vidro pendentes) · **ADRs:** ADR-PEP-0003, 0010
 **Telas:** 01a (credenciais), 01b (MFA e unidade), 25 (perfis e permissões, parcial)
 **Requisitos:** RF-ACE-01…RF-ACE-12
 

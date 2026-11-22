@@ -15,7 +15,11 @@ origem: tissia/docs/test-plan.md
 
 # Test Plan — PEP Tissia
 
-**Escopo:** P0 e P1 em detalhe; P2+ em linhas gerais. A qualidade clínica da IA é testada na Spike ([[test-plan-ia|test plan da Spike]]); aqui testamos o PEP e a integração com ela.
+**Escopo:** P0, P1 e P2 (Ondas A–F) cobertos em detalhe; P3 em linhas gerais. A qualidade clínica da IA é testada na Spike ([[test-plan-ia|test plan da Spike]]); aqui testamos o PEP e a integração com ela.
+
+> **Baseline verificada em 22/11/2026 (`tissia` `main` @ `e28182f`):**
+> - `@pep/api`: **67 suítes / 564 testes** integrados em PostgreSQL 16 + Redis reais (`jest --runInBand`, migrações `0000`–`0063`), incluindo RLS forçado em todas as tabelas de domínio (`rls.spec.ts`), OpenAPI snapshots (`openapi.json`, `backoffice.json`, `tissia-ai-openapi_v1.json`), XSD TISS `4.02.00`/`4.03.00`, `hashTiss` ISO-8859-1, assinatura ICP-Brasil (`rfc011-assinatura-icp.spec.ts`), COFEN/LGPD (`onda-e2-f2-unit.spec.ts`), Receita Esquecida (`rfc009-receita-esquecida.spec.ts`), Repasse/NFS-e (`rfc010-f2-repasse-nfse.spec.ts`) e Backoffice (`backoffice-planos-ops.spec.ts`).
+> - `@pep/contracts`, `@pep/ui` e `@pep/backoffice`: 100% verdes em Vitest, `pnpm typecheck`, `pnpm build` e `pnpm deps` (218 módulos, 0 violações de fronteira).
 
 ## 1. Estratégia
 

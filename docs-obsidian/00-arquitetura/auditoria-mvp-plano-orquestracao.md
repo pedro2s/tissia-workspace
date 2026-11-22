@@ -1,7 +1,7 @@
 ---
 projeto: ecossistema
 tipo: auditoria-mvp
-status: em-andamento
+status: concluido
 data: 2026-11-16
 tags:
   - tissia

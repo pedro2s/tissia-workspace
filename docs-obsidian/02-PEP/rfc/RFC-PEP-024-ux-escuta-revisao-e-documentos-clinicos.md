@@ -18,7 +18,7 @@ aliases:
 
 # RFC-PEP-024 — Evolução de UX Clínica: Escuta Ambiental, Revisão, Documentos e Catálogos
 
-**Fase:** P2 (evolução pós-P1 / pós-RFC-022 e 023) · **Status:** Implementada · **ADRs:** [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0024-bases-ans-vigentes-sem-inventar-codigos|ADR-PEP-0024]], [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027]]
+**Fase:** P2 (evolução pós-P1 / pós-RFC-022 e 023) · **Status:** Implementada · **ADRs:** [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0024-dados-de-referencia-ans|ADR-PEP-0024]], [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027]]
 **Telas:** 05 (Prontuário — botão Finalizar integrado e editor em bloco), 06 (Escuta Ambiental), 07 (Revisão Pós-Consulta), 08 (Documentos do Atendimento)
 **Requisitos:** RF-PRO-05..10, RF-ENV-03..04, RF-DOC-01..06
 **Depende de:** [[RFC-PEP-004-prontuario|RFC-PEP-004]], [[RFC-PEP-013-voz-ambiental|RFC-PEP-013]], [[RFC-PEP-021-dados-de-referencia-ans|RFC-PEP-021]], [[RFC-PEP-022-triagem-e-checkout-recepcao|RFC-PEP-022]], [[RFC-PEP-023-faturamento-clinico-execucao-vs-solicitacao-e-retorno|RFC-PEP-023]]

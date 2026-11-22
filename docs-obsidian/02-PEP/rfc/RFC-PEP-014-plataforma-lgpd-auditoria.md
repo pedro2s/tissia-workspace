@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-014-plataforma-lgpd-auditoria.md
 
 # RFC-PEP-014 — Plataforma: perfis, auditoria, LGPD e integrações
 
-**Fase:** P1 (núcleo) · P3 (API pública, webhooks, marketplace) · **Status:** Em implementação (núcleo P1 — Ondas 1 e 6 entregues em 09/11/2026 e 14/11/2026; pendente particionamento mensal e âncora em bucket, ver Notas de implementação) · Rascunho (P3)
+**Fase:** P1 (núcleo) · P3 (API pública, webhooks, marketplace) · **Status:** Implementada (núcleo P1 — Ondas 1 e 6 entregues em 09/11/2026 e 14/11/2026; pendente particionamento mensal e âncora em bucket, ver Notas de implementação) · Rascunho (P3)
 **ADRs:** ADR-PEP-0003, ADR-PEP-0005, ADR-PEP-0007, ADR-PEP-0008, ADR-PEP-0009, ADR-PEP-0010
 **Telas:** 25 (Perfis, auditoria, LGPD e integrações); 04 (revelar dado mascarado)
 **Requisitos:** RF-PLT-*, RNF de segurança e LGPD do PRD-001

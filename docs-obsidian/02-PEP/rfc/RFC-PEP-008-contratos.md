@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: em-implementacao
+status: implementada
 tags:
   - tissia
   - pep
@@ -12,7 +12,7 @@ origem: tissia/docs/rfc/RFC-PEP-008-contratos.md
 
 # RFC-PEP-008 — Contratos, tabelas negociadas e autorização prévia
 
-**Fase:** P2 (fatia 0 pode ser antecipada para a P1, ver abaixo) · **Status:** Em implementação (fatias 1–6 entregues em 15/11/2026; ADRs 0012 e 0014 aceitas; fora XLSX, E2E dedicado e `provisionar_regras_autorizacao` via [[SPK-11-contratos-auditar-substituicao|SPK-11]], ver Notas de implementação) · **ADRs:** ADR-PEP-0003, ADR-PEP-0005, ADR-PEP-0008, ADR-PEP-0012, ADR-PEP-0014, ADR-PEP-0017
+**Fase:** P2 (fatia 0 pode ser antecipada para a P1, ver abaixo) · **Status:** Implementada (fatias 1–6 entregues em 15/11/2026; ADRs 0012 e 0014 aceitas; fora XLSX, E2E dedicado e `provisionar_regras_autorizacao` via [[SPK-11-contratos-auditar-substituicao|SPK-11]], ver Notas de implementação) · **ADRs:** ADR-PEP-0003, ADR-PEP-0005, ADR-PEP-0008, ADR-PEP-0012, ADR-PEP-0014, ADR-PEP-0017
 **Telas:** 21 (Contratos e tabelas negociadas)
 **Requisitos:** RF-CON-01 a RF-CON-03; alimenta RF-AGE-03/RF-AGE-06 (agenda) e as validações de valor, prazo e autorização da RFC-PEP-006
 **Depende de:** RFC-PEP-000 (RLS, outbox com fila por consumidor, worker com agendamento), RFC-PEP-005 (SpikeAdapter, só a fatia 6), RFC-PEP-006 (consome preço, limite e prazo; fornece o volume de guias para o impacto); consumida por RFC-PEP-003, RFC-PEP-006, RFC-PEP-007 e RFC-PEP-009
