@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: rascunho
+status: implementada
 tags:
   - tissia
   - pep
@@ -22,7 +22,7 @@ aliases:
 
 # RFC-PEP-029 — Ergonomia Clínica, Resiliência Anti-Perda e Aceleradores de Produtividade (30–40 Pacientes/Dia)
 
-**Fase:** P2 — Onda D (UX Clínica, Resiliência Anti-Perda e Produtividade 30–40 pac/dia) · **Status:** Rascunho
+**Fase:** P2 — Onda D (UX Clínica, Resiliência Anti-Perda e Produtividade 30–40 pac/dia) · **Status:** Implementada
 **ADRs relacionadas:** [[ADR-PEP-0003-postgres-rls-multitenant|ADR-PEP-0003]], [[ADR-PEP-0004-frontend|ADR-PEP-0004]], [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0015-offline-prontuario|ADR-PEP-0015]], [[ADR-PEP-0017-orm-drizzle-rls|ADR-PEP-0017]], [[ADR-PEP-0018-monorepo-pnpm-turborepo|ADR-PEP-0018]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0024-dados-de-referencia-ans|ADR-PEP-0024]], [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027]], [[ADR-PEP-0030-separacao-pedido-externo-execucao-local-e-retorno|ADR-PEP-0030]], [[ADR-PEP-0031-separacao-papeis-checkout-recepcao-e-triagem|ADR-PEP-0031]], [[ADR-PEP-0033-governanca-ia-cfm-2454-e-seguranca-prescricao|ADR-PEP-0033]]
 **RFCs relacionadas / dependências:** [[RFC-PEP-004-prontuario|RFC-PEP-004]], [[RFC-PEP-013-voz-ambiental|RFC-PEP-013]], [[RFC-PEP-015-frontend|RFC-PEP-015]], [[RFC-PEP-024-ux-escuta-revisao-e-documentos-clinicos|RFC-PEP-024]], [[RFC-PEP-025-estacao-enfermagem-assinatura-exames-resumo-e-baixa-checkout|RFC-PEP-025]], [[RFC-PEP-026-blindagem-regulatoria-autoria-sigilo-e-governanca-ia|RFC-PEP-026]], [[RFC-PEP-028-jornada-hibrida-grande-clinica-e-sae-enfermagem|RFC-PEP-028]]
 **Telas impactadas:** 01 (Início), 03 (Agenda / Semana / Check-out / Triagem), 04 (Ficha do Paciente), 05/05a (Fila de Atendimentos e Prontuário), 06 (Escuta Ambiental), 07 (Revisão Pós-Consulta), 08 (Documentos do Atendimento), 09 (Construtor de Modelos), Shell (`Topbar` e `Sidebar`)
@@ -789,3 +789,13 @@ stateDiagram-v2
 2. **Escopo de edição de `kits_exames` da unidade:** qualquer médico da unidade pode publicar um kit com `escopo = 'unidade'`, ou apenas perfis `gestor` / `admin` / médico responsável técnico podem promover um kit pessoal para a unidade?
 3. **Compartilhamento de `posologias_favoritas`:** na primeira entrega (F2), manter `posologias_favoritas` estritamente pessoais por profissional (evitando poluição de lista entre especialidades distintas) e avaliar compartilhamento por especialidade em iteração futura?
 4. **Rótulo definitivo do menu `/prontuario`:** `"Atendimentos"` (mais curto e direto para fila + abertos) ou `"Fila clínica"` (enfatizando a sequência do dia)?
+
+---
+
+## 11. Notas de implementação
+
+- Implementada integralmente nas 3 fatias (**F1**, **F2** e **F3**) da **Onda D** (`feat/onda-d-rfc029-integrada`, PR `pedro2s/tissia#37`):
+  - **F1 (Resiliência anti-perda, confirmação e atalhos):** `useProtecaoSaidaSuja` (`createBrowserRouter` + `useBlocker` + `beforeunload`), auto-save completo com flush `keepalive`, `offline-audio-queue.ts` v2 em IndexedDB com retry/TTL/logout em `Voz.tsx`, confirmação de finalização (`Ctrl/Cmd+Enter`), correção de `"Assinar pendentes e finalizar"` com regra de retorno, `Cmd/Ctrl+S`, `/r /e /a /c` no `SlashMenu`, modal de Ajuda, nome real da unidade na `Topbar` e prompt de atualização PWA (`workbox-window`).
+  - **F2 (Aceleradores clínicos):** `"Repetir última receita"` (com checagem de alergias), `"Puxar ativos"` de CIDs na `LinhaDoTempo`, tabelas multi-tenant `posologias_favoritas`, `kits_exames` e `modelo_preferencias_profissional` com RLS, campo `booleano`, chips 1-clique, `"Preencher campos vazios como normal"`, `"Inserir síntese no SOAP"`, visão lado a lado (`xl:`) e impressão/check-out do `resumo_paciente` revisado.
+  - **F3 (Jornada, multi-atendimento e check-out):** `emAndamentoLista`, `<AlternadorAtendimentosAbertos />`, menu `"Atendimentos"`, `<ModalImpressaoConsolidada />` sem desmontar `CheckoutDrawer`, badge de documentos em rascunho no check-out, densidade configurável da `Agenda`, nomes visíveis na `Semana`, `sessoes_revelacao_pii` (sessão curta auditada de 10 min) e `<PedidosExameEditor />` uniforme entre `Atendimento`, `Revisao` e `Documentos`.
+  - **Banco, OpenAPI e Testes:** migration unificada `0056_onda_d_rfc029_schema.sql`, `apps/api/openapi/openapi.json` atualizado (com `@ApiParam` explícito em `ModelosController.removerPreferenciaPadrao`), `test/documentos.spec.ts` ajustado para `ultimaReceita: null`; suíte completa verde (`pnpm typecheck`, `pnpm deps`, `pnpm build`, `@pep/contracts test`, `@pep/ui test` e `61 suítes / 521 testes` em `@pep/api`).
