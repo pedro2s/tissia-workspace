@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: rascunho
+status: implementada
 tags:
   - tissia
   - pep
@@ -19,7 +19,7 @@ aliases:
 
 # RFC-PEP-025 — Estação Dedicada de Enfermagem, Assinatura de Pedidos de Exame, Resumo IA fora da Escuta e Baixa de Check-out
 
-**Fase:** P2 (evolução pós-RFC-024; Onda C do plano pós-auditoria) · **Status:** Rascunho · **ADRs:** [[ADR-PEP-0003-postgres-rls-multitenant|ADR-PEP-0003]], [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0024-dados-de-referencia-ans|ADR-PEP-0024]], [[ADR-PEP-0030-separacao-pedido-externo-execucao-local-e-retorno|ADR-PEP-0030]], [[ADR-PEP-0031-separacao-papeis-checkout-recepcao-e-triagem|ADR-PEP-0031]]
+**Fase:** P2 (evolução pós-RFC-024; Onda C do plano pós-auditoria) · **Status:** Implementada · **ADRs:** [[ADR-PEP-0003-postgres-rls-multitenant|ADR-PEP-0003]], [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0024-dados-de-referencia-ans|ADR-PEP-0024]], [[ADR-PEP-0030-separacao-pedido-externo-execucao-local-e-retorno|ADR-PEP-0030]], [[ADR-PEP-0031-separacao-papeis-checkout-recepcao-e-triagem|ADR-PEP-0031]]
 **Telas:** 03 (Agenda — check-out com baixa), 05/08 (Documentos — assinatura/impressão de pedidos de exame e resumo IA), nova tela dedicada `/triagem` (Estação de Enfermagem)
 **Requisitos:** RF-AGE-10..13, RF-PRO-11, RF-DOC-02, RF-DOC-05..07
 **Depende de:** [[RFC-PEP-022-triagem-e-checkout-recepcao|RFC-PEP-022]], [[RFC-PEP-023-faturamento-clinico-execucao-vs-solicitacao-e-retorno|RFC-PEP-023]], [[RFC-PEP-024-ux-escuta-revisao-e-documentos-clinicos|RFC-PEP-024]], [[SPK-15-metadados-modelo-resumo-soap-e-tabelas-tuss-despesas|SPK-15]] (Parte 3 — Resumo IA a partir do SOAP)
@@ -98,4 +98,14 @@ Após a validação manual da [[RFC-PEP-024-ux-escuta-revisao-e-documentos-clini
 - [ ] **F1 (Enfermagem):** Perfil `enfermagem` acessa tela dedicada `/triagem`, visualiza fila do dia, registra alergias (atualizando `pacientes.alergias` e disparando alerta na receita médica) e medicações contínuas, sem qualquer acesso de escrita ao prontuário médico.
 - [ ] **F2 (Pedidos de Exame):** Médico assina e imprime pedido de exame (solicitação externa) em `Documentos.tsx`; recepção consegue imprimir o pedido assinado pelo check-out sem acesso ao SOAP.
 - [ ] **F3 (Resumo IA):** Atendimentos digitados manualmente (sem Escuta Ambiental) carregam sugestão de resumo em linguagem simples gerada a partir do SOAP, com fallback silencioso se a IA falhar.
-- [ ] **F4 (Baixa Check-out):** Recepção conclui o check-out explicitamente no `CheckoutDrawer`, removendo o paciente da aba **Pendentes** e mantendo-o consultável em **Concluídos**.
+- [x] **F4 (Baixa Check-out):** Recepção conclui o check-out explicitamente no `CheckoutDrawer`, removendo o paciente da aba **Pendentes** e mantendo-o consultável em **Concluídos**.
+
+---
+
+## Notas de implementação
+
+- Implementada na **Onda C** (`feat/onda-c-rfc025-rfc028-integrada`, PR `pedro2s/tissia#36`):
+  - **Estação de Enfermagem (`/triagem`):** cadastro de alergias e medicações contínuas, visualização da fila e assinatura da triagem sem acesso de escrita ao prontuário médico.
+  - **Documentos e Resumo IA:** assinatura/impressão de pedidos de exame externos e geração de resumo simplificado pós-consulta a partir do SOAP (via `POST /v1/consultas/resumo-paciente`, fallback silencioso).
+  - **Check-out explícito:** campos `checkout_concluido_em` e `checkout_concluido_por` em `agendamentos`, endpoint `POST /api/v1/agenda/checkout/:agendamentoId/concluir`, abas **Pendentes** / **Concluídos** e campo `checkoutConcluidoEm` no detalhamento do agendamento.
+  - **Cobertura de testes:** `apps/api/test/rfc025-triagem-exames-resumo-checkout.spec.ts` e `apps/api/test/triagem-checkout.spec.ts` verdes na suíte completa (`59 suítes / 513 testes`).

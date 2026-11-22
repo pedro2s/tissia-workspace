@@ -687,6 +687,16 @@ Rotas de autoatendimento e medição de cota para integradores (exigem chave com
 - **`GET /v1/auth/verificar`** *(autenticado)* — Valida a chave `Authorization: Bearer tsk_*` e retorna `{ "integrador_id", "nome", "ativo" }`.
 - **`GET /healthz`** *(público, sem autenticação)* — Probe de disponibilidade e versão das bases → `{ "status": "ok", "versao_app", "versao_bases" }`.
 
+### 5.17 Sugestão Proativa a partir da Evolução (`SPK-14`)
+
+Permite sugerir CID-10, procedimentos TUSS e indicação clínica (Campo 23) diretamente a partir da evolução clínica durante o atendimento, sem exigir guia em rascunho nem `operadora` (suportando atendimentos particulares).
+
+- **`POST /v1/guias/sugerir`** (`200 OK`)
+  - Request (`extra="forbid"`): `{ "clinica_ref": string, "atendimento_ref"?: string | null, "paciente": { "ref", "sexo"?: "M"|"F"|"I", "idade"?: integer }, "operadora"?: { "registro_ans": string } | null, "evolucao_clinica": string (1..20000 chars), "procedimentos_informados"?: string[], "gerar_indicacao"?: boolean (padrão true), "limite_caracteres"?: integer (50..1000, padrão 500) }`.
+  - Response: `{ "sugestao_id", "versao_bases", "degradado": boolean, "origem_ia": { "extracao", "decisor", "justificativa" }, "metadados_ia"?: object | null, "cids": [...], "procedimentos": [...], "indicacao_clinica"?: { "texto", "procedimentos_cobertos": string[], "gerada_por_ia": boolean } | null, "aviso_legal" }`.
+- **`POST /v1/guias/sugerir/{sugestao_id}/feedback`** (`204 No Content`)
+  - Request (`extra="forbid"`): `{ "papel"?: "medico" | "faturista", "itens": [{ "item_id": string, "acao": "aceito" | "editado" | "rejeitado", "texto_final"?: string | null }] }`.
+
 ---
 
 ## 6. Recomendações de Experiência do Usuário (UX/UI)
@@ -722,3 +732,4 @@ Para maximizar a adesão de médicos e faturistas sem adicionar atrito ao fluxo 
 | `v1.5` | 15/11/2026 | Evolução do Scribe (`RFC-009` / `SPK-04`): geração de `documentos`, análise anti-glosa encadeada (`analise`), retorno de `estruturacao_id` e endpoint `POST /v1/consultas/estruturacoes/{id}/feedback`; inclusão de headers `X-Tissia-Tempos-Ms` e `X-Tissia-Cota-Restante` e códigos `201`, `202`, `409`, `429`. |
 | `v1.6` | 16/11/2026 | Correção da numeração sequencial da seção 5 (`5.7`–`5.16`) e documentação completa de `SPK-01` (clínicas/indicadores/configuração), `SPK-02` (recurso de glosa), `SPK-03` (jobs, webhooks e limite de `20.000.000` chars em `/v1/tiss/lotes/ingerir` assíncrono), `SPK-04` (`POST /v1/consultas/transcrever`), `SPK-05` (`/v1/uso` e `/v1/integrador/chaves*`), `GET /v1/auth/verificar` e `GET /healthz`. |
 | `v1.7` | 21/11/2026 | Implementação aditiva da `SPK-15`: objeto `metadados_ia` (`modelo`, `versao_modelo`, `versao_prompt`, `provedor`) nas respostas de IA, novo endpoint `POST /v1/consultas/resumo-paciente` (a partir do SOAP, sem exigir `operadora`) e extensão de `GET /v1/catalogos/tuss` / `/tuss/{codigo}` com `data_referencia`, `incluir_nao_vigentes` e campos `tabela`, `vigencia_inicio`, `vigencia_fim`, `vigente_na_data`, `unidade_medida_padrao`. |
+| `v1.8` | 21/11/2026 | Implementação da `SPK-14`: endpoints `POST /v1/guias/sugerir` (com `operadora` opcional, atendendo inclusive particular) e `POST /v1/guias/sugerir/{sugestao_id}/feedback`. |

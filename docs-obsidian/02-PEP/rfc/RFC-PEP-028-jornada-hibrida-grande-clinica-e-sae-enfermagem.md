@@ -1,7 +1,7 @@
 ---
 projeto: PEP
 tipo: rfc
-status: rascunho
+status: implementada
 tags:
   - tissia
   - pep
@@ -20,7 +20,7 @@ aliases:
 
 # RFC-PEP-028 — Jornada Híbrida (Particular × Convênio), Operação de Grande Clínica e Processo de Enfermagem (SAE)
 
-**Fase:** P2 — Onda C: Fluxo Híbrido, Grande Clínica e SAE/Enfermagem · **Status:** Rascunho
+**Fase:** P2 — Onda C: Fluxo Híbrido, Grande Clínica e SAE/Enfermagem · **Status:** Implementada
 **ADRs:** [[ADR-PEP-0003-postgres-rls-multitenant|ADR-PEP-0003]], [[ADR-PEP-0005-spike-adapter|ADR-PEP-0005]], [[ADR-PEP-0007-prontuario-imutavel|ADR-PEP-0007]], [[ADR-PEP-0014-convenio-e-particular-no-mvp|ADR-PEP-0014]], [[ADR-PEP-0017-orm-drizzle-rls|ADR-PEP-0017]], [[ADR-PEP-0018-monorepo-pnpm-turborepo|ADR-PEP-0018]], [[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]], [[ADR-PEP-0024-dados-de-referencia-ans|ADR-PEP-0024]], [[ADR-PEP-0027-indicacao-clinica-unica-por-atendimento|ADR-PEP-0027]], [[ADR-PEP-0030-separacao-pedido-externo-execucao-local-e-retorno|ADR-PEP-0030]], [[ADR-PEP-0031-separacao-papeis-checkout-recepcao-e-triagem|ADR-PEP-0031]], [[ADR-PEP-0035-conta-hibrida-por-item-e-processo-enfermagem-sae|ADR-PEP-0035]]
 **Telas:** 03 (`Agenda`), 04 (`Paciente`), 05 (`Atendimento`), 05a (`Prontuario` / Fila do Médico), 20 (`Financeiro`), `/triagem` (`Estação de Enfermagem` + `Sala de Medicação/Procedimentos`) e subtelas operacionais (Tabela Particular, Caixa por Turno, Salas e Escalas)
 **Depende de:** [[RFC-PEP-003-agenda|RFC-PEP-003]], [[RFC-PEP-004-prontuario|RFC-PEP-004]], [[RFC-PEP-010-financeiro-e-repasse|RFC-PEP-010]], [[RFC-PEP-022-triagem-e-checkout-recepcao|RFC-PEP-022]], [[RFC-PEP-023-faturamento-clinico-execucao-vs-solicitacao-e-retorno|RFC-PEP-023]], [[RFC-PEP-024-ux-escuta-revisao-e-documentos-clinicos|RFC-PEP-024]], [[RFC-PEP-025-estacao-enfermagem-assinatura-exames-resumo-e-baixa-checkout|RFC-PEP-025]]
@@ -944,3 +944,15 @@ flowchart LR
 3. **Q3 — Regra de caixa obrigatório no recebimento particular:** em clínicas menores onde o próprio médico ou gerente recebe fora do balcão, `registrarRecebimentoParticular` deve exigir caixa aberto obrigatoriamente ou permitir configuração por unidade (`exigir_caixa_aberto: boolean`)?
 4. **Q4 — Coparticipação e NFS-e `**[validar]**`:** na emissão futura de NFS-e sobre atendimentos híbridos, a nota fiscal ao paciente deve cobrir apenas itens `'particular'` ou também `'coparticipacao'` recebida diretamente pela clínica (conforme regime contratual de cada operadora)?
 5. **Q5 — Precificação de insumos consumidos pela enfermagem:** os insumos informados na checagem (`insumos_consumidos`) devem ter preço obrigatório pré-cadastrado na `tabela_particular` ou permitir lançamento com preço zerado/pendente para valorização posterior pela recepção antes do check-out?
+
+---
+
+## 10. Notas de implementação
+
+- Implementada nas 4 fatias (**F1** a **F4**) da **Onda C** (`feat/onda-c-rfc025-rfc028-integrada`, PR `pedro2s/tissia#36`):
+  - **F1 (Conta Híbrida e Particular):** tabelas `conta_atendimento_itens` e `tabela_particular`, endpoints de conta do atendimento e tabela particular, e criação automática de `recebiveis` em particular apenas quando há itens particulares valorizados (atendimento particular sem preço em tabela mantém `valorPrevistoCentavos: null`).
+  - **F2 (Caixa, Movimentos e Retorno):** `caixas_turno`, `caixa_movimentos` (protegida por trigger de imutabilidade `trg_caixa_movimentos_imutavel`), `movimentos_recebivel` e `politicas_retorno_profissional`.
+  - **F3 (Grande Clínica, Jornadas e Salas):** `jornadas_profissionais`, `salas`, suporte multi-profissional em agenda e alocação de salas.
+  - **F4 (SAE e Sala de Medicação):** `registros_enfermagem` (protegida por trigger de imutabilidade `trg_reg_enf_imutavel`, exigindo `retificaRegistroId` quando `etapaSae === 'retificacao'`) e `ordens_execucao_clinica`, além do painel da Sala de Medicação em `/triagem`.
+  - **Migrations unificadas:** `0054_onda_c_rfc025_rfc028_schema.sql` e `0055_rfc028_triggers_imutabilidade.sql`.
+  - **Cobertura de testes:** `rfc028-f1-conta-hibrida-particular.spec.ts`, `rfc028-f2-financeiro-caixa-reembolso.spec.ts`, `rfc028-f3-grande-clinica-agenda-salas.spec.ts` e `rfc028-f4-sae-enfermagem-sala-medicacao.spec.ts` verdes na suíte completa (`59 suítes / 513 testes`).
