@@ -201,3 +201,8 @@ Particulares não entram (não há guia TISS).
 | [[SPK-15-metadados-modelo-resumo-soap-e-tabelas-tuss-despesas\|SPK-15]] | `metadados_ia` (CFM 2.454/2026), `POST /v1/consultas/resumo-paciente` via SOAP e vigência/tabelas 18/19/20 em `GET /v1/catalogos/tuss` | Trilha auditável de IA (`RFC-PEP-026`), resumo ao paciente sem Scribe (`RFC-PEP-025`) e vigência TUSS / outras despesas (`RFC-PEP-027`) | **Implementada na `tissia-ia`** (`app/api/{guias,consultas,glosas,catalogos}.py`) e consumida no PEP (`catalogo.service.ts`, `tissia-ai.service.ts`) |
 
 Todas são aditivas em `/v1`. As propostas `SPK-09` e `SPK-10` já evoluíram para `RFC-IA-011` e `RFC-IA-013`, e `SPK-06` Fase 1 evoluiu para `RFC-IA-014` em `tissia-ia`.
+
+### Onda P3 (2026-11-25) — contratos adicionados em `@pep/contracts`
+
+- `sae-assistida.ts`, `ranking-glosas.ts` e `onda-p3-whatsapp.ts` publicam os schemas Zod `.strict()` das rotas internas do PEP (SAE assistida, ranking de glosas e envio de resumo ao paciente). São **contratos PEP ↔ UI**, sem contrapartida na API `v1` do `tissia-ia`: nenhuma rota, payload ou enum desta integração mudou, portanto não há atualização de snapshot `openapi_v1.json` nem nova `SPK-*` pendente.
+- A SAE assistida é determinística (template local, sem LLM) e o envio via WhatsApp usa provedor `stub`/`fake` com `WHATSAPP_ENABLED=false` por padrão; nenhum dado clínico é enviado ao motor de IA nesses fluxos.
