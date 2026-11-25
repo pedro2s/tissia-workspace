@@ -83,3 +83,6 @@ A proposta do produto é auxiliar o médico **durante** o atendimento: a partir 
   - Endpoints `POST /v1/guias/sugerir` (`200 OK`) e `POST /v1/guias/sugerir/{sugestao_id}/feedback` (`204 No Content`).
   - Suporta `operadora` opcional (atende atendimentos particulares e convênios sem inventar `registro_ans`), scrubber de PII em `evolucao_clinica`, validação de códigos contra `data/` (`ADR-IA-0008`), `metadados_ia` (`ADR-IA-0010`) e persistência separada de `analises`.
   - Suíte `pytest` (`192 passed`) e `ruff check .` / `ruff format --check .` verdes.
+- **Evolução aditiva `SPK-14 v2` (Onda P — 25/11/2026):**
+  - `tissia-ia` (`pedro2s/tissia-ai#13`, branch `feat/onda-p-spk14-v2`): exposição de `tipo` (`"realizado" | "solicitado" | null`) e `dut_resumo` determinístico (`ResumoDutSugestao`, somente quando `operadora` presente) em `SugestaoProcedimento`, snapshot `openapi_v1.json` atualizado (`252 passed`).
+  - `PEP` (`pedro2s/tissia#61` backend/contratos + `pedro2s/tissia#59` front-end): tabela append-only `decisoes_sugestao_ia` (`0073`), entrega assíncrona em `POST /v1/guias/sugerir/{sugestao_id}/feedback`, pré-scrubbing PII no `SpikeAdapter`, contexto clínico com `especialidade` + Triagem, detecção de `executavelNaUnidade` e UX 1-clique com DUT ao vivo e alternativas CID/TUSS.
