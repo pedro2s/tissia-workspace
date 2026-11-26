@@ -96,7 +96,7 @@ Persistência da resposta: `AnaliseTissiaAi` (`analise_id`, `versao_bases`, `ris
 | Campo Spike | Origem no PEP |
 | :--- | :--- |
 | `papel` | Perfil de quem decidiu: `medico` ou `faturista` (outros perfis não decidem) |
-| `itens[].item_id` | `alertas[].id`; `"<codigo_tuss>:justificativa"` ou `"guia:justificativa"`; `"sug_cid:<codigo>"`; `"sug_tuss:<codigo>"` (no PEP, decisões sobre itens de CID só são aceitas do médico titular — `403` para os demais; ver [[RFC-PEP-026-blindagem-regulatoria-autoria-sigilo-e-governanca-ia\|RFC-PEP-026]]) |
+| `itens[].item_id` | `alertas[].id`; `"<codigo_tuss>:justificativa"` ou `"guia:justificativa"`; `"sug_cid:<codigo>"`; `"sug_tuss:<codigo>"` (o UI grava `ia_cid:`, `ia_exame:` e `ia_indicacao`; o PEP remove o prefixo `ia_` ao enviar o feedback, porque o contrato da `tissia-ia` só aceita `cid:`, `exame:` e `indicacao`; no PEP, decisões sobre itens de CID só são aceitas do médico titular — `403` para os demais; ver [[RFC-PEP-026-blindagem-regulatoria-autoria-sigilo-e-governanca-ia\|RFC-PEP-026]]) |
 | `itens[].acao` | `DecisaoUsuario.acao` (`aceito`, `editado`, `rejeitado`) |
 | `itens[].texto_final` | Texto final do Campo 23 quando `editado` (≤ 5.000; o PEP já limita a 500) |
 

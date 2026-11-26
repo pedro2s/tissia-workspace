@@ -359,3 +359,7 @@ Rotas canônicas da RFC-PEP-015: `/atendimentos/:id/revisao` (07), `/atendimento
 - **Atestado e pedido de exame:** em produção exigem `icp_brasil` (antes, só receita de controle especial e antimicrobiano). Em dev/teste o fluxo `simples` continua. Sem PSC real em produção responde `503`.
 - **Defaults de configuração:** `ASSINATURA_PROVEDOR=bloqueado` e `AUTH_MODE=oidc` por padrão; `ASSINATURA_LOCAL_PIN` sem valor padrão, obrigatório só com `ASSINATURA_PROVEDOR=local`. Decisão em [[ADR-PEP-0036-defaults-fail-closed-autenticacao-e-assinatura|ADR-PEP-0036]].
 - **Desvio em aberto:** a prova do PSC ainda **não é verificada criptograficamente** (cadeia ICP, CMS/PAdES, correspondência com o hash, CPF/CRM do certificado) e o PDF entregue não carrega assinatura embutida. Staging com `NODE_ENV!=production` ainda emite assinatura simples para atestado e exame. Ambos precisam de RFC própria.
+
+### Atualização de 26/11/2026 — demo (PR `pedro2s/tissia#80`, em revisão)
+
+Com o padrão fail-closed da [[ADR-PEP-0036-defaults-fail-closed-autenticacao-e-assinatura|ADR-PEP-0036]], a demo não assinava receita de controle especial (`503`). O `apps/api/.env.demo` passa a declarar `ASSINATURA_PROVEDOR=local` e um PIN sintético, **somente para a demonstração**; o provedor `local` segue proibido em produção (a API recusa o boot). O PIN fica em arquivo versionado, ciente.
