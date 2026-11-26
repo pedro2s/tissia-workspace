@@ -352,3 +352,10 @@ Rotas canônicas da RFC-PEP-015: `/atendimentos/:id/revisao` (07), `/atendimento
 
 - Migração `0057_onda_e2_f1_assinatura_icp.sql`: persistência server-side de `hash_conteudo_sha256`, `codigo_verificacao` (`VER-XXXX-XXXX-XXXX`), `nivel_assinatura` (`simples` | `icp_brasil`), `provedor_assinatura` e resumo do certificado.
 - `AssinaturaService` + `ProvedorAssinaturaPsc` (PSC em nuvem Vidaas/BirdID + sandbox determinístico com step-up PIN/OTP), rota pública sem PII `GET /api/v1/publico/documentos/verificar/:codigo`, QR Code SVG inline (`QrCodeVerificacao.tsx`) e desbloqueio de antimicrobianos/controle especial com assinatura qualificada.
+
+### Atualização de 26/11/2026 — auditoria clínica (PR `pedro2s/tissia#72`)
+
+- **Código de verificação:** passa de 12 para 20 hex (`VER-XXXX-XXXX-XXXX-XXXX-XXXX`). A leitura continua aceitando só os dois formatos (12 ou 20 hex); documentos antigos seguem verificáveis.
+- **Atestado e pedido de exame:** em produção exigem `icp_brasil` (antes, só receita de controle especial e antimicrobiano). Em dev/teste o fluxo `simples` continua. Sem PSC real em produção responde `503`.
+- **Defaults de configuração:** `ASSINATURA_PROVEDOR=bloqueado` e `AUTH_MODE=oidc` por padrão; `ASSINATURA_LOCAL_PIN` sem valor padrão, obrigatório só com `ASSINATURA_PROVEDOR=local`. Decisão em [[ADR-PEP-0036-defaults-fail-closed-autenticacao-e-assinatura|ADR-PEP-0036]].
+- **Desvio em aberto:** a prova do PSC ainda **não é verificada criptograficamente** (cadeia ICP, CMS/PAdES, correspondência com o hash, CPF/CRM do certificado) e o PDF entregue não carrega assinatura embutida. Staging com `NODE_ENV!=production` ainda emite assinatura simples para atestado e exame. Ambos precisam de RFC própria.

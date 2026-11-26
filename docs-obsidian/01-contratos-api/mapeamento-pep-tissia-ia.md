@@ -96,7 +96,7 @@ Persistência da resposta: `AnaliseTissiaAi` (`analise_id`, `versao_bases`, `ris
 | Campo Spike | Origem no PEP |
 | :--- | :--- |
 | `papel` | Perfil de quem decidiu: `medico` ou `faturista` (outros perfis não decidem) |
-| `itens[].item_id` | `alertas[].id`; `"<codigo_tuss>:justificativa"` ou `"guia:justificativa"`; `"sug_cid:<codigo>"`; `"sug_tuss:<codigo>"` |
+| `itens[].item_id` | `alertas[].id`; `"<codigo_tuss>:justificativa"` ou `"guia:justificativa"`; `"sug_cid:<codigo>"`; `"sug_tuss:<codigo>"` (no PEP, decisões sobre itens de CID só são aceitas do médico titular — `403` para os demais; ver [[RFC-PEP-026-blindagem-regulatoria-autoria-sigilo-e-governanca-ia\|RFC-PEP-026]]) |
 | `itens[].acao` | `DecisaoUsuario.acao` (`aceito`, `editado`, `rejeitado`) |
 | `itens[].texto_final` | Texto final do Campo 23 quando `editado` (≤ 5.000; o PEP já limita a 500) |
 
@@ -158,7 +158,7 @@ Particulares não entram (não há guia TISS).
 | :--- | :--- | :--- |
 | Corpo de `analisar` | ≤ 64 KB (413) | SpikeAdapter mede o JSON serializado e trunca a evolução antes de enviar |
 | `evolucao_clinica` | ≤ 20.000 caracteres | Truncamento com prioridade para o atendimento atual |
-| Campo 23 TISS | ≤ 500 caracteres | Editor com contador e bloqueio (tela 13, 17); validação também no backend |
+| Campo 23 TISS | ≤ 500 caracteres | Editor com contador e bloqueio (tela 13, 17); validação também no backend. Nunca truncado: acima de 500 a guia nasce sem indicação e o faturamento é bloqueado no campo 23 (mínimo de 15 caracteres em SP/SADT com procedimento) |
 | `indicacao_clinica` na Spike | ≤ 5.000 | Já coberto pelo limite de 500 |
 | Campos extras | `extra="forbid"` → 422 | DTOs tipados espelhando o schema; teste de contrato contra o snapshot OpenAPI ([[test-plan-pep\|test plan]]) |
 | `item_id` do feedback | Convenção fixa (3.3) | Gerado pelo adapter a partir da resposta, nunca digitado |
