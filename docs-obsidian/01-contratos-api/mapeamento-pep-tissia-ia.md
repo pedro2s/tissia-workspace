@@ -158,7 +158,7 @@ Particulares não entram (não há guia TISS).
 | :--- | :--- | :--- |
 | Corpo de `analisar` | ≤ 64 KB (413) | SpikeAdapter mede o JSON serializado e trunca a evolução antes de enviar |
 | `evolucao_clinica` | ≤ 20.000 caracteres | Truncamento com prioridade para o atendimento atual |
-| Campo 23 TISS | ≤ 500 caracteres | Editor com contador e bloqueio (tela 13, 17); validação também no backend. Nunca truncado: acima de 500 a guia nasce sem indicação e o faturamento é bloqueado no campo 23 (mínimo de 15 caracteres em SP/SADT com procedimento) |
+| Campo 23 TISS | ≤ 500 caracteres | Editor com contador e bloqueio (tela 13, 17); validação também no backend. Nunca truncado: acima de 500 a guia nasce sem indicação e o faturamento é bloqueado no campo 23 (em SP/SADT com procedimento: < 5 caracteres é erro, de 5 a 14 é aviso) |
 | `indicacao_clinica` na Spike | ≤ 5.000 | Já coberto pelo limite de 500 |
 | Campos extras | `extra="forbid"` → 422 | DTOs tipados espelhando o schema; teste de contrato contra o snapshot OpenAPI ([[test-plan-pep\|test plan]]) |
 | `item_id` do feedback | Convenção fixa (3.3) | Gerado pelo adapter a partir da resposta, nunca digitado |
