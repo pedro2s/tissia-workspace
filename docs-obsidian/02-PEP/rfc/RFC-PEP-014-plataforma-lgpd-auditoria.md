@@ -128,3 +128,9 @@ Status de Spike (ativa/degradada, `versao_bases`, latência média), webservice 
 - "Quem viu": `documento.visualizado` ao listar os documentos do atendimento e do paciente, na mesma transação. Os demais já existiam (`prontuario.visualizado`, `paciente.visualizado`, `paciente.revelado`).
 - Tela 25: o painel "Trilha de auditoria" vira real (`TrilhaAuditoria.tsx`: filtro por período, selo de integridade, "Carregar mais", Exportar) para quem tem `auditoria:ler`; sem a permissão segue o painel ilustrativo do design.
 - **Desvios:** gravação por serviço (`registrar` nos pontos de leitura) e não por interceptor global: o interceptor não sabe qual recurso e qual paciente a rota leu. **Pendente:** particionamento mensal (recriar a tabela fere "migrações só aditivas"; entra com o portão do piloto, antes de haver volume), eventos de IA agregados por sessão e "quem viu" de outras leituras clínicas conforme as RFCs de cada domínio.
+
+### Atualização de 26/11/2026 — jornada de admin, gestor e DPO (PR `pedro2s/tissia#82`, em revisão)
+
+- `GET /api/v1/pacientes/:id/lgpd/exportacao` devolvia `500` para qualquer paciente com atendimento (a consulta ordenava `documentos` por `criado_em`, coluna inexistente); passa a ordenar por `atualizado_em`.
+- A trilha de auditoria mostra **rótulos em pt-BR** (~75 ações) e o filtro "O quê" as inclui. O início do DPO só consulta `/agenda` com `agenda:ler` (antes, `403` a cada minuto).
+- **RBAC:** 56 `GET`s e ~145 rotas de escrita foram exercitados por perfil, sem brecha nem `5xx`. **Pendências:** o DPO sem `pacientes:ler` precisa digitar o UUID do paciente para abrir solicitação (depende de contrato); CNES e CNPJ de unidade aceitam valor inválido (decisão documentada em `organizacao.ts`); a taxa do ranking de operadoras glosadoras usa um denominador discutível.

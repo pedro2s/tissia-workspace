@@ -17,6 +17,8 @@ Ambiente **descartável** do Marco D ([[release-plan-pep#126-ambiente-de-demonst
 
 > **Segurança.** A demo **nunca** usa dado real: tudo é sintético ("Exemplo"). O realm `pep-demo` (login só com senha, sem segundo fator) e `MFA_AMR_ACEITOS=pwd` **nunca vão para produção**; por isso a imagem roda com `NODE_ENV=development` (a API recusa `pwd` em `production`). Segredos ficam em `infra/demo/.env` (ignorado no git); a credencial do Vertex nunca entra no repositório.
 
+> **Assinatura simulada.** O `apps/api/.env.demo` define `ASSINATURA_PROVEDOR=local` e um PIN sintético para a demo poder assinar receita de controle especial e antimicrobiano. É um provedor determinístico sem valor jurídico, **proibido em produção** (a API recusa o boot); ver [[ADR-PEP-0036-defaults-fail-closed-autenticacao-e-assinatura|ADR-PEP-0036]] e [[RFC-PEP-011-assinatura-icp-brasil|RFC-PEP-011]].
+
 ## Rodar a demo na sua máquina (um comando)
 
 ```bash

@@ -708,3 +708,7 @@ Implementada integralmente em 21/11/2026 nas 4 fatias (`F1`–`F4`), consolidada
 - **Campo 23 (indicação clínica):** nunca é truncado. Texto acima de 500 caracteres faz a guia nascer **sem** indicação (limite do CHECK `guia_revisao_campo23`) e a validação local bloqueia o faturamento no campo 23, pedindo revisão humana; o fechamento do atendimento não é bloqueado. Na SP/SADT com procedimento: menos de 5 caracteres é erro; de 5 a 14 (`CAMPO_23_MIN_CARACTERES` = 15) é só aviso; acima de 500 é erro de formato.
 - **Caráter de atendimento (campo 21):** sem default silencioso `eletivo`. Ausente ou fora da Tabela 23 vira erro de validação, e a regra de autorização por caráter não roda nesses casos.
 - **Pendências identificadas:** lateralidade, DUT local, vigência TUSS (Tabela 22) sem depender do catálogo da Tissia IA, validação cruzada de conselho/CBO e captura automática de procedimentos a partir da evolução (receita esquecida).
+
+### Atualização de 26/11/2026 — jornada do faturista (PR `pedro2s/tissia#79`, em revisão)
+
+O cadastro de contrato (`NovoContrato`) oferecia a versão TISS 4.01.00 e omitia a 4.02.00; as opções agora vêm de `VERSOES_TISS_SUPORTADAS`. **Pendências:** o campo "Versão TISS" da edição ainda é texto livre; a sugestão de recurso por IA devolve `503` com Vertex real, sem aviso no log (causa não identificada); o editor do Campo 23 corta em 500 caracteres sem avisar ao colar; o caráter (21) reaberto aparece como "Eletivo" por padrão; a ação em lote mostra só o primeiro erro de cada guia.
