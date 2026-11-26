@@ -172,7 +172,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 
 ## 04 — ADRs
 
-### ADRs do PEP (`ADR-PEP-0001` .. `ADR-PEP-0035`)
+### ADRs do PEP (`ADR-PEP-0001` .. `ADR-PEP-0036`)
 
 - [[ADR-PEP-0001-repositorios|ADR-PEP-0001 — Repositórios separados]]
 - [[ADR-PEP-0002-backend-nestjs-monolito-modular|ADR-PEP-0002 — Backend NestJS monólito modular]]
@@ -209,6 +209,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[ADR-PEP-0033-governanca-ia-cfm-2454-e-seguranca-prescricao|ADR-PEP-0033 — Governança de IA (CFM 2.454/2026) e segurança determinística na prescrição]]
 - [[ADR-PEP-0034-motor-tiss-autorizacao-outras-despesas-e-cbhpm|ADR-PEP-0034 — Motor TISS SP/SADT: autorização prévia, despesas acessórias, multi-versão e CBHPM]]
 - [[ADR-PEP-0035-conta-hibrida-por-item-e-processo-enfermagem-sae|ADR-PEP-0035 — Conta híbrida por item e segregação formal do Processo de Enfermagem (SAE/COFEN)]]
+- [[ADR-PEP-0036-defaults-fail-closed-autenticacao-e-assinatura|ADR-PEP-0036 — Defaults fail-closed de autenticação e assinatura]]
 
 ### ADRs do Motor de IA (`ADR-IA-0001` .. `ADR-IA-0012`)
 

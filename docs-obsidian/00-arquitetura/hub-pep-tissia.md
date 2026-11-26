@@ -151,6 +151,7 @@ Backoffice ([canvas](https://claude.ai/code/artifact/8a0b5083-bb44-4f07-966a-645
 | [[ADR-PEP-0033-governanca-ia-cfm-2454-e-seguranca-prescricao\|0033]] | Governança de IA (CFM 2.454/2026) e segurança determinística na prescrição | Aceita |
 | [[ADR-PEP-0034-motor-tiss-autorizacao-outras-despesas-e-cbhpm\|0034]] | Motor TISS SP/SADT: autorização prévia, despesas acessórias, multi-versão e CBHPM | Aceita |
 | [[ADR-PEP-0035-conta-hibrida-por-item-e-processo-enfermagem-sae\|0035]] | Conta híbrida por item e segregação formal do Processo de Enfermagem (SAE/COFEN) | Aceita |
+| [[ADR-PEP-0036-defaults-fail-closed-autenticacao-e-assinatura\|0036]] | Defaults fail-closed de autenticação e assinatura | Aceita |
 
 **Aceita** = vem do documento de design de produto e arquitetura, ou foi aceita pelo responsável depois de revisada (0006, 0010 e 0013 em 09/11/2026; 0012, 0014 e 0024 em 13/11/2026). **Proposta** = recomendação deste hub para uma decisão em aberto (§12 do design de produto) ou uma lacuna; precisa de aceite antes da RFC que depende dela.
 

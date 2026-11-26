@@ -251,7 +251,7 @@ Sem tela própria. `@pep/ui` importa schemas, tipos e constantes de `@pep/contra
 - **`SET LOCAL` não aceita parâmetro:** `Db.comTenant` usa `set_config('app.tenant_id', $1, true)` (e `app.usuario_id`, `app.unidade_id`), equivalente e seguro contra SQL injection.
 - **Papel `app_admin`** (`BYPASSRLS`) criado em `apps/api/infra/init-roles.sql` para o relay; em GCP, usuário separado no Cloud SQL.
 - **Portas locais:** 55442 (Postgres) e 56381 (Redis), para não colidir com outros projetos.
-- **Auth P0:** cabeçalho `X-Dev-Tenant` só em `AUTH_MODE=dev` (recusado em produção); OIDC entra na RFC-PEP-001.
+- **Auth P0:** cabeçalho `X-Dev-Tenant` só em `AUTH_MODE=dev` (recusado em produção; desde 26/11/2026 o padrão é `AUTH_MODE=oidc` e `dev` exige flag explícita, [[ADR-PEP-0036-defaults-fail-closed-autenticacao-e-assinatura|ADR-PEP-0036]]); OIDC entra na RFC-PEP-001.
 - **Pendente nesta RFC:** infra GCP (Terraform, ADR-PEP-0009), deploy `staging`/`prod`, traces/métricas OpenTelemetry, `ETag`/`If-Match` (sem recurso editável ainda), ESLint e `osv-scanner`.
 
 08/11/2026 — migrações e seed passaram para o Drizzle Kit ([[ADR-PEP-0019-drizzle-kit-migracoes-e-seed|ADR-PEP-0019]]): baseline reescrita (`drizzle/0000_baseline.sql`), papéis e grants por `db:bootstrap`, RLS por convenção em `drizzle/rls`, seed em TypeScript com Drizzle. `node-pg-migrate`, `migrations/`, `aplicar_rls()` e `infra/init-roles.sql` foram removidos. A baseline não tem FK de `tenant_id` em `outbox`, `eventos_processados` e `vinculos` (fronteira entre módulos, ADR-PEP-0017); antes havia.

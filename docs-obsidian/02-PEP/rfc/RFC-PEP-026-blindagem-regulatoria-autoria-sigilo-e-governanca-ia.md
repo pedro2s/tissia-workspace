@@ -287,3 +287,12 @@ sequenceDiagram
   - O override de conflito de alergia é enviado no campo aditivo `overrideAlergiaJustificativa` de `ReceitaSchema` (validado >= 10 chars no servidor em `assinar` com auditoria síncrona `prescricao.conflito_override`).
   - Delegação/coassinatura formal de plantão entre médicos e fluxo de aprovação assíncrona de `DadosProfissionais` por fila de admin ficam como evolução incremental após o bloqueio imediato de titularidade, perfil × conselho e anti-auto-escalação já entregues nesta RFC.
 - **Verificação observada (PostgreSQL zerado + CI-equivalente):** `pnpm --filter @pep/api db:generate` (zero drift), `db:setup` + RLS, `pnpm typecheck`, `pnpm deps` (0 violações), `pnpm build` e `pnpm test` completo (**664/664 testes**: `@pep/contracts` 7/61, `@pep/backoffice` 1/3, `@pep/ui` 23/125, `@pep/api` 50/475 incluindo `rfc026-f1..f4` e `openapi.spec.ts`).
+
+### Atualização de 26/11/2026 — auditoria clínica (PR `pedro2s/tissia#74`, em draft)
+
+- **Ato médico:** quem não é o médico titular recebe `403` (RFC 9457) ao registrar aceite, edição ou rejeição de itens de diagnóstico (`sug_cid:`, `cid:`, `ia_cid:`). O faturista continua podendo sinalizar divergência em justificativa e alertas.
+- **Human-in-the-loop de CID:** `salvarEvolucao` rejeita com `422` (`conteudo.cids`) CID sugerido pela IA sem decisão humana registrada em `decisoes_sugestao_ia`. A escuta registra o aceite dos CIDs selecionados na mesma transação.
+- **Autoria:** marcas já gravadas e as geradas no servidor nunca são removidas; as enviadas pelo cliente só acrescentam. Isso preserva a origem IA do fluxo do editor, mas **não impede** que um cliente adulterado deixe de marcar um trecho novo.
+- **Migração `0083_cids_sugeridos_log.sql`** (aditiva): `sugestoes_ia_log.cids` guarda só códigos, sem texto clínico.
+- **Risco aberto:** o UI posta a decisão do CID de forma assíncrona; se o autosave da evolução chegar antes, o médico recebe `422`. Verificar o fluxo no UI antes do merge.
+- Sem mudança de contrato com a `tissia-ia`.
