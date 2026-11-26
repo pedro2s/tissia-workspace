@@ -49,6 +49,7 @@ A Spike tem documentação própria (PRD-001, RFC-000…014, ADR-0001…0012, [[
 | Release | [[release-plan-pep\|Release Plan]] |
 | Demonstração | [[demo\|Ambiente de demonstração]] (Docker Compose + Caddy, `infra/demo/`) |
 | Dados da demonstração | [[demo-dados-ficticios\|Demo de dados fictícios]] (seed `demo:reset`, cenários de referências, invariantes do Painel) |
+| Carga de referências | [[carga-tabelas-apoio\|Carga de tabelas de apoio]] (Domínios TISS, Campos de Guia, CADOP ANS e Medicamentos Anvisa/CMED) |
 | Auditoria & Roadmap | [[auditoria-clinica-regulatoria-ux-2026-11\|Auditoria Clínica, Regulatória e UX (Nov/2026) — Diagnóstico e Roadmap]] (Ondas 0, A, B, C e D) |
 | Plano ativo | [[plano-guia-indicacao-unica-e-autopreenchimento\|Plano — Indicação clínica única e autopreenchimento da guia SP/SADT]] (em execução, 19/11/2026) |
 | Decisões | [[MOC-Index#04 — ADRs\|ADRs]] |

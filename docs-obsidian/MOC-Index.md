@@ -131,6 +131,7 @@ Mapa de Conteúdo (_Map of Content_) central do Workspace Unificado Tissia — *
 - [[demo|Ambiente de Demonstração (Docker Compose + Caddy)]]
 - [[demo-numeros-do-deck|Números do Deck da Demonstração]]
 - [[demo-dados-ficticios|Demo de dados fictícios (seed demo:reset)]]
+- [[carga-tabelas-apoio|Carga de tabelas de apoio (ANS, CADOP e Anvisa/CMED)]]
 - [[marca|Marca Tissia: nome, logotipo, tipografia e cores]]
 
 ---
